@@ -61,13 +61,14 @@ SecondWindow::SecondWindow(QWidget *parent)
     cheeseBin2 = new Cheese_Bin(13,3);
     cheeseBin3 = new Cheese_Bin(13,4);
 
-    meatBin1 = new Meat_Bin(9,5);
-    meatBin2 = new Meat_Bin(10,5);
-    meatBin3 = new Meat_Bin(11,5);
+    meatBin1 = new Meat_Bin(10,5);
+    meatBin2 = new Meat_Bin(11,5);
+    meatBin3 = new Meat_Bin(13,5);
 
     veggieBin1 = new Veggie_Bin(7,7);
     veggieBin2 = new Veggie_Bin(9,7);
     veggieBin3 = new Veggie_Bin(10,7);
+
 
     //SET UP CUSTOMER
     customer1 = new Player(1,1);
