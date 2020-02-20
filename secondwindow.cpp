@@ -20,32 +20,32 @@ SecondWindow::SecondWindow(QWidget *parent)
     homeScreen->setStyleSheet("QLabel { color : black }");
 
     QLabel* bread1 = new QLabel("White\nBread");
-    bread1->setStyleSheet("QLabel { color : black }");
+    bread1->setStyleSheet("QLabel { color : white }");
     QLabel* bread2 = new QLabel("Whole\nWheat\nBread");
-    bread2->setStyleSheet("QLabel { color : black }");
+    bread2->setStyleSheet("QLabel { color : white }");
     QLabel* bread3 = new QLabel("Pretzel\nBun");
-    bread3->setStyleSheet("QLabel { color : black }");
+    bread3->setStyleSheet("QLabel { color : white }");
 
     QLabel* cheese1 = new QLabel("American\nCheese");
-    cheese1->setStyleSheet("QLabel { color : black }");
+    cheese1->setStyleSheet("QLabel { color : white }");
     QLabel* cheese2 = new QLabel("Swiss\nCheese");
-    cheese2->setStyleSheet("QLabel { color : black }");
+    cheese2->setStyleSheet("QLabel { color : white }");
     QLabel* cheese3 = new QLabel("Vegan\nCheese");
-    cheese3->setStyleSheet("QLabel { color : black }");
+    cheese3->setStyleSheet("QLabel { color : white }");
 
     QLabel* meat1 = new QLabel("Turkey\nMeat");
-    meat1->setStyleSheet("QLabel { color : black }");
+    meat1->setStyleSheet("QLabel { color : white }");
     QLabel* meat2 = new QLabel("Steak");
-    meat2->setStyleSheet("QLabel { color : black }");
+    meat2->setStyleSheet("QLabel { color : white }");
     QLabel* meat3 = new QLabel("Impossible\nMeat");
-    meat3->setStyleSheet("QLabel { color : black }");
+    meat3->setStyleSheet("QLabel { color : white }");
 
     QLabel* veggies1 = new QLabel("Lettuce");
-    veggies1->setStyleSheet("QLabel { color : black }");
+    veggies1->setStyleSheet("QLabel { color : white }");
     QLabel* veggies2 = new QLabel("Peppers");
-    veggies2->setStyleSheet("QLabel { color : black }");
+    veggies2->setStyleSheet("QLabel { color : white }");
     QLabel* veggies3 = new QLabel("Spinach");
-    veggies3->setStyleSheet("QLabel { color : black }");
+    veggies3->setStyleSheet("QLabel { color : white }");
 
     this->setFixedSize(700,700);
     text1 = new QLabel("Welcome to Heck's Kitchen!");
