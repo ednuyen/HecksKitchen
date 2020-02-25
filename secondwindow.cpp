@@ -13,8 +13,8 @@ SecondWindow::SecondWindow(QWidget *parent)
     this->setPalette(palette);
     setFocusPolicy(Qt::ClickFocus);
 
+    // music does not play automatically, press Toggle Music! to turn on/off music
     music = new QMediaPlayer(this);
-
     mute = new QPushButton("Toggle Music!");
     QPushButton* recipes = new QPushButton("Recipes");
     QPushButton *backToGame = new QPushButton("Done");
@@ -57,27 +57,27 @@ SecondWindow::SecondWindow(QWidget *parent)
     QLabel* veggies3 = new QLabel("Spinach");
     veggies3->setStyleSheet("QLabel { color : white }");
 
-    this->setFixedSize(700,700);
     text1 = new QLabel("Welcome to Heck's Kitchen!");
     text1->setStyleSheet("QLabel { color : black }");
     health_text = new QLabel("Health: "+ QString::number(health) );
     health_text->setStyleSheet("QLabel { color : black }");
     main_character = new Player;
-    breadBin1 = new Bread_Bin(9,1);
-    breadBin2 = new Bread_Bin(10,1);
-    breadBin3 = new Bread_Bin(11,1);
 
-    cheeseBin1 = new Cheese_Bin(13,2);
-    cheeseBin2 = new Cheese_Bin(13,3);
-    cheeseBin3 = new Cheese_Bin(13,4);
+    breadBin1 = new Bread_Bin(8,1);
+    breadBin2 = new Bread_Bin(9,1);
+    breadBin3 = new Bread_Bin(10,1);
 
-    meatBin1 = new Meat_Bin(10,5);
-    meatBin2 = new Meat_Bin(11,5);
-    meatBin3 = new Meat_Bin(13,5);
+    cheeseBin1 = new Cheese_Bin(11,2);
+    cheeseBin2 = new Cheese_Bin(11,3);
+    cheeseBin3 = new Cheese_Bin(11,4);
 
-    veggieBin1 = new Veggie_Bin(7,7);
-    veggieBin2 = new Veggie_Bin(9,7);
-    veggieBin3 = new Veggie_Bin(10,7);
+    meatBin1 = new Meat_Bin(9,5);
+    meatBin2 = new Meat_Bin(10,5);
+    meatBin3 = new Meat_Bin(11,5);
+
+    veggieBin1 = new Veggie_Bin(6,7);
+    veggieBin2 = new Veggie_Bin(7,7);
+    veggieBin3 = new Veggie_Bin(8,7);
 
    // trash = new Bread_Bin(10, 3);
 
@@ -95,7 +95,7 @@ SecondWindow::SecondWindow(QWidget *parent)
     connect(order3, SIGNAL(clicked()), this,SLOT(customer_order3()));
     connect(order4, SIGNAL(clicked()), this,SLOT(customer_order4()));
     connect(mute, SIGNAL(clicked()),this,SLOT(stop_music()));
-    connect(recipes, SIGNAL(clicked()),this,SLOT(goToMenu()));
+    connect(recipes, SIGNAL(clicked()),this,SLOT(goToRecipes()));
     connect(backToGame, SIGNAL(clicked()),this,SLOT(goToSecondPage()));
     customer1->set_basic_sandwich();
     customer2->set_basic_sandwich();
@@ -161,29 +161,38 @@ SecondWindow::SecondWindow(QWidget *parent)
    // play_space->addWidget(trash,trash->get_bin_pos_y(),trash->get_bin_pos_x());
 
     secondPage = new QWidget;
-//    secondPage->setStyleSheet("background-image: url(:/background.png)");
     fullwindow = new QVBoxLayout(secondPage);
     fullwindow->addLayout(title_space);
     fullwindow->addLayout(play_space);
-//    setLayout(fullwindow);
 
     stackedWidget = new QStackedWidget;
     stackedWidget->addWidget(secondPage);
+
+    // window that shows when you win
+    youWinPage = new QWidget;
+    youWinPage->setStyleSheet("background-image: url(:/background.png)");
+    youWinLayout = new QVBoxLayout(youWinPage);
+    stackedWidget->addWidget(youWinPage);
     QLabel* win = new QLabel( "YOU WIN!");
     win->setStyleSheet("QLabel { color : black }");
+    youWinLayout->addWidget(win);
+
+    // window that shows when you lose
+    youLosePage = new QWidget;
+    youLosePage->setStyleSheet("background-image: url(:/background.png)");
+    youLoseLayout = new QVBoxLayout(youLosePage);
+    stackedWidget->addWidget(youLosePage);
     QLabel* lose = new QLabel( "YOU LOSE!");
     lose->setStyleSheet("QLabel { color : black }");
-    stackedWidget->addWidget(win);
-    stackedWidget->addWidget(lose);
+    youLoseLayout->addWidget(lose);
 
+    // window that shows when you want to see sandwich recipes
     menuPage = new QWidget;
     menuPage->setStyleSheet("background-image: url(:/background.png)");
-
     menuLayout = new QVBoxLayout(menuPage);
     stackedWidget->addWidget(menuPage);
     QLabel* menuText = new QLabel( "RECIPES");
     menuText->setStyleSheet("QLabel { color : black }");
-
     menuLayout->addWidget(menuText);
     menuLayout->addWidget(backToGame);
 
@@ -272,17 +281,14 @@ void SecondWindow::goToWin() {
     stackedWidget->setCurrentIndex(1);
 }
 
-void SecondWindow::goToMenu() {
+void SecondWindow::goToRecipes() {
     stackedWidget->setCurrentIndex(3);
 }
 
 void SecondWindow::keyPressEvent(QKeyEvent *event){
-
     if (event->key() == Qt::Key_G && main_character->get_pos_x()-1==customer1->get_pos_x() && main_character->get_pos_y()==customer1->get_pos_y()) {
         main_character->print_sandwich();
         if (main_character->check_order(customer1) == true){
-            /*QLabel* winner = new QLabel( "You win the game!!");
-            winner->show();*/
             people_served++;
             main_character->delete_sandwich();
             customer1->delete_sandwich();
@@ -291,21 +297,17 @@ void SecondWindow::keyPressEvent(QKeyEvent *event){
                 goToWin();
             }
         } else {
-            /*QLabel* looser = new QLabel( "You Lost!!");
-            looser->show();*/
             main_character->delete_sandwich();
             change_health();
             health_text->setText("Health: " + QString::number(health));
-            if(health ==0) {
+            if(health == 0) {
                 goToLose();
             }
         }
     } else if(event->key() == Qt::Key_G && main_character->get_pos_x()-1==customer2->get_pos_x() && main_character->get_pos_y()==customer2->get_pos_y()) {
         main_character->print_sandwich();
         if (main_character->check_order(customer2) == true) {
-           /* QLabel* winner = new QLabel( "You win the game!!");
-            winner->show();*/
-             people_served++;
+            people_served++;
             main_character->delete_sandwich();
             customer2->delete_sandwich();
             customer2->remove_event();
@@ -313,16 +315,12 @@ void SecondWindow::keyPressEvent(QKeyEvent *event){
                 goToWin();
             }
         } else {
-           /* QLabel* looser = new QLabel( "You Lost!!");
-            looser->show();*/
-
             main_character->delete_sandwich();
             change_health();
             health_text->setText( "Health: " + QString::number(health));
-            if(health ==0){
+            if(health == 0){
                 goToLose();
             }
-
         }
     } else if(event->key() == Qt::Key_G && main_character->get_pos_x()-1==customer3->get_pos_x() &&main_character->get_pos_y()==customer3->get_pos_y()){
         main_character->print_sandwich();
@@ -335,20 +333,16 @@ void SecondWindow::keyPressEvent(QKeyEvent *event){
                 goToWin();
             }
         } else {
-           /* QLabel* looser = new QLabel( "You Lost!!");
-            looser->show();*/
             main_character->delete_sandwich();
             change_health();
             health_text->setText("Health: " + QString::number(health));
-            if(health ==0){
+            if(health == 0) {
                 goToLose();
             }
-
         }
     } else if(event->key() == Qt::Key_G && main_character->get_pos_x()-1==customer4->get_pos_x() &&main_character->get_pos_y()==customer4->get_pos_y()) {
         main_character->print_sandwich();
         if (main_character->check_order(customer4) == true) {
-
             people_served++;
             main_character->delete_sandwich();
             customer4->delete_sandwich();
@@ -357,15 +351,12 @@ void SecondWindow::keyPressEvent(QKeyEvent *event){
                 goToWin();
             }
         } else {
-           /*QLabel* looser = new QLabel("You Lost!!");
-            looser->show();*/
             main_character->delete_sandwich();
             change_health();
             health_text->setText("Health: " + QString::number(health));
-            if(health ==0){
+            if(health == 0){
                 goToLose();
             }
-
         }
     } if (event->key() == Qt::Key_A||event->key() == Qt::Key_Left) {
         if (main_character->get_pos_x() > 2) {
@@ -373,7 +364,7 @@ void SecondWindow::keyPressEvent(QKeyEvent *event){
             play_space->addWidget(main_character, main_character->get_pos_y(),main_character->get_pos_x());
         }
     } else if(event->key() == Qt::Key_D||event->key() == Qt::Key_Right) {
-        if (main_character->get_pos_x() < 16) {
+        if (main_character->get_pos_x() < 12) {
             main_character->move_right();
             play_space->addWidget(main_character, main_character->get_pos_y(),main_character->get_pos_x());
         }
@@ -384,7 +375,7 @@ void SecondWindow::keyPressEvent(QKeyEvent *event){
         }
     }
     else if(event->key() == Qt::Key_S||event->key() == Qt::Key_Down) {
-        if (main_character->get_pos_y() < 8) {
+        if (main_character->get_pos_y() < 7) {
             main_character->move_down();
             play_space->addWidget(main_character, main_character->get_pos_y(),main_character->get_pos_x());
         }
@@ -426,7 +417,6 @@ void SecondWindow::keyPressEvent(QKeyEvent *event){
             Food* a = new Veggies("Spinach");
             main_character->add_food(a);
         }
-
     }
     return;
 }

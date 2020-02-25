@@ -48,7 +48,7 @@ public slots:
     void customer_order4();
     void goToWin();
     void goToLose();
-    void goToMenu();
+    void goToRecipes();
     void goToSecondPage();
     void stop_music();
 
@@ -68,6 +68,8 @@ private:
     QGridLayout* sandwich_layout;
     QVBoxLayout* fullwindow;
     QVBoxLayout* menuLayout;
+    QVBoxLayout* youWinLayout;
+    QVBoxLayout* youLoseLayout;
     Player* main_character;
 
     QMediaPlayer* music;
@@ -102,6 +104,8 @@ private:
     QPushButton* order4;
     QWidget* secondPage;
     QWidget* menuPage;
+    QWidget* youWinPage;
+    QWidget* youLosePage;
     QWidget* mPartner;
     QPushButton* homeScreen;
     QStackedWidget* stackedWidget;

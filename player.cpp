@@ -12,6 +12,7 @@ Player::Player(QWidget *parent)
     : QWidget(parent) {
     pos_x =5;
     pos_y = 5;
+    chara = 0;
     setFocusPolicy(Qt::ClickFocus);
 }
 
