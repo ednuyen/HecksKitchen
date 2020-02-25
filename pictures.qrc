@@ -9,10 +9,14 @@
         <file>title.png</file>
         <file>wall.png</file>
         <file>target.png</file>
-        <file>background.png</file>
         <file>bread.png</file>
         <file>meat.png</file>
         <file>cheese.png</file>
         <file>veggies.png</file>
+        <file>chara1.png</file>
+        <file>chara2.png</file>
+        <file>chara3.png</file>
+        <file>chara4.png</file>
+        <file>background.png</file>
     </qresource>
 </RCC>

@@ -6,6 +6,9 @@
 #include <QSpinBox>
 #include <QVBoxLayout>
 #include <QGridLayout>
+#include <QTimer>
+#include <QMediaPlayer>
+#include <QStackedWidget>
 #include "wall.h"
 #include "target.h"
 #include "health.h"
@@ -36,12 +39,18 @@ public:
     void set_up_customers();
     void keyPressEvent(QKeyEvent *event);
     void setPartner(QWidget* partner);
+    void play_music();
 
 public slots:
     void customer_order1();
     void customer_order2();
     void customer_order3();
     void customer_order4();
+    void goToWin();
+    void goToLose();
+    void goToMenu();
+    void goToSecondPage();
+    void stop_music();
 
 signals:
 
@@ -51,13 +60,20 @@ private:
    // Health* player_health;
     QLabel* health_text;
     qreal health = 10;
+    qreal people_served = 0;
     int challenge_number;
     QGridLayout* play_space;
     QHBoxLayout* title_space;
 //  QHBoxLayout* order_space;
     QGridLayout* sandwich_layout;
     QVBoxLayout* fullwindow;
+    QVBoxLayout* menuLayout;
     Player* main_character;
+
+    QMediaPlayer* music;
+
+    int music_mute = 0;
+
     Bread_Bin* breadBin1;
     Bread_Bin* breadBin2;
     Bread_Bin* breadBin3;
@@ -74,6 +90,8 @@ private:
     Veggie_Bin* veggieBin2;
     Veggie_Bin* veggieBin3;
 
+    Bread_Bin* trash;
+
     Player* customer1;
     QPushButton* order1;
     Player* customer2;
@@ -83,8 +101,11 @@ private:
     Player* customer4;
     QPushButton* order4;
     QWidget* secondPage;
+    QWidget* menuPage;
     QWidget* mPartner;
     QPushButton* homeScreen;
+    QStackedWidget* stackedWidget;
+    QPushButton* mute;
 };
 
 #endif // SECONDWINDOW_H

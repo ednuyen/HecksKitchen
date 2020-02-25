@@ -24,6 +24,7 @@ public slots:
     void goToPage2();
 
 private:
+    bool music_mute = true;
     QLabel* title;
     QLabel* challenge_level;
     QSlider* challenge;

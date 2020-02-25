@@ -9,4 +9,5 @@ public:
     void paintEvent(QPaintEvent* e);
 };
 
+
 #endif // WALL_H
