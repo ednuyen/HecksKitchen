@@ -27,8 +27,11 @@ public:
     void test_print_sandwich();
     int get_vector_size();
     void set_basic_sandwich();
+    void set_intermediate_sandwich();
+    void set_expert_sandwich();
     Player& operator = (Player*);
     bool check_order(Player*);
+    bool check_presence();
     void delete_sandwich();
     void move_right();
     void move_left();

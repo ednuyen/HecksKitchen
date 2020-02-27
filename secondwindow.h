@@ -46,9 +46,12 @@ public slots:
     void customer_order2();
     void customer_order3();
     void customer_order4();
+    void customer_order5();
+    void customer_order6();
+    void customer_order7();
     void goToWin();
     void goToLose();
-    void goToRecipes();
+    void goToMenu();
     void goToSecondPage();
     void stop_music();
 
@@ -61,7 +64,7 @@ private:
     QLabel* health_text;
     qreal health = 10;
     qreal people_served = 0;
-    int challenge_number;
+    int challenge_number = 3;
     QGridLayout* play_space;
     QHBoxLayout* title_space;
 //  QHBoxLayout* order_space;
@@ -70,6 +73,7 @@ private:
     QVBoxLayout* menuLayout;
     QVBoxLayout* youWinLayout;
     QVBoxLayout* youLoseLayout;
+
     Player* main_character;
 
     QMediaPlayer* music;
@@ -92,7 +96,7 @@ private:
     Veggie_Bin* veggieBin2;
     Veggie_Bin* veggieBin3;
 
-    Bread_Bin* trash;
+    Bin* trash;
 
     Player* customer1;
     QPushButton* order1;
@@ -102,6 +106,12 @@ private:
     QPushButton* order3;
     Player* customer4;
     QPushButton* order4;
+    Player* customer5;
+    QPushButton* order5;
+    Player* customer6;
+    QPushButton* order6;
+    Player* customer7;
+    QPushButton* order7;
     QWidget* secondPage;
     QWidget* menuPage;
     QWidget* youWinPage;

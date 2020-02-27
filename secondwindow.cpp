@@ -13,8 +13,10 @@ SecondWindow::SecondWindow(QWidget *parent)
     this->setPalette(palette);
     setFocusPolicy(Qt::ClickFocus);
 
-    // music does not play automatically, press Toggle Music! to turn on/off music
+    QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
     music = new QMediaPlayer(this);
+
     mute = new QPushButton("Toggle Music!");
     QPushButton* recipes = new QPushButton("Recipes");
     QPushButton *backToGame = new QPushButton("Done");
@@ -57,6 +59,7 @@ SecondWindow::SecondWindow(QWidget *parent)
     QLabel* veggies3 = new QLabel("Spinach");
     veggies3->setStyleSheet("QLabel { color : white }");
 
+   // this->setFixedSize(700,700);
     text1 = new QLabel("Welcome to Heck's Kitchen!");
     text1->setStyleSheet("QLabel { color : black }");
     health_text = new QLabel("Health: "+ QString::number(health) );
@@ -71,21 +74,34 @@ SecondWindow::SecondWindow(QWidget *parent)
     cheeseBin2 = new Cheese_Bin(11,3);
     cheeseBin3 = new Cheese_Bin(11,4);
 
-    meatBin1 = new Meat_Bin(9,5);
-    meatBin2 = new Meat_Bin(10,5);
-    meatBin3 = new Meat_Bin(11,5);
+    meatBin1 = new Meat_Bin(11,5);
+    meatBin2 = new Meat_Bin(11,6);
+    meatBin3 = new Meat_Bin(11,7);
 
     veggieBin1 = new Veggie_Bin(6,7);
     veggieBin2 = new Veggie_Bin(7,7);
     veggieBin3 = new Veggie_Bin(8,7);
 
-   // trash = new Bread_Bin(10, 3);
+    trash = new Bin(4, 1);
 
     //SET UP CUSTOMER
     customer1 = new Player(1,1,1);
     customer2 = new Player(1,2,2);
     customer3 = new Player(1,3,3);
     customer4 = new Player(1,4,4);
+    if(challenge_number>=2){
+        customer5 = new Player(1,5,2);
+        customer6 = new Player(1,6,3);
+        order5 = new QPushButton ("Order 5");
+        order6 = new QPushButton ("Order 6");
+        connect(order5, SIGNAL(clicked()), this,SLOT(customer_order5()));
+        connect(order6, SIGNAL(clicked()), this,SLOT(customer_order6()));
+    }
+   if(challenge_number>=3){
+        customer7 = new Player(1,7,2);
+        order7 = new QPushButton ("Order 7");
+        connect(order7, SIGNAL(clicked()), this,SLOT(customer_order7()));
+    }
     order1 = new QPushButton ("Order 1");
     order2 = new QPushButton ("Order 2");
     order3 = new QPushButton ("Order 3");
@@ -94,13 +110,33 @@ SecondWindow::SecondWindow(QWidget *parent)
     connect(order2, SIGNAL(clicked()), this,SLOT(customer_order2()));
     connect(order3, SIGNAL(clicked()), this,SLOT(customer_order3()));
     connect(order4, SIGNAL(clicked()), this,SLOT(customer_order4()));
+    if (challenge_number == 1){
+        customer1->set_basic_sandwich();
+        customer2->set_basic_sandwich();
+        customer3->set_basic_sandwich();
+        customer4->set_basic_sandwich();
+    }
+    else if(challenge_number == 2){
+        customer1->set_basic_sandwich();
+        customer2->set_intermediate_sandwich();
+        customer3->set_expert_sandwich();
+        customer4->set_intermediate_sandwich();
+        customer5->set_basic_sandwich();
+        customer6->set_intermediate_sandwich();
+    }
+    else if(challenge_number == 3){
+        customer1->set_expert_sandwich();
+        customer2->set_intermediate_sandwich();
+        customer3->set_basic_sandwich();
+        customer4->set_expert_sandwich();
+        customer5->set_intermediate_sandwich();
+        customer6->set_intermediate_sandwich();
+        customer7->set_expert_sandwich();
+    }
+
     connect(mute, SIGNAL(clicked()),this,SLOT(stop_music()));
-    connect(recipes, SIGNAL(clicked()),this,SLOT(goToRecipes()));
+    connect(recipes, SIGNAL(clicked()),this,SLOT(goToMenu()));
     connect(backToGame, SIGNAL(clicked()),this,SLOT(goToSecondPage()));
-    customer1->set_basic_sandwich();
-    customer2->set_basic_sandwich();
-    customer3->set_basic_sandwich();
-    customer4->set_basic_sandwich();
 
     draw_walls();
     draw_targets();
@@ -111,6 +147,15 @@ SecondWindow::SecondWindow(QWidget *parent)
     title_space->addWidget(mute);
     title_space->addWidget(recipes);
 
+   /* for(int i = 0; i<10;i++){
+            QLabel* testing = new QLabel("      ");
+            play_space->addWidget(testing,i, 20);
+    }
+    for(int i = 0; i<10;i++){
+            QLabel* testing = new QLabel("      ");
+            play_space->addWidget(testing,20, i);
+    }*/
+
     play_space->addWidget(customer1,customer1->get_pos_y(),customer1->get_pos_x());
     play_space->addWidget(order1, customer1->get_pos_y(),customer1->get_pos_x()+1);
     play_space->addWidget(customer2,customer2->get_pos_y(),customer2->get_pos_x());
@@ -119,7 +164,16 @@ SecondWindow::SecondWindow(QWidget *parent)
     play_space->addWidget(order3, customer3->get_pos_y(),customer3->get_pos_x()+1);
     play_space->addWidget(customer4,customer4->get_pos_y(),customer4->get_pos_x());
     play_space->addWidget(order4, customer4->get_pos_y(),customer4->get_pos_x()+1);
-
+    if(challenge_number>=2){
+        play_space->addWidget(customer5,customer5->get_pos_y(),customer5->get_pos_x());
+        play_space->addWidget(order5, customer5->get_pos_y(),customer5->get_pos_x()+1);
+        play_space->addWidget(customer6,customer6->get_pos_y(),customer6->get_pos_x());
+        play_space->addWidget(order6, customer6->get_pos_y(),customer6->get_pos_x()+1);
+    }
+  if (challenge_number>=3){
+        play_space->addWidget(customer7,customer7->get_pos_y(),customer7->get_pos_x());
+        play_space->addWidget(order7, customer7->get_pos_y(),customer7->get_pos_x()+1);
+    }
     play_space->addWidget(main_character, main_character->get_pos_y(),main_character->get_pos_x());
 
     play_space->addWidget(breadBin1,breadBin1->get_bin_pos_y(),breadBin1->get_bin_pos_x());
@@ -158,47 +212,47 @@ SecondWindow::SecondWindow(QWidget *parent)
     play_space->addWidget(veggieBin3,veggieBin3->get_bin_pos_y(),veggieBin3->get_bin_pos_x());
     play_space->addWidget(veggies3,veggieBin3->get_bin_pos_y(),veggieBin3->get_bin_pos_x());
 
-   // play_space->addWidget(trash,trash->get_bin_pos_y(),trash->get_bin_pos_x());
+    play_space->addWidget(trash,trash->get_bin_pos_y(),trash->get_bin_pos_x());
 
     secondPage = new QWidget;
-    fullwindow = new QVBoxLayout(secondPage);
-    fullwindow->addLayout(title_space);
-    fullwindow->addLayout(play_space);
+       fullwindow = new QVBoxLayout(secondPage);
+       fullwindow->addLayout(title_space);
+       fullwindow->addLayout(play_space);
 
-    stackedWidget = new QStackedWidget;
-    stackedWidget->addWidget(secondPage);
+       stackedWidget = new QStackedWidget;
+       stackedWidget->addWidget(secondPage);
 
-    // window that shows when you win
-    youWinPage = new QWidget;
-    youWinPage->setStyleSheet("background-image: url(:/background.png)");
-    youWinLayout = new QVBoxLayout(youWinPage);
-    stackedWidget->addWidget(youWinPage);
-    QLabel* win = new QLabel( "YOU WIN!");
-    win->setStyleSheet("QLabel { color : black }");
-    youWinLayout->addWidget(win);
+       // window that shows when you win
+       youWinPage = new QWidget;
+       youWinPage->setStyleSheet("background-image: url(:/background.png)");
+       youWinLayout = new QVBoxLayout(youWinPage);
+       stackedWidget->addWidget(youWinPage);
+       QLabel* win = new QLabel( "YOU WIN!");
+       win->setStyleSheet("QLabel { color : black }");
+       youWinLayout->addWidget(win);
 
-    // window that shows when you lose
-    youLosePage = new QWidget;
-    youLosePage->setStyleSheet("background-image: url(:/background.png)");
-    youLoseLayout = new QVBoxLayout(youLosePage);
-    stackedWidget->addWidget(youLosePage);
-    QLabel* lose = new QLabel( "YOU LOSE!");
-    lose->setStyleSheet("QLabel { color : black }");
-    youLoseLayout->addWidget(lose);
+       // window that shows when you lose
+       youLosePage = new QWidget;
+       youLosePage->setStyleSheet("background-image: url(:/background.png)");
+       youLoseLayout = new QVBoxLayout(youLosePage);
+       stackedWidget->addWidget(youLosePage);
+       QLabel* lose = new QLabel( "YOU LOSE!");
+       lose->setStyleSheet("QLabel { color : black }");
+       youLoseLayout->addWidget(lose);
 
-    // window that shows when you want to see sandwich recipes
-    menuPage = new QWidget;
-    menuPage->setStyleSheet("background-image: url(:/background.png)");
-    menuLayout = new QVBoxLayout(menuPage);
-    stackedWidget->addWidget(menuPage);
-    QLabel* menuText = new QLabel( "RECIPES");
-    menuText->setStyleSheet("QLabel { color : black }");
-    menuLayout->addWidget(menuText);
-    menuLayout->addWidget(backToGame);
+       // window that shows when you want to see sandwich recipes
+       menuPage = new QWidget;
+       menuPage->setStyleSheet("background-image: url(:/background.png)");
+       menuLayout = new QVBoxLayout(menuPage);
+       stackedWidget->addWidget(menuPage);
+       QLabel* menuText = new QLabel( "RECIPES");
+       menuText->setStyleSheet("QLabel { color : black }");
+       menuLayout->addWidget(menuText);
+       menuLayout->addWidget(backToGame);
 
-    QVBoxLayout* centrallayout = new QVBoxLayout;
-    centrallayout->addWidget(stackedWidget);
-    setLayout(centrallayout);
+       QVBoxLayout* centrallayout = new QVBoxLayout;
+       centrallayout->addWidget(stackedWidget);
+       setLayout(centrallayout);
 }
 
 void SecondWindow::stop_music(){
@@ -224,17 +278,29 @@ void SecondWindow::customer_order1() {
 void SecondWindow::customer_order2() {
     QString  a = *customer2->print_sandwich();
     text1->setText("My order is the: " + a);
-    return;
-}
-
+    return;}
 void SecondWindow::customer_order3() {
     QString  a = *customer3->print_sandwich();
     text1->setText("My order is the: " + a);
     return;
 }
-
 void SecondWindow::customer_order4() {
     QString  a = *customer4->print_sandwich();
+    text1->setText("My order is the: " + a);
+    return;
+}
+void SecondWindow::customer_order5() {
+    QString  a = *customer5->print_sandwich();
+    text1->setText("My order is the: " + a);
+    return;
+}
+void SecondWindow::customer_order6() {
+    QString  a = *customer6->print_sandwich();
+    text1->setText("My order is the: " + a);
+    return;
+}
+void SecondWindow::customer_order7() {
+    QString  a = *customer7->print_sandwich();
     text1->setText("My order is the: " + a);
     return;
 }
@@ -281,90 +347,231 @@ void SecondWindow::goToWin() {
     stackedWidget->setCurrentIndex(1);
 }
 
-void SecondWindow::goToRecipes() {
+void SecondWindow::goToMenu() {
     stackedWidget->setCurrentIndex(3);
 }
 
 void SecondWindow::keyPressEvent(QKeyEvent *event){
-    if (event->key() == Qt::Key_G && main_character->get_pos_x()-1==customer1->get_pos_x() && main_character->get_pos_y()==customer1->get_pos_y()) {
+
+    if (event->key() == Qt::Key_G && main_character->get_pos_x()-1==customer1->get_pos_x() && main_character->get_pos_y()==customer1->get_pos_y()&& customer1->check_presence()) {
         main_character->print_sandwich();
         if (main_character->check_order(customer1) == true){
+            /*QLabel* winner = new QLabel( "You win the game!!");
+            winner->show();*/
             people_served++;
             main_character->delete_sandwich();
-            customer1->delete_sandwich();
-            customer1->remove_event();
-            if (people_served == 4) {
-                goToWin();
-            }
+            //customer1->delete_sandwich();
+           customer1->remove_event();
+           order1->hide();
+           if (challenge_number== 1 && people_served == 4) {
+               goToWin();
+           }
+           else if (challenge_number== 2 && people_served == 6) {
+               goToWin();
+           }
+           else if (challenge_number== 3 && people_served == 7) {
+               goToWin();
+           }
         } else {
+            /*QLabel* looser = new QLabel( "You Lost!!");
+            looser->show();*/
             main_character->delete_sandwich();
             change_health();
             health_text->setText("Health: " + QString::number(health));
-            if(health == 0) {
+            if(health ==0) {
                 goToLose();
             }
         }
-    } else if(event->key() == Qt::Key_G && main_character->get_pos_x()-1==customer2->get_pos_x() && main_character->get_pos_y()==customer2->get_pos_y()) {
+    } else if(event->key() == Qt::Key_G && main_character->get_pos_x()-1==customer2->get_pos_x() && main_character->get_pos_y()==customer2->get_pos_y()&& customer2->check_presence()) {
         main_character->print_sandwich();
         if (main_character->check_order(customer2) == true) {
-            people_served++;
+           /* QLabel* winner = new QLabel( "You win the game!!");
+            winner->show();*/
+             people_served++;
             main_character->delete_sandwich();
-            customer2->delete_sandwich();
+            //customer2->delete_sandwich();
             customer2->remove_event();
-            if (people_served == 4){
+            order2->hide();
+            if (challenge_number== 1 && people_served == 4) {
+                goToWin();
+            }
+            else if (challenge_number== 2 && people_served == 6) {
+                goToWin();
+            }
+            else if (challenge_number== 3 && people_served == 7) {
                 goToWin();
             }
         } else {
+           /* QLabel* looser = new QLabel( "You Lost!!");
+            looser->show();*/
+
             main_character->delete_sandwich();
             change_health();
             health_text->setText( "Health: " + QString::number(health));
-            if(health == 0){
+            if(health ==0){
                 goToLose();
             }
+
         }
-    } else if(event->key() == Qt::Key_G && main_character->get_pos_x()-1==customer3->get_pos_x() &&main_character->get_pos_y()==customer3->get_pos_y()){
+    } else if(event->key() == Qt::Key_G && main_character->get_pos_x()-1==customer3->get_pos_x() &&main_character->get_pos_y()==customer3->get_pos_y()&& customer3->check_presence()){
         main_character->print_sandwich();
         if (main_character->check_order(customer3) == true) {
            people_served++;
             main_character->delete_sandwich();
-            customer3->delete_sandwich();
+            //customer3->delete_sandwich();
             customer3->remove_event();
-            if (people_served == 4) {
+            order3->hide();
+            if (challenge_number== 1 && people_served == 4) {
+                goToWin();
+            }
+            else if (challenge_number== 2 && people_served == 6) {
+                goToWin();
+            }
+            else if (challenge_number== 3 && people_served == 7) {
                 goToWin();
             }
         } else {
+           /* QLabel* looser = new QLabel( "You Lost!!");
+            looser->show();*/
             main_character->delete_sandwich();
             change_health();
             health_text->setText("Health: " + QString::number(health));
-            if(health == 0) {
+            if(health ==0){
                 goToLose();
             }
+
         }
-    } else if(event->key() == Qt::Key_G && main_character->get_pos_x()-1==customer4->get_pos_x() &&main_character->get_pos_y()==customer4->get_pos_y()) {
+    } else if(event->key() == Qt::Key_G && main_character->get_pos_x()-1==customer4->get_pos_x() &&main_character->get_pos_y()==customer4->get_pos_y()&& customer4->check_presence()) {
         main_character->print_sandwich();
         if (main_character->check_order(customer4) == true) {
+
             people_served++;
             main_character->delete_sandwich();
-            customer4->delete_sandwich();
+            //customer4->delete_sandwich();
             customer4->remove_event();
-            if (people_served == 4){
+            order4->hide();
+            if (challenge_number== 1 && people_served == 4) {
+                goToWin();
+            }
+            else if (challenge_number== 2 && people_served == 6) {
+                goToWin();
+            }
+            else if (challenge_number== 3 && people_served == 7) {
                 goToWin();
             }
         } else {
+           /*QLabel* looser = new QLabel("You Lost!!");
+            looser->show();*/
             main_character->delete_sandwich();
             change_health();
             health_text->setText("Health: " + QString::number(health));
-            if(health == 0){
+            if(health ==0){
                 goToLose();
             }
+
         }
-    } if (event->key() == Qt::Key_A||event->key() == Qt::Key_Left) {
+
+
+    } else if(event->key() == Qt::Key_G && main_character->get_pos_x()-1==customer5->get_pos_x() &&main_character->get_pos_y()==customer5->get_pos_y()&& customer5->check_presence()) {
+            main_character->print_sandwich();
+            if (main_character->check_order(customer5) == true) {
+
+                people_served++;
+                main_character->delete_sandwich();
+                //customer4->delete_sandwich();
+                customer5->remove_event();
+                order5->hide();
+                if (challenge_number== 1 && people_served == 4) {
+                    goToWin();
+                }
+                else if (challenge_number== 2 && people_served == 6) {
+                    goToWin();
+                }
+                else if (challenge_number== 3 && people_served == 7) {
+                    goToWin();
+                }
+            } else {
+               /*QLabel* looser = new QLabel("You Lost!!");
+                looser->show();*/
+                main_character->delete_sandwich();
+                change_health();
+                health_text->setText("Health: " + QString::number(health));
+                if(health ==0){
+                    goToLose();
+                }
+
+            }
+
+
+    }else if(event->key() == Qt::Key_G && main_character->get_pos_x()-1==customer6->get_pos_x() &&main_character->get_pos_y()==customer6->get_pos_y()&& customer6->check_presence()) {
+        main_character->print_sandwich();
+        if (main_character->check_order(customer6) == true) {
+
+            people_served++;
+            main_character->delete_sandwich();
+            //customer4->delete_sandwich();
+            customer6->remove_event();
+            order6->hide();
+            if (challenge_number== 1 && people_served == 4) {
+                goToWin();
+            }
+            else if (challenge_number== 2 && people_served == 6) {
+                goToWin();
+            }
+            else if (challenge_number== 3 && people_served == 7) {
+                goToWin();
+            }
+        } else {
+           /*QLabel* looser = new QLabel("You Lost!!");
+            looser->show();*/
+            main_character->delete_sandwich();
+            change_health();
+            health_text->setText("Health: " + QString::number(health));
+            if(health ==0){
+                goToLose();
+            }
+
+        }
+    }else if(event->key() == Qt::Key_G && main_character->get_pos_x()-1==customer7->get_pos_x() &&main_character->get_pos_y()==customer7->get_pos_y()&& customer7->check_presence()) {
+        main_character->print_sandwich();
+        if (main_character->check_order(customer7) == true) {
+
+            people_served++;
+            main_character->delete_sandwich();
+            //customer4->delete_sandwich();
+            customer7->remove_event();
+            order7->hide();
+            if (challenge_number== 1 && people_served == 4) {
+                goToWin();
+            }
+            else if (challenge_number== 2 && people_served == 6) {
+                goToWin();
+            }
+            else if (challenge_number== 3 && people_served == 7) {
+                goToWin();
+            }
+        } else {
+           /*QLabel* looser = new QLabel("You Lost!!");
+            looser->show();*/
+            main_character->delete_sandwich();
+            change_health();
+            health_text->setText("Health: " + QString::number(health));
+            if(health ==0){
+                goToLose();
+            }
+
+        }
+
+
+    }
+
+    if (event->key() == Qt::Key_A||event->key() == Qt::Key_Left) {
         if (main_character->get_pos_x() > 2) {
             main_character->move_left();
             play_space->addWidget(main_character, main_character->get_pos_y(),main_character->get_pos_x());
         }
     } else if(event->key() == Qt::Key_D||event->key() == Qt::Key_Right) {
-        if (main_character->get_pos_x() < 12) {
+        if (main_character->get_pos_x() < 13) {
             main_character->move_right();
             play_space->addWidget(main_character, main_character->get_pos_y(),main_character->get_pos_x());
         }
@@ -375,7 +582,7 @@ void SecondWindow::keyPressEvent(QKeyEvent *event){
         }
     }
     else if(event->key() == Qt::Key_S||event->key() == Qt::Key_Down) {
-        if (main_character->get_pos_y() < 7) {
+        if (main_character->get_pos_y() < 8) {
             main_character->move_down();
             play_space->addWidget(main_character, main_character->get_pos_y(),main_character->get_pos_x());
         }
@@ -417,6 +624,11 @@ void SecondWindow::keyPressEvent(QKeyEvent *event){
             Food* a = new Veggies("Spinach");
             main_character->add_food(a);
         }
+
+    }
+    if (event->key() == Qt::Key_G && main_character->get_pos_x()==trash->get_bin_pos_x() &&main_character->get_pos_y()==trash->get_bin_pos_y()){
+        main_character->delete_sandwich();
+
     }
     return;
 }

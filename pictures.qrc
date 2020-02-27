@@ -18,5 +18,7 @@
         <file>chara3.png</file>
         <file>chara4.png</file>
         <file>background.png</file>
+        <file>bin.png</file>
+        <file>instructions.png</file>
     </qresource>
 </RCC>

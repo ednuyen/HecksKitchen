@@ -115,5 +115,3 @@ void MainWindow::goToPage2() {
 void MainWindow::goToPage1() {
     _stackedWidget->setCurrentIndex(0);
 }
-
-

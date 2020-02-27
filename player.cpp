@@ -43,6 +43,15 @@ bool Player:: check_order(Player *other){
     return true;
 }
 
+bool Player:: check_presence(){
+    if (draw_character){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 void Player::set_basic_sandwich(){
      rand_num = rand() % 5 +1;
      if (rand_num == 1){
@@ -88,7 +97,7 @@ void Player::set_basic_sandwich(){
             this->add_food(b);
             this->add_food(c);
             this->add_food(d);
-            type_of_sandwich = "The Salad sandwich";
+            type_of_sandwich = "The Salad Sandwich";
     }if (rand_num == 5){
          //The Loft of Bread
             Food* a = new Bread("White Bread");
@@ -99,8 +108,131 @@ void Player::set_basic_sandwich(){
             this->add_food(b);
             this->add_food(c);
             this->add_food(d);
-            type_of_sandwich = "The Loft of Bread";
+            type_of_sandwich = "The Loaf of Bread";
     }
+
+}
+void Player::set_intermediate_sandwich(){
+    rand_num = rand() % 5 +1;
+    if (rand_num == 1){
+        //The Cheese Melt
+        Food* a = new Bread("White Bread");
+        Food* b = new Cheese("American Cheese");
+        Food* c = new Cheese("Swiss Cheese");
+        Food* d = new Veggies("Spinach");
+        this->add_food(a);
+        this->add_food(b);
+        this->add_food(c);
+        this->add_food(d);
+        this->add_food(c);
+        this->add_food(b);
+        this->add_food(a);
+        type_of_sandwich = "The Cheese Melt";
+   } if (rand_num == 2){
+           //Low Calorie Vegitarian Sandwich
+           Food* a = new Bread("Whole Wheat Bread");
+           Food* b = new Veggies("Lettuce");
+           Food* c = new Veggies("Peppers");
+           Food* d = new Meat("Turkey Meat");
+           this->add_food(a);
+           this->add_food(b);
+           this->add_food(c);
+           this->add_food(d);
+           this->add_food(b);
+           this->add_food(a);
+           type_of_sandwich = "Low Cal Veggie Sandwich";
+   } if (rand_num == 3){
+           //New York Style
+           Food* a = new Bread("White Bread");
+           Food* b = new Cheese("American Cheese");
+           Food* c = new Meat("Steak");
+           Food* d = new Veggies("Spinach");
+           this->add_food(a);
+           this->add_food(b);
+           this->add_food(c);
+           this->add_food(d);
+           this->add_food(a);
+           type_of_sandwich = "New York Style";
+   } if (rand_num == 4){
+           //The Green Sandwich
+           Food* a = new Veggies("Lettuce");
+           Food* b = new Veggies("Peppers");
+           Food* c = new Veggies("Spinach");
+           Food* d = new Cheese("Vegan Cheese");
+           Food* e = new Meat("Impossible Meat");
+           this->add_food(a);
+           this->add_food(d);
+           this->add_food(c);
+           this->add_food(e);
+           this->add_food(b);
+           this->add_food(a);
+           type_of_sandwich = "The Green Sandwich";
+   }if (rand_num == 5){
+        //Double Decker
+           Food* a = new Bread("Prezel Bun");
+           Food* b = new Meat("Turkey Meat");
+           Food* c = new Veggies("American Cheese");
+           this->add_food(a);
+           this->add_food(c);
+           this->add_food(b);
+           this->add_food(a);
+           this->add_food(b);
+           this->add_food(c);
+           this->add_food(a);
+           type_of_sandwich = "Double Decker";
+   }
+
+}
+void Player::set_expert_sandwich(){
+    rand_num = rand() % 5 +1;
+    if (rand_num == 1){
+        //Sandwich a
+        Food* a = new Bread("White Bread");
+        Food* b = new Cheese("American Cheese");
+        Food* c = new Cheese("Swiss Cheese");
+        Food* d = new Veggies("Spinach");
+        this->add_food(a);
+        this->add_food(b);
+        this->add_food(c);
+        this->add_food(d);
+        type_of_sandwich = "Sandwich A";
+   } if (rand_num == 2){
+           //Sandwich B
+           Food* a = new Bread("Whole Wheat Bread");
+           Food* b = new Veggies("Lettuce");
+           Food* c = new Veggies("Peppers");
+           this->add_food(a);
+           this->add_food(b);
+           this->add_food(c);
+           type_of_sandwich = "Sandwich B";
+   } if (rand_num == 3){
+           //Sandwich C
+           Food* a = new Bread("White Bread");
+           Food* b = new Cheese("American Cheese");
+           Food* c = new Meat("Steak");
+           this->add_food(a);
+           this->add_food(b);
+           this->add_food(c);
+           type_of_sandwich = "Sandwich C";
+   } if (rand_num == 4){
+           //Sandwich D
+           Food* a = new Veggies("Lettuce");
+           Food* b = new Veggies("Peppers");
+           Food* c = new Veggies("Spinach");
+           this->add_food(a);
+           this->add_food(c);
+           this->add_food(b);
+           type_of_sandwich = "Sandwich D";
+   }if (rand_num == 5){
+        //Sandwich E
+           Food* a = new Bread("Prezel Bun");
+           Food* b = new Meat("Turkey Meat");
+           Food* c = new Veggies("American Cheese");
+           this->add_food(a);
+           this->add_food(c);
+           this->add_food(b);
+           type_of_sandwich = "Sandwich E";
+   }
 
 }
 
@@ -167,29 +299,12 @@ QString* Player::print_sandwich(){
 
 }
 
-//QWidget* Player::test_print_sandwich(){
-//    QWidget* w4 = new QWidget;
-//    QVBoxLayout* layout = new QVBoxLayout;
-//        QLabel* title = new QLabel(type_of_sandwich);
-//        layout->addWidget(title);
-//    for (int i =0; i<sandwich.size();i++){
-//        QLabel* new_one = new QLabel();
-//       QString a= sandwich[i]->get_food_type();
-//        new_one->setText(a);
-
-//        layout->addWidget(new_one);
-//    }
-//    w4->setLayout(layout);
-//    return w4;
-//   w4->show();
-//}
-
 void Player::test_print_sandwich(){
     QWidget* w4 = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout;
     QLabel * title = new QLabel(type_of_sandwich);
     layout->addWidget(title);
-    for (int i =0; i<sandwich.size();i++){
+    for (size_t i = 0; i < sandwich.size();i++){
         QLabel* new_one = new QLabel();
         QString a= sandwich[i]->get_food_type();
         new_one->setText(a);
