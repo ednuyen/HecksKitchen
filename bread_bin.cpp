@@ -7,20 +7,16 @@ Bread_Bin::Bread_Bin(int x,int y,QString a): Bin(x,y) {
 }
 
 void Bread_Bin:: paintEvent(QPaintEvent* e) {
-
     QPainter painter(this);
-
     if (name == "White Bread"){
         QPixmap bread(":/bread.png");
         painter.drawPixmap(rect(), bread);
-    }else if (name == "Whole Wheat Bread"){
+    } else if (name == "Whole Wheat Bread"){
         QPixmap bread(":/bread.png");
         painter.drawPixmap(rect(), bread);
-    }else {
+    } else {
         QPixmap bread(":/bread.png");
         painter.drawPixmap(rect(), bread);
     }
-
-
     return;
 }

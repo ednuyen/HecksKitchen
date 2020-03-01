@@ -23,8 +23,7 @@ Player::Player(int x,int y, int person){
     chara = person;
 }
 
-void Player::set_character()
-{
+void Player::set_character() {
     if (chara != 0)
         chara = rand() % 4 + 1;
 }
@@ -64,52 +63,52 @@ void Player::set_basic_sandwich(){
          this->add_food(d);
          type_of_sandwich = "House Special";
     } if (rand_num == 2){
-            //Vegan sandwich
-            Food* a = new Veggies("Lettuce");
-            Food* b = new Cheese("Vegan Cheese");
-            Food* c = new Meat("Impossible Meat");
-            Food* d = new Veggies("Lettuce");
-            this->add_food(a);
-            this->add_food(b);
-            this->add_food(c);
-            this->add_food(d);
-            type_of_sandwich = "Vegan sandwich";
+         //Vegan sandwich
+         Food* a = new Veggies("Lettuce");
+         Food* b = new Cheese("Vegan Cheese");
+         Food* c = new Meat("Impossible Meat");
+         Food* d = new Veggies("Lettuce");
+         this->add_food(a);
+         this->add_food(b);
+         this->add_food(c);
+         this->add_food(d);
+         type_of_sandwich = "Vegan sandwich";
     } if (rand_num == 3){
-            //Swiss Burger
-            Food* a = new Bread("Whole Wheat Bread");
-            Food* b = new Cheese("Swiss Cheese");
-            Food* c = new Meat("Steak");
-            Food* d = new Bread("Whole Wheat Bread");
-            this->add_food(a);
-            this->add_food(b);
-            this->add_food(c);
-            this->add_food(d);
-            type_of_sandwich = "Swiss Burger";
+         //Swiss Burger
+         Food* a = new Bread("Whole Wheat Bread");
+         Food* b = new Cheese("Swiss Cheese");
+         Food* c = new Meat("Steak");
+         Food* d = new Bread("Whole Wheat Bread");
+         this->add_food(a);
+         this->add_food(b);
+         this->add_food(c);
+         this->add_food(d);
+         type_of_sandwich = "Swiss Burger";
     } if (rand_num == 4){
-            //The Salad sandwich
-            Food* a = new Veggies("Lettuce");
-            Food* b = new Veggies("Peppers");
-            Food* c = new Veggies("Spinach");
-            Food* d = new Veggies("Lettuce");
-            this->add_food(a);
-            this->add_food(b);
-            this->add_food(c);
-            this->add_food(d);
-            type_of_sandwich = "The Salad Sandwich";
-    }if (rand_num == 5){
+         //The Salad sandwich
+         Food* a = new Veggies("Lettuce");
+         Food* b = new Veggies("Peppers");
+         Food* c = new Veggies("Spinach");
+         Food* d = new Veggies("Lettuce");
+         this->add_food(a);
+         this->add_food(b);
+         this->add_food(c);
+         this->add_food(d);
+         type_of_sandwich = "The Salad Sandwich";
+    } if (rand_num == 5){
          //The Loft of Bread
-            Food* a = new Bread("White Bread");
-            Food* b = new Bread("Prezel Bun");
-            Food* c = new Veggies("Whole Wheat Bread");
-            Food* d = new Veggies("White Bread");
-            this->add_food(a);
-            this->add_food(b);
-            this->add_food(c);
-            this->add_food(d);
-            type_of_sandwich = "The Loaf of Bread";
+         Food* a = new Bread("White Bread");
+         Food* b = new Bread("Prezel Bun");
+         Food* c = new Veggies("Whole Wheat Bread");
+         Food* d = new Veggies("White Bread");
+         this->add_food(a);
+         this->add_food(b);
+         this->add_food(c);
+         this->add_food(d);
+         type_of_sandwich = "The Loaf of Bread";
     }
-
 }
+
 void Player::set_intermediate_sandwich(){
     rand_num = rand() % 5 +1;
     if (rand_num == 1){
@@ -127,60 +126,61 @@ void Player::set_intermediate_sandwich(){
         this->add_food(a);
         type_of_sandwich = "The Cheese Melt";
    } if (rand_num == 2){
-           //Low Calorie Vegitarian Sandwich
-           Food* a = new Bread("Whole Wheat Bread");
-           Food* b = new Veggies("Lettuce");
-           Food* c = new Veggies("Peppers");
-           Food* d = new Meat("Impossible Meat");
-           this->add_food(a);
-           this->add_food(b);
-           this->add_food(c);
-           this->add_food(d);
-           this->add_food(b);
-           this->add_food(a);
-           type_of_sandwich = "Low Cal Veggie Sandwich";
+        //Low Calorie Vegitarian Sandwich
+        Food* a = new Bread("Whole Wheat Bread");
+        Food* b = new Veggies("Lettuce");
+        Food* c = new Veggies("Peppers");
+        Food* d = new Meat("Impossible Meat");
+        this->add_food(a);
+        this->add_food(b);
+        this->add_food(c);
+        this->add_food(d);
+        this->add_food(b);
+        this->add_food(a);
+        type_of_sandwich = "Low Cal Veggie Sandwich";
    } if (rand_num == 3){
-           //New York Style
-           Food* a = new Bread("White Bread");
-           Food* b = new Cheese("American Cheese");
-           Food* c = new Meat("Steak");
-           Food* d = new Veggies("Spinach");
-           this->add_food(a);
-           this->add_food(b);
-           this->add_food(c);
-           this->add_food(d);
-           this->add_food(a);
-           type_of_sandwich = "New York Style";
+        //New York Style
+        Food* a = new Bread("White Bread");
+        Food* b = new Cheese("American Cheese");
+        Food* c = new Meat("Steak");
+        Food* d = new Veggies("Spinach");
+        this->add_food(a);
+        this->add_food(b);
+        this->add_food(c);
+        this->add_food(d);
+        this->add_food(a);
+        type_of_sandwich = "New York Style";
    } if (rand_num == 4){
-           //The Green Sandwich
-           Food* a = new Veggies("Lettuce");
-           Food* b = new Veggies("Peppers");
-           Food* c = new Veggies("Spinach");
-           Food* d = new Cheese("Vegan Cheese");
-           Food* e = new Meat("Impossible Meat");
-           this->add_food(a);
-           this->add_food(d);
-           this->add_food(c);
-           this->add_food(e);
-           this->add_food(b);
-           this->add_food(a);
-           type_of_sandwich = "The Green Sandwich";
-   }if (rand_num == 5){
+        //The Green Sandwich
+        Food* a = new Veggies("Lettuce");
+        Food* b = new Veggies("Peppers");
+        Food* c = new Veggies("Spinach");
+        Food* d = new Cheese("Vegan Cheese");
+        Food* e = new Meat("Impossible Meat");
+        this->add_food(a);
+        this->add_food(d);
+        this->add_food(c);
+        this->add_food(e);
+        this->add_food(b);
+        this->add_food(a);
+        type_of_sandwich = "The Green Sandwich";
+   } if (rand_num == 5){
         //Double Decker
-           Food* a = new Bread("Prezel Bun");
-           Food* b = new Meat("Turkey Meat");
-           Food* c = new Veggies("American Cheese");
-           this->add_food(a);
-           this->add_food(c);
-           this->add_food(b);
-           this->add_food(a);
-           this->add_food(b);
-           this->add_food(c);
-           this->add_food(a);
-           type_of_sandwich = "Double Decker";
+        Food* a = new Bread("Prezel Bun");
+        Food* b = new Meat("Turkey Meat");
+        Food* c = new Veggies("American Cheese");
+        this->add_food(a);
+        this->add_food(c);
+        this->add_food(b);
+        this->add_food(a);
+        this->add_food(b);
+        this->add_food(c);
+        this->add_food(a);
+        type_of_sandwich = "Double Decker";
    }
-
 }
+
+// still have to make these, sorry!!!
 void Player::set_expert_sandwich(){
     rand_num = rand() % 5 +1;
     if (rand_num == 1){
@@ -195,47 +195,46 @@ void Player::set_expert_sandwich(){
         this->add_food(d);
         type_of_sandwich = "Sandwich A";
    } if (rand_num == 2){
-           //Sandwich B
-           Food* a = new Bread("Whole Wheat Bread");
-           Food* b = new Veggies("Lettuce");
-           Food* c = new Veggies("Peppers");
-           this->add_food(a);
-           this->add_food(b);
-           this->add_food(c);
-           type_of_sandwich = "Sandwich B";
+        //Sandwich B
+        Food* a = new Bread("Whole Wheat Bread");
+        Food* b = new Veggies("Lettuce");
+        Food* c = new Veggies("Peppers");
+        this->add_food(a);
+        this->add_food(b);
+        this->add_food(c);
+        type_of_sandwich = "Sandwich B";
    } if (rand_num == 3){
-           //Sandwich C
-           Food* a = new Bread("White Bread");
-           Food* b = new Cheese("American Cheese");
-           Food* c = new Meat("Steak");
-           this->add_food(a);
-           this->add_food(b);
-           this->add_food(c);
-           type_of_sandwich = "Sandwich C";
+        //Sandwich C
+        Food* a = new Bread("White Bread");
+        Food* b = new Cheese("American Cheese");
+        Food* c = new Meat("Steak");
+        this->add_food(a);
+        this->add_food(b);
+        this->add_food(c);
+        type_of_sandwich = "Sandwich C";
    } if (rand_num == 4){
-           //Sandwich D
-           Food* a = new Veggies("Lettuce");
-           Food* b = new Veggies("Peppers");
-           Food* c = new Veggies("Spinach");
-           this->add_food(a);
-           this->add_food(c);
-           this->add_food(b);
-           type_of_sandwich = "Sandwich D";
+        //Sandwich D
+        Food* a = new Veggies("Lettuce");
+        Food* b = new Veggies("Peppers");
+        Food* c = new Veggies("Spinach");
+        this->add_food(a);
+        this->add_food(c);
+        this->add_food(b);
+        type_of_sandwich = "Sandwich D";
    }if (rand_num == 5){
         //Sandwich E
-           Food* a = new Bread("Prezel Bun");
-           Food* b = new Meat("Turkey Meat");
-           Food* c = new Veggies("American Cheese");
-           this->add_food(a);
-           this->add_food(c);
-           this->add_food(b);
-           type_of_sandwich = "Sandwich E";
+        Food* a = new Bread("Prezel Bun");
+        Food* b = new Meat("Turkey Meat");
+        Food* c = new Veggies("American Cheese");
+        this->add_food(a);
+        this->add_food(c);
+        this->add_food(b);
+        type_of_sandwich = "Sandwich E";
    }
-
 }
 
 void Player::paintEvent(QPaintEvent* e) {
-    if(change_character){
+    if(change_character) {
         if (chara != 0)
             chara = rand() % 4 + 1;
         change_character = false;
@@ -294,7 +293,6 @@ QString* Player::print_sandwich(){
     //QVBoxLayout* layout = new QVBoxLayout;
     QString * title = new QString(type_of_sandwich);
     return title;
-
 }
 
 void Player::test_print_sandwich(){
@@ -312,7 +310,7 @@ void Player::test_print_sandwich(){
     w4->show();
 }
 
-size_t Player::get_vector_size(){
+size_t Player::get_vector_size() {
     return sandwich.size();
 }
 

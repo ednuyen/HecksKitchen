@@ -7,13 +7,13 @@ Meat_Bin::Meat_Bin(int x,int y, QString a)
 
 void Meat_Bin:: paintEvent(QPaintEvent* e) {
     QPainter painter(this);
-    if (name == "Turkey Meat"){
-        QPixmap meat(":/meat.png");
-         painter.drawPixmap(rect(), meat);
-    }else if( name == "Steak"){
+    if (name == "Turkey Meat") {
         QPixmap meat(":/meat.png");
         painter.drawPixmap(rect(), meat);
-    }else{
+    } else if (name == "Steak"){
+        QPixmap meat(":/meat.png");
+        painter.drawPixmap(rect(), meat);
+    } else {
         QPixmap meat(":/meat.png");
         painter.drawPixmap(rect(), meat);
     }

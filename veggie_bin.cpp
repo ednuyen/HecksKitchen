@@ -10,13 +10,12 @@ void Veggie_Bin:: paintEvent(QPaintEvent* e){
     if (name == "Lettuce"){
          QPixmap veggies(":/veggies.png");
          painter.drawPixmap(rect(), veggies);
-    }else if (name == "Peppers"){
+    } else if (name == "Peppers"){
         QPixmap veggies(":/veggies.png");
         painter.drawPixmap(rect(), veggies);
-    }else{
+    } else {
         QPixmap veggies(":/veggies.png");
         painter.drawPixmap(rect(), veggies);
     }
-
     return;
 }
