@@ -35,11 +35,13 @@ public:
     //virtual void paintEvent(QPaintEvent* e);
     void draw_walls();
     void draw_targets();
-    void change_health();
+    void decrease_health();
     void set_up_customers();
     void keyPressEvent(QKeyEvent *event);
     void setPartner(QWidget* partner);
     void play_music();
+    void set_challenge_rating_w2(int);
+    void board_setup();
 
 public slots:
     void customer_order1();
@@ -64,16 +66,13 @@ private:
     QLabel* health_text;
     qreal health = 10;
     qreal people_served = 0;
-    int challenge_number = 3;
+    int challenge_number = 1;
     QGridLayout* play_space;
     QHBoxLayout* title_space;
 //  QHBoxLayout* order_space;
     QGridLayout* sandwich_layout;
     QVBoxLayout* fullwindow;
     QVBoxLayout* menuLayout;
-    QVBoxLayout* youWinLayout;
-    QVBoxLayout* youLoseLayout;
-
     Player* main_character;
 
     QMediaPlayer* music;
@@ -112,12 +111,15 @@ private:
     QPushButton* order6;
     Player* customer7;
     QPushButton* order7;
+
     QWidget* secondPage;
     QWidget* menuPage;
     QWidget* youWinPage;
     QWidget* youLosePage;
     QWidget* mPartner;
     QPushButton* homeScreen;
+    QPushButton *backToHome1;
+    QPushButton *backToHome2;
     QStackedWidget* stackedWidget;
     QPushButton* mute;
 };

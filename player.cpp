@@ -10,7 +10,7 @@
 
 Player::Player(QWidget *parent)
     : QWidget(parent) {
-    pos_x =5;
+    pos_x = 5;
     pos_y = 5;
     chara = 0;
     setFocusPolicy(Qt::ClickFocus);
@@ -19,7 +19,7 @@ Player::Player(QWidget *parent)
 Player::Player(int x,int y, int person){
     srand(time(NULL));
     pos_x =x;
-    pos_y= y;
+    pos_y = y;
     chara = person;
 }
 
@@ -31,16 +31,14 @@ void Player::set_character()
 
 bool Player:: check_order(Player *other){
     if(this->get_vector_size() == other->get_vector_size()){
-        for(int i= 0; i<get_vector_size(); i++){
-            if (this->sandwich[i]->get_food_type()!=other->sandwich[i]->get_food_type()) {
+        for(size_t i = 0; i < get_vector_size(); ++i) {
+            if (this->sandwich[i]->get_food_type() != other->sandwich[i]->get_food_type()) {
                 return false;
             }
         }
-    }
-    else {
+    } else {
         return false;
-    }
-    return true;
+    } return true;
 }
 
 bool Player:: check_presence(){
@@ -133,7 +131,7 @@ void Player::set_intermediate_sandwich(){
            Food* a = new Bread("Whole Wheat Bread");
            Food* b = new Veggies("Lettuce");
            Food* c = new Veggies("Peppers");
-           Food* d = new Meat("Turkey Meat");
+           Food* d = new Meat("Impossible Meat");
            this->add_food(a);
            this->add_food(b);
            this->add_food(c);
@@ -304,7 +302,7 @@ void Player::test_print_sandwich(){
     QVBoxLayout* layout = new QVBoxLayout;
     QLabel * title = new QLabel(type_of_sandwich);
     layout->addWidget(title);
-    for (size_t i = 0; i < sandwich.size();i++){
+    for (size_t i =0; i<sandwich.size();i++){
         QLabel* new_one = new QLabel();
         QString a= sandwich[i]->get_food_type();
         new_one->setText(a);
@@ -314,12 +312,12 @@ void Player::test_print_sandwich(){
     w4->show();
 }
 
-int Player::get_vector_size(){
+size_t Player::get_vector_size(){
     return sandwich.size();
 }
 
 void Player:: delete_sandwich(){
-    for (int i = 0; i<this->get_vector_size();i++) {
+    for (size_t i = 0; i<this->get_vector_size(); ++i) {
         delete sandwich[i];
         sandwich[i] = nullptr;
     }

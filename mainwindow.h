@@ -15,18 +15,17 @@ class MainWindow : public QMainWindow {
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void pressedPlay();
     void pressedExit();
-    void setPartner(QWidget* partner);
+    void setPartner(SecondWindow* partner);
+
 
 public slots:
     void goToPage1();
     void goToPage2();
+    void set_challenge_rating(int a);
 
 private:
-//    bool music_mute = true;
-//    QLabel* title;
-//    QLabel* challenge_level;
+    int challenge_rating =1;
     QSlider* challenge;
     QPushButton* start;
     QPushButton* leave;
@@ -34,9 +33,7 @@ private:
     QGridLayout* buttons;
     SecondWindow w2;
     QStackedWidget* _stackedWidget;
-//    QWidget* firstPage;
-//    QHBoxLayout* firstPageLayout;
-    QWidget* mPartner;
+    SecondWindow* mPartner;
 };
 
 #endif // MAINWINDOW_H

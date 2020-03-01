@@ -1,9 +1,11 @@
 #include "mainwindow.h"
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     this->setFixedSize(875,700);
+
     QPixmap bkgnd(":/menu.png");
     bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
@@ -43,7 +45,6 @@ MainWindow::MainWindow(QWidget *parent)
     QSpacerItem* bottom = new QSpacerItem(100, 120, QSizePolicy::Maximum, QSizePolicy::Maximum);
     QSpacerItem* right = new QSpacerItem(100, 100, QSizePolicy::Maximum, QSizePolicy::Maximum);
     QSpacerItem* middle = new QSpacerItem(100, 100, QSizePolicy::Maximum, QSizePolicy::Maximum);
-//    connect(start, &QPushButton::pressed, this,&MainWindow::pressedPlay);
     connect(leave,&QPushButton::pressed, this, &MainWindow::pressedExit);
     buttons->addItem(top, 1, 1, 1, 3, Qt::AlignCenter);
     buttons->addItem(bottom, 5, 1, 1, 3, Qt::AlignCenter);
@@ -53,37 +54,44 @@ MainWindow::MainWindow(QWidget *parent)
     buttons->addWidget(start, 2, 5, Qt::AlignCenter);
     buttons->addWidget(instructions, 3, 5, Qt::AlignCenter);
     buttons->addWidget(leave, 4, 5, Qt::AlignCenter);
+    connect(challenge, &QSlider::sliderMoved,this, &MainWindow::set_challenge_rating);
 
-//    this->setCentralWidget(homePage);
 
-    QWidget *instructionPage = new QWidget();
-    instructionPage->setStyleSheet("background-image: url(:/background.png)");
-    QLabel *title = new QLabel("HOW TO PLAY");
-    title->setStyleSheet("QLabel { color : black; font: 20pt; font-weight: bold; }");
-    title->setAlignment(Qt::AlignCenter);
-    QLabel *text = new QLabel("Use ARROW KEYS or WASD to move\n\nCLICK on customers' orders\n\n"
-                              "Press SPACE to grab the right ingredients\n\nPress G to serve orders");
-    text->setStyleSheet("QLabel { color : black; }");
+    QLabel* instructionsPage = new QLabel;
+    QPixmap instructPix(":/instructions.png");
+    instructPix = instructPix.scaled(850, 675, Qt::KeepAspectRatio, Qt::FastTransformation);
+    instructionsPage->setPixmap(instructPix);
     QPushButton *backToHome = new QPushButton("BACK");
-    backToHome->setStyleSheet("QPushButton { background-color : white; color : black; }");
-    QVBoxLayout *textLayout = new QVBoxLayout(instructionPage);
-    textLayout->addWidget(title);
-    textLayout->addWidget(text);
-    textLayout->addWidget(backToHome);
+    backToHome = new QPushButton;
+    QPixmap homePix(":/home.png");
+    homePix = homePix.scaled(100, 60, Qt::KeepAspectRatio, Qt::FastTransformation);
+    QIcon homeIcon(homePix);
+    backToHome->setIcon(homeIcon);
+    backToHome->setIconSize(homePix.rect().size());
+    backToHome->setFixedSize(homePix.rect().size());
+
+    /* FOR REFERENCE
+     * color of the yellow background: rgb(255,223,130)
+     * color of the brown text: rgb(93,63,55)
+    */
+    QVBoxLayout *textLayout = new QVBoxLayout(instructionsPage);
+    QSpacerItem* space = new QSpacerItem(100, 600, QSizePolicy::Maximum, QSizePolicy::Maximum);
+    textLayout->addItem(space);
+    textLayout->addWidget(backToHome, 0, Qt::AlignRight);
 
     _stackedWidget = new QStackedWidget;
     _stackedWidget->addWidget(homePage);
-    _stackedWidget->addWidget(instructionPage);
+    _stackedWidget->addWidget(instructionsPage);
 
     QVBoxLayout *centrallayout = new QVBoxLayout;
     centrallayout->addWidget(_stackedWidget);
     this->setCentralWidget(_stackedWidget);
-//    setLayout(centrallayout);
     connect(instructions,&QPushButton::pressed, this, &MainWindow::goToPage2);
     connect(backToHome,&QPushButton::pressed, this, &MainWindow::goToPage1);
 }
 
-void MainWindow::setPartner(QWidget* partner) {
+//make this a secondwindow*
+void MainWindow::setPartner(SecondWindow* partner) {
     if (partner == 0)
         return;
     if (mPartner != partner) {
@@ -97,11 +105,13 @@ void MainWindow::setPartner(QWidget* partner) {
         }
     }
 
-MainWindow::~MainWindow() {}
+void MainWindow::set_challenge_rating(int a){
+    challenge_rating = a;
+    this->mPartner->set_challenge_rating_w2(a);
+    this->mPartner->board_setup();
+    return;}
 
-void MainWindow::pressedPlay() {
-//    w2.show();
-}
+MainWindow::~MainWindow() {}
 
 void MainWindow::pressedExit() {
     MainWindow::close();

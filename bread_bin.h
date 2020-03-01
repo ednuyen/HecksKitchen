@@ -6,8 +6,10 @@
 
 class Bread_Bin : public Bin {
 public:
-    Bread_Bin(int,int);
+    Bread_Bin(int,int,QString);
     void paintEvent(QPaintEvent* e);
+private:
+    QString name;
 };
 
 #endif // BREAD_BIN_H

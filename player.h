@@ -25,7 +25,7 @@ public:
 
     QString* print_sandwich();
     void test_print_sandwich();
-    int get_vector_size();
+    size_t get_vector_size();
     void set_basic_sandwich();
     void set_intermediate_sandwich();
     void set_expert_sandwich();

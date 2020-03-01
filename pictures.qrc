@@ -20,5 +20,10 @@
         <file>background.png</file>
         <file>bin.png</file>
         <file>instructions.png</file>
+        <file>home.png</file>
+        <file>music.png</file>
+        <file>winscreen.png</file>
+        <file>recipes.png</file>
+        <file>losescreen.png</file>
     </qresource>
 </RCC>

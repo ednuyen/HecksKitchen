@@ -6,9 +6,10 @@
 
 class Veggie_Bin : public Bin {
 public:
-    Veggie_Bin(int,int);
+    Veggie_Bin(int,int, QString);
     void paintEvent(QPaintEvent* e);
+private:
+     QString name;
 };
-
 
 #endif // VEGGIE_BIN_H

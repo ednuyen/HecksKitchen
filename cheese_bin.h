@@ -6,8 +6,10 @@
 
 class Cheese_Bin : public Bin {
 public:
-    Cheese_Bin(int, int);
+    Cheese_Bin(int, int,QString);
     void paintEvent(QPaintEvent* e);
+private:
+    QString name;
 };
 
 #endif // CHEESE_BIN_H
