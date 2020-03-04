@@ -13,6 +13,6 @@ void Bin::paintEvent(QPaintEvent *event){
     QPainter painter(this);
     QPixmap player(":/bin.png");
     player = player.scaled(this->size(), Qt::KeepAspectRatio);
-    painter.drawPixmap(rect(), player);
+    painter.drawPixmap(2,2,30,35, player);
     return;
 }

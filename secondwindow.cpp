@@ -1,4 +1,5 @@
 #include "secondwindow.h"
+#include <iostream>
 #include <QString>
 
 //Makes the second window which will be able to recieve the signal from MainWindow
@@ -6,6 +7,9 @@ SecondWindow::SecondWindow(QWidget *parent)
     : QWidget(parent)
 {
     this->setFixedSize(875,700);
+    music = new QMediaPlayer(this);
+    stop_music();
+
     QPixmap bkgnd(":/main.png");
     bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
@@ -14,8 +18,6 @@ SecondWindow::SecondWindow(QWidget *parent)
     setFocusPolicy(Qt::ClickFocus);
 
     QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-
-    music = new QMediaPlayer(this);
 
     // button to turn on/off music
     mute = new QPushButton;
@@ -64,6 +66,13 @@ SecondWindow::SecondWindow(QWidget *parent)
     play_space = new QGridLayout();
     sandwich_layout = new QGridLayout();
 
+    play_space->minimumSize().setHeight(4);
+    play_space->minimumSize().setWidth(4);
+    play_space->setSizeConstraint(QLayout::SetMinimumSize);
+    play_space->maximumSize().setHeight(4);
+    play_space->maximumSize().setWidth(4);
+    play_space->setSizeConstraint(QLayout::SetMaximumSize);
+
    /* QTimer* timer = new QTimer(this);
        connect(timer, SIGNAL(timeout()), this, SLOT(update()));
        timer->start(1000);*/
@@ -84,10 +93,14 @@ SecondWindow::SecondWindow(QWidget *parent)
     QLabel* veggies2 = new QLabel("Peppers");
     QLabel* veggies3 = new QLabel("Spinach");
 
+
     text1 = new QLabel(" Welcome to Heck's Kitchen!");
+    text1->setAlignment(Qt::AlignCenter);
+    text1->setFixedWidth(225);
     text1->setStyleSheet("QLabel { color : black }");
-    health_text = new QLabel("      Health: "+ QString::number(health) );
+    health_text = new QLabel("      Health");
     health_text->setStyleSheet("QLabel { color : black }");
+    player_health = new Health();
     main_character = new Player;
 
     breadBin1 = new Bread_Bin(8,2, "White Bread");
@@ -108,27 +121,8 @@ SecondWindow::SecondWindow(QWidget *parent)
 
     trash = new Bin(4, 1);
 
-    //SET UP CUSTOMER
-    customer1 = new Player(1,2,1);
-    customer2 = new Player(1,3,2);
-    customer3 = new Player(1,4,3);
-    customer4 = new Player(1,5,4);
-    order1 = new QPushButton ("Order 1");
-    order2 = new QPushButton ("Order 2");
-    order3 = new QPushButton ("Order 3");
-    order4 = new QPushButton ("Order 4");
-    customer5 = new Player(1,5,2);
-    customer6 = new Player(1,6,3);
-    order5 = new QPushButton ("Order 5");
-    order6 = new QPushButton ("Order 6");
-    customer7 = new Player(1,7,2);
-    order7 = new QPushButton ("Order 7");
-    board_setup();
-
-    connect(order1, SIGNAL(clicked()), this,SLOT(customer_order1()));
-    connect(order2, SIGNAL(clicked()), this,SLOT(customer_order2()));
-    connect(order3, SIGNAL(clicked()), this,SLOT(customer_order3()));
-    connect(order4, SIGNAL(clicked()), this,SLOT(customer_order4()));
+    // SET UP CUSTOMERS
+    begin_game();
 
     connect(mute, SIGNAL(clicked()),this,SLOT(stop_music()));
     connect(recipes, SIGNAL(clicked()),this,SLOT(goToMenu()));
@@ -137,29 +131,19 @@ SecondWindow::SecondWindow(QWidget *parent)
     draw_walls();
 
     title_space->addWidget(text1);
+    title_space->setSpacing(15);
     title_space->addWidget(health_text);
+    title_space->addWidget(player_health);
     title_space->addWidget(homeScreen);
     title_space->addWidget(mute);
     title_space->addWidget(recipes);
 
-   /* for(int i = 0; i<10;i++){
-            QLabel* testing = new QLabel("      ");
-            play_space->addWidget(testing,i, 20);
+    for(int i = 0; i<15;i++){
+        for(int j = 0; j<15; j++){
+           QSpacerItem* set_space = new QSpacerItem(10,10,QSizePolicy::Maximum, QSizePolicy::Maximum);
+                   play_space->addItem(set_space,i,j,1,1,Qt::AlignLeft);
+        }
     }
-    for(int i = 0; i<10;i++){
-            QLabel* testing = new QLabel("      ");
-            play_space->addWidget(testing,20, i);
-    }*/
-
-    // places customers
-    play_space->addWidget(customer1,customer1->get_pos_y(),customer1->get_pos_x());
-    play_space->addWidget(order1, customer1->get_pos_y(),customer1->get_pos_x()+1);
-    play_space->addWidget(customer2,customer2->get_pos_y(),customer2->get_pos_x());
-    play_space->addWidget(order2, customer2->get_pos_y(),customer2->get_pos_x()+1);
-    play_space->addWidget(customer3,customer3->get_pos_y(),customer3->get_pos_x());
-    play_space->addWidget(order3, customer3->get_pos_y(),customer3->get_pos_x()+1);
-    play_space->addWidget(customer4,customer4->get_pos_y(),customer4->get_pos_x());
-    play_space->addWidget(order4, customer4->get_pos_y(),customer4->get_pos_x()+1);
 
     // places player
     play_space->addWidget(main_character, main_character->get_pos_y(),main_character->get_pos_x());
@@ -245,8 +229,45 @@ SecondWindow::SecondWindow(QWidget *parent)
     setLayout(centrallayout);
 }
 
+void SecondWindow::begin_game(){
+    text1->setText("Welcome to Heck's Kitchen");
+    people_served = 0;
+    customer1 = new Player(1,2,1);
+    customer2 = new Player(1,3,2);
+    customer3 = new Player(1,4,3);
+    customer4 = new Player(1,5,4);
+    order1 = new QPushButton ("Order 1");
+    order2 = new QPushButton ("Order 2");
+    order3 = new QPushButton ("Order 3");
+    order4 = new QPushButton ("Order 4");
+    customer5 = new Player(1,6,2);
+    customer6 = new Player(1,7,3);
+    order5 = new QPushButton ("Order 5");
+    order6 = new QPushButton ("Order 6");
+    customer7 = new Player(1,8,2);
+    order7 = new QPushButton ("Order 7");
+    customer1->create_event();
+
+    board_setup();
+
+    connect(order1, SIGNAL(clicked()), this,SLOT(customer_order1()));
+    connect(order2, SIGNAL(clicked()), this,SLOT(customer_order2()));
+    connect(order3, SIGNAL(clicked()), this,SLOT(customer_order3()));
+    connect(order4, SIGNAL(clicked()), this,SLOT(customer_order4()));
+}
+
 void SecondWindow::board_setup(){
+
     if(challenge_number >= 1){
+        // places customers
+        play_space->addWidget(customer1,customer1->get_pos_y(),customer1->get_pos_x());
+        play_space->addWidget(order1, customer1->get_pos_y(),customer1->get_pos_x()+1);
+        play_space->addWidget(customer2,customer2->get_pos_y(),customer2->get_pos_x());
+        play_space->addWidget(order2, customer2->get_pos_y(),customer2->get_pos_x()+1);
+        play_space->addWidget(customer3,customer3->get_pos_y(),customer3->get_pos_x());
+        play_space->addWidget(order3, customer3->get_pos_y(),customer3->get_pos_x()+1);
+        play_space->addWidget(customer4,customer4->get_pos_y(),customer4->get_pos_x());
+        play_space->addWidget(order4, customer4->get_pos_y(),customer4->get_pos_x()+1);
         if (customer6->check_presence()){
             customer6->remove_event();
             order6->hide();
@@ -258,8 +279,8 @@ void SecondWindow::board_setup(){
             order7->hide();
         }
     } if(challenge_number >= 2){
-        customer5 = new Player(1,5,2);
-        customer6 = new Player(1,6,3);
+        customer5 = new Player(1,6,2);
+        customer6 = new Player(1,7,3);
         order5 = new QPushButton ("Order 5");
         order6 = new QPushButton ("Order 6");
         connect(order5, SIGNAL(clicked()), this,SLOT(customer_order5()));
@@ -269,7 +290,7 @@ void SecondWindow::board_setup(){
             order7->hide();
         }
     } if (challenge_number >=3 ){
-        customer7 = new Player(1,7,2);
+        customer7 = new Player(1,8,2);
         order7 = new QPushButton ("Order 7");
         connect(order7, SIGNAL(clicked()), this,SLOT(customer_order7()));
     } if (challenge_number == 1){
@@ -304,9 +325,41 @@ void SecondWindow::board_setup(){
    }
 }
 
+void SecondWindow::reset_game() {
+    delete_game();
+    this->hide();
+    begin_game();
+}
+
+void SecondWindow::delete_game() {
+    customer1->remove_event();
+    customer2->remove_event();
+    customer3->remove_event();
+    customer4->remove_event();
+    customer5->remove_event();
+    customer6->remove_event();
+    customer7->remove_event();
+    delete customer1;
+    delete customer2;
+    delete customer3;
+    delete customer4;
+    delete customer5;
+    delete customer6;
+    delete customer7;
+    delete order1;
+    delete order2;
+    delete order3;
+    delete order4;
+    delete order5;
+    delete order6;
+    delete order7;
+}
+
 void SecondWindow::stop_music(){
+    std::cout<< music_mute<<std::endl;
     if(music_mute%2 == 0){
         music->setMedia(QUrl("qrc:/easy music.mp3"));
+
         music->play();
     }
     else {
@@ -476,6 +529,7 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
                 main_character->delete_sandwich();
                 decrease_health();
                 text1->setText(" Oh... that isn't what I asked for");
+                player_health->change_health_bar();
                 health_text->setText("      Health: " + QString::number(health));
             }
         } else if( main_character->get_pos_x()-2 == customer2->get_pos_x() && main_character->get_pos_y()==customer2->get_pos_y()&& customer2->check_presence()) {
@@ -490,6 +544,7 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
                 main_character->delete_sandwich();
                 decrease_health();
                 text1->setText(" Oh... that isn't what I asked for");
+                player_health->change_health_bar();
                 health_text->setText( "      Health: " + QString::number(health));
             }
         } else if( main_character->get_pos_x()-2 == customer3->get_pos_x() &&main_character->get_pos_y()==customer3->get_pos_y()&& customer3->check_presence()){
@@ -504,6 +559,7 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
                 main_character->delete_sandwich();
                 decrease_health();
                 health_text->setText("      Health: " + QString::number(health));
+                player_health->change_health_bar();
                 text1->setText(" Um, No, Try again");
             }
         } else if( main_character->get_pos_x()-2 == customer4->get_pos_x() &&main_character->get_pos_y()==customer4->get_pos_y()&& customer4->check_presence()) {
@@ -518,6 +574,7 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
                 main_character->delete_sandwich();
                 decrease_health();
                 health_text->setText("      Health: " + QString::number(health));
+                player_health->change_health_bar();
                 text1->setText(" Oh... that isn't what I asked for");
             }
         } else if( main_character->get_pos_x()-2 == customer5->get_pos_x() &&main_character->get_pos_y()==customer5->get_pos_y()&& customer5->check_presence()) {
@@ -532,6 +589,7 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
                 main_character->delete_sandwich();
                 decrease_health();
                 health_text->setText("      Health: " + QString::number(health));
+                player_health->change_health_bar();
                 text1->setText(" Hmm you aren't very good at this, hm?");
             }
         } else if( main_character->get_pos_x()-2 == customer6->get_pos_x() &&main_character->get_pos_y()==customer6->get_pos_y()&& customer6->check_presence()) {
@@ -546,6 +604,7 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
                 main_character->delete_sandwich();
                 decrease_health();
                 health_text->setText("      Health: " + QString::number(health));
+                player_health->change_health_bar();
                 text1->setText(" Oh... that isn't what I asked for");
             }
         } else if( main_character->get_pos_x()-2 == customer7->get_pos_x() &&main_character->get_pos_y()==customer7->get_pos_y()&& customer7->check_presence()) {
@@ -559,6 +618,7 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
                 } else {
                     main_character->delete_sandwich();
                     decrease_health();
+                    player_health->change_health_bar();
                     health_text->setText("      Health: " + QString::number(health));
                     text1->setText(" No,no, that isn't right");
                 }
@@ -580,23 +640,19 @@ void SecondWindow::setPartner(QWidget* partner) {
         return;
     if (mPartner != partner) {
         if (mPartner != 0) {
-            disconnect(homeScreen, SIGNAL(clicked()), this, SLOT(hide()));
+            disconnect(homeScreen, SIGNAL(clicked()), this, SLOT(reset_game()));
             disconnect(homeScreen, SIGNAL(clicked()), mPartner, SLOT(showMaximized()));
-//            disconnect(backToHome, SIGNAL(clicked()), this, SLOT(hide()));
-//            disconnect(backToHome, SIGNAL(clicked()), mPartner, SLOT(showMaximized()));
         }
         mPartner = partner;
-        connect(homeScreen, SIGNAL(clicked()), this, SLOT(hide()));
+        connect(homeScreen, SIGNAL(clicked()), this, SLOT(reset_game()));
         connect(homeScreen, SIGNAL(clicked()), mPartner, SLOT(showMaximized()));
-//        connect(backToHome, SIGNAL(clicked()), this, SLOT(hide()));
-//        connect(backToHome, SIGNAL(clicked()), mPartner, SLOT(showMaximized()));
     }
 }
 
 SecondWindow::~SecondWindow(){
-    delete main_character;
-    delete customer1;
-    delete customer2;
-    delete customer3;
-    delete customer4;
+//    delete main_character;
+//    delete customer1;
+//    delete customer2;
+//    delete customer3;
+//    delete customer4;
 }

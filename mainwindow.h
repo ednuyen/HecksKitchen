@@ -31,7 +31,6 @@ private:
     QPushButton* leave;
     QPushButton* instructions;
     QGridLayout* buttons;
-    SecondWindow w2;
     QStackedWidget* _stackedWidget;
     SecondWindow* mPartner;
 };

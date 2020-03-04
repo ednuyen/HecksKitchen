@@ -8,13 +8,13 @@ void Cheese_Bin:: paintEvent(QPaintEvent* e) {
     QPainter painter(this);
     if (name == "American Cheese") {
         QPixmap cheese(":/cheese.png");
-        painter.drawPixmap(rect(), cheese);
+        painter.drawPixmap(2,2,40,40, cheese);
     } else if(name == "Swiss Cheese"){
         QPixmap cheese(":/cheese.png");
-        painter.drawPixmap(rect(), cheese);
+        painter.drawPixmap(2,2,40,40, cheese);
     } else{
         QPixmap cheese(":/cheese.png");
-        painter.drawPixmap(rect(), cheese);
+        painter.drawPixmap(2,2,40,40, cheese);
     }
     return;
 }

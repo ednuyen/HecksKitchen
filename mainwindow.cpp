@@ -109,13 +109,14 @@ void MainWindow::set_challenge_rating(int a){
     challenge_rating = a;
     this->mPartner->set_challenge_rating_w2(a);
     this->mPartner->board_setup();
-    return;}
+    return;
+}
 
 MainWindow::~MainWindow() {}
 
 void MainWindow::pressedExit() {
     MainWindow::close();
-    w2.close();
+//    mPartner->close();
 }
 
 void MainWindow::goToPage2() {

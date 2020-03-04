@@ -10,13 +10,13 @@ void Bread_Bin:: paintEvent(QPaintEvent* e) {
     QPainter painter(this);
     if (name == "White Bread"){
         QPixmap bread(":/bread.png");
-        painter.drawPixmap(rect(), bread);
+        painter.drawPixmap(2,2,40,40, bread);
     } else if (name == "Whole Wheat Bread"){
         QPixmap bread(":/bread.png");
-        painter.drawPixmap(rect(), bread);
+        painter.drawPixmap(2,2,40,40, bread);
     } else {
         QPixmap bread(":/bread.png");
-        painter.drawPixmap(rect(), bread);
+        painter.drawPixmap(2,2,40,40, bread);
     }
     return;
 }

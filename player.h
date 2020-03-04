@@ -19,6 +19,7 @@ public:
 
     void paintEvent(QPaintEvent* e);
     void remove_event();
+    void create_event();
     int get_pos_x();
     int get_pos_y();
     void add_food(Food*);

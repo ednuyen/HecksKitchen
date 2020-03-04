@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>easy music.mp3</file>
         <file>medium music.mp3</file>
+        <file>hard music.mp3</file>
     </qresource>
 </RCC>

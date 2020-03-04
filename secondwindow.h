@@ -56,13 +56,17 @@ public slots:
     void goToMenu();
     void goToSecondPage();
     void stop_music();
+    // three things to add in 3/4/2020
+    void reset_game();
+    void begin_game();
+    void delete_game();
 
 signals:
 
 private:
     //The different text that will appear on the window
     QLabel* text1;
-   // Health* player_health;
+    Health* player_health;
     QLabel* health_text;
     qreal health = 10;
     qreal people_served = 0;
