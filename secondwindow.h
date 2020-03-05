@@ -9,39 +9,30 @@
 #include <QTimer>
 #include <QMediaPlayer>
 #include <QStackedWidget>
-#include "wall.h"
-#include "target.h"
 #include "health.h"
 #include "player.h"
-#include "meat.h"
-#include "cheese.h"
-#include "bread.h"
 #include "bread_bin.h"
 #include "cheese_bin.h"
 #include "meat_bin.h"
 #include "veggie_bin.h"
-#include "veggies.h"
+//#include "veggies.h"
 
-//Desgins a Second Window that will say Welcome to Particle board and then print the grid of particles
+class RecipeWindow;
+
 class SecondWindow: public QWidget
 {
     Q_OBJECT
 
 public:
-    //Secondary window declaration
     SecondWindow(QWidget *parent = nullptr);
-    //void printgrid(int, int);
     ~SecondWindow();
-    //virtual void paintEvent(QPaintEvent* e);
-    void draw_walls();
-    void draw_targets();
     void decrease_health();
-    void set_up_customers();
     void keyPressEvent(QKeyEvent *event);
     void setPartner(QWidget* partner);
+    void setPartner2(RecipeWindow* partner);
     void play_music();
     void set_challenge_rating_w2(int);
-    void board_setup();
+    void customer_setup();
 
 public slots:
     void customer_order1();
@@ -53,27 +44,23 @@ public slots:
     void customer_order7();
     void goToWin();
     void goToLose();
-    void goToMenu();
-    void goToSecondPage();
+    void goToGamePage();
     void stop_music();
-    // three things to add in 3/4/2020
     void reset_game();
-    void begin_game();
+    void board_setup();
     void delete_game();
 
 signals:
 
 private:
-    //The different text that will appear on the window
     QLabel* text1;
     Health* player_health;
     QLabel* health_text;
-    qreal health = 10;
+    qreal health = 100;
     qreal people_served = 0;
     int challenge_number = 1;
     QGridLayout* play_space;
     QHBoxLayout* title_space;
-//  QHBoxLayout* order_space;
     QGridLayout* sandwich_layout;
     QVBoxLayout* fullwindow;
     QVBoxLayout* menuLayout;
@@ -121,11 +108,34 @@ private:
     QWidget* youWinPage;
     QWidget* youLosePage;
     QWidget* mPartner;
+    RecipeWindow* mPartner2;
     QPushButton* homeScreen;
+    QPushButton* toRecipes;
     QPushButton *backToHome1;
     QPushButton *backToHome2;
     QStackedWidget* stackedWidget;
     QPushButton* mute;
+};
+
+class RecipeWindow : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit RecipeWindow(QWidget *parent = nullptr);
+    ~RecipeWindow();
+    void setPartner2(SecondWindow* partner);
+signals:
+public slots:
+    void goForward();
+    void goBack();
+private:
+    SecondWindow* mPartner2;
+    QPushButton* toSecondW;
+    QPushButton* recipeBack;
+    QPushButton* recipeForward;
+    QGridLayout* buttonLayout;
+    int recipeCounter = 1;
+    QPalette recipebkgnd;
 };
 
 #endif // SECONDWINDOW_H
