@@ -8,12 +8,12 @@
 #include <QMainWindow>
 #include <QPainter>
 #include <QKeyEvent>
-
 #include "food.h"
 #include <vector>
+
 class Player:public QWidget{
 public:
-   void set_position(int,int);
+    void set_position(int,int);
     Player(QWidget *parent= nullptr);
     Player(int,int,int player = 0);
 
@@ -24,8 +24,7 @@ public:
     int get_pos_y();
     void add_food(Food*);
 
-    QString* print_sandwich();
-    void test_print_sandwich();
+    QString* get_sandwich_name();
     size_t get_vector_size();
     void set_basic_sandwich();
     void set_intermediate_sandwich();
@@ -42,14 +41,13 @@ public:
 
 private:
     std::vector<Food*> sandwich;
-
-    int rand_num =0;
+    int rand_num = 0;
     int chara;
     int pos_x;
     int pos_y;
     bool draw_character = true;
     bool change_character = true;
     QString type_of_sandwich;
-
 };
+
 #endif // PLAYER_H

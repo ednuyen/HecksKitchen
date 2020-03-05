@@ -7,7 +7,7 @@ class Food : public QWidget {
 public:
     Food();
     Food(QString);
-    virtual void print() = 0;
+//    virtual void print() = 0;
     void store_type(QString);
     QString get_food_type();
 private:

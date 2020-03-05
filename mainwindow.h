@@ -18,21 +18,21 @@ public:
     void pressedExit();
     void setPartner(SecondWindow* partner);
 
-
 public slots:
     void goToPage1();
     void goToPage2();
     void set_challenge_rating(int a);
 
 private:
-    int challenge_rating =1;
-    QSlider* challenge;
-    QPushButton* start;
-    QPushButton* leave;
-    QPushButton* instructions;
-    QGridLayout* buttons;
-    QStackedWidget* _stackedWidget;
-    SecondWindow* mPartner;
+    QWidget* homePage;
+    qreal difficulty_level = 1; // !! not a pointer. will have to delete at some point? no bc this is on the stack...WHAT
+    QSlider* choose_difficulty;
+    QPushButton* startButton; // "PLAY"
+    QPushButton* exitButton; // "EXIT"
+    QPushButton* instrctnsButton; // "TRAINING"
+    QGridLayout* buttons; // layout of PLAY, TRAINING, and EXIT
+    QStackedWidget* stackedWidget; // has two widgets, the home page and instructions page
+    SecondWindow* mPartner; // the game page
 };
 
 #endif // MAINWINDOW_H

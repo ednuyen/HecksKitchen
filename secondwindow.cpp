@@ -1,16 +1,11 @@
 #include "secondwindow.h"
-#include <iostream>
 #include <QString>
 
-
+//Makes the second window which will be able to recieve the signal from MainWindow
 SecondWindow::SecondWindow(QWidget *parent)
     : QWidget(parent)
 {
     this->setFixedSize(875,700);
-    music = new QMediaPlayer(this);
-    music->setMedia(QUrl("qrc:/easy music.mp3")); // im gonna try making the music change when you change difficulty LMAO up the stakes...
-    stop_music();
-
     QPixmap bkgnd(":/main.png");
     bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
@@ -20,12 +15,15 @@ SecondWindow::SecondWindow(QWidget *parent)
 
     QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
+    music = new QMediaPlayer(this);
+    music->setMedia(QUrl("qrc:/easy music.mp3"));
+
     // button to mute music
-    // oh dear chloe...should we make this button be the mute music symbol then
-    mute = new QPushButton(this);
+    mute = new QPushButton;
     QPixmap mutePix(":/music.png");
     mutePix = mutePix.scaled(102, 60, Qt::KeepAspectRatio, Qt::FastTransformation);
-    mute->setIcon(mutePix);
+    QIcon muteIcon(mutePix);
+    mute->setIcon(muteIcon);
     mute->setIconSize(mutePix.rect().size());
     mute->setFixedSize(mutePix.rect().size());
 
@@ -39,40 +37,74 @@ SecondWindow::SecondWindow(QWidget *parent)
     toRecipes->setFixedSize(recipesPix.rect().size());
 
     // button to go back to home screen
-    homeScreen = new QPushButton(this);
+    homeScreen = new QPushButton;
     QPixmap homePix(":/home.png");
     homePix = homePix.scaled(100, 60, Qt::KeepAspectRatio, Qt::FastTransformation);
-    homeScreen->setIcon(homePix);
+    QIcon homeIcon(homePix);
+    homeScreen->setIcon(homeIcon);
     homeScreen->setIconSize(homePix.rect().size());
     homeScreen->setFixedSize(homePix.rect().size());
 
+    // button will be in recipes screen
+    QPushButton *backToGame = new QPushButton("Done");
+
     title_space = new QHBoxLayout();
     play_space = new QGridLayout();
-    sandwich_layout = new QGridLayout();
-
-    play_space->minimumSize().setHeight(4);
-    play_space->minimumSize().setWidth(4);
-    play_space->setSizeConstraint(QLayout::SetMinimumSize);
-    play_space->maximumSize().setHeight(4);
-    play_space->maximumSize().setWidth(4);
-    play_space->setSizeConstraint(QLayout::SetMaximumSize);
+//    sandwich_layout = new QGridLayout();
 
    /* QTimer* timer = new QTimer(this);
        connect(timer, SIGNAL(timeout()), this, SLOT(update()));
        timer->start(1000);*/
 
+    QLabel* bread1 = new QLabel("White\nBread");
+    QLabel* bread2 = new QLabel("Whole\nWheat\nBread");
+    QLabel* bread3 = new QLabel("Pretzel\nBun");
+
+    QLabel* cheese1 = new QLabel("American\nCheese");
+    QLabel* cheese2 = new QLabel("Swiss\nCheese");
+    QLabel* cheese3 = new QLabel("Vegan\nCheese");
+
+    QLabel* meat1 = new QLabel("Turkey\nMeat");
+    QLabel* meat2 = new QLabel("Steak");
+    QLabel* meat3 = new QLabel("Impossible\nMeat");
+
+    QLabel* veggies1 = new QLabel("Lettuce");
+    QLabel* veggies2 = new QLabel("Peppers");
+    QLabel* veggies3 = new QLabel("Spinach");
+
     text1 = new QLabel(" Welcome to Heck's Kitchen!");
     text1->setAlignment(Qt::AlignCenter);
     text1->setFixedWidth(225);
     text1->setStyleSheet("QLabel { color : black }");
-    health_text = new QLabel("      Health: " + QString::number(health));
+    health_text = new QLabel("      Health: "+ QString::number(health) );
     health_text->setStyleSheet("QLabel { color : black }");
     player_health = new Health();
-    main_character = new Player;
+    main_character = new Player();
+
+    breadBin1 = new Bread_Bin(8,3, "White Bread");
+    breadBin2 = new Bread_Bin(9,3, "Whole Wheat Bread");
+    breadBin3 = new Bread_Bin(10,3, "Prezel Bun");
+
+    cheeseBin1 = new Cheese_Bin(11,3, "American Cheese");
+    cheeseBin2 = new Cheese_Bin(11,4, "Swiss Cheese");
+    cheeseBin3 = new Cheese_Bin(11,5, "Vegan Cheese");
+
+    meatBin1 = new Meat_Bin(11,6, "Turkey Meat");
+    meatBin2 = new Meat_Bin(11,7, "Steak");
+    meatBin3 = new Meat_Bin(11,8, "Immpossible Meat");
+
+    veggieBin1 = new Veggie_Bin(6,6, "Lettuce");
+    veggieBin2 = new Veggie_Bin(7,6, "Peppers");
+    veggieBin3 = new Veggie_Bin(8,6, "Spinach");
+
+    trash = new Bin(4, 1);
 
     connect(mute, SIGNAL(clicked()),this,SLOT(stop_music()));
-//    connect(toRecipes, SIGNAL(clicked()),this,SLOT(goToMenu()));
+//    connect(recipes, SIGNAL(clicked()),this,SLOT(goToMenu()));
+    connect(backToGame, SIGNAL(clicked()),this,SLOT(goToGamePage()));
 
+//    QSpacerItem* top = new QSpacerItem(700, 100, QSizePolicy::Maximum, QSizePolicy::Maximum);
+//    title_space->addItem(top, 1, 1, 2, 10, Qt::AlignCenter);
     title_space->addWidget(text1);
     title_space->setSpacing(15);
     title_space->addWidget(health_text);
@@ -81,98 +113,7 @@ SecondWindow::SecondWindow(QWidget *parent)
     title_space->addWidget(mute);
     title_space->addWidget(toRecipes);
 
-    for(int i = 0; i<15;i++){
-        for(int j = 0; j<15; j++){
-           QSpacerItem* set_space = new QSpacerItem(10,10,QSizePolicy::Maximum, QSizePolicy::Maximum);
-                   play_space->addItem(set_space,i,j,1,1,Qt::AlignLeft);
-        }
-    }
-
-    secondPage = new QWidget;
-    fullwindow = new QVBoxLayout(secondPage);
-    fullwindow->addLayout(title_space);
-    fullwindow->addLayout(play_space);
-
-    stackedWidget = new QStackedWidget;
-    stackedWidget->addWidget(secondPage);
-
-    // widgets that show when you win
-    QLabel* win = new QLabel;
-    QPixmap winPix(":/winscreen.png");
-    winPix = winPix.scaled(850, 675, Qt::KeepAspectRatio, Qt::FastTransformation);
-    win->setPixmap(winPix);
-    QVBoxLayout *winLayout = new QVBoxLayout(win);
-    QSpacerItem* space = new QSpacerItem(100, 600, QSizePolicy::Maximum, QSizePolicy::Maximum);
-    winLayout->addItem(space);
-
-    backToHome1 = new QPushButton(); // 'back' button on the 'you win' page
-    backToHome1->setIcon(homePix);
-    backToHome1->setIconSize(homePix.rect().size());
-    backToHome1->setFixedSize(homePix.rect().size());
-    winLayout->addWidget(backToHome1, 0, Qt::AlignRight);
-    connect(backToHome1, SIGNAL(clicked()),this,SLOT(goToGamePage())); // RIGHT NOW, WHEN YOU WIN/LOSE YOU CAN ONLY EXIT TO THE GAME SCREEN, NOT THE HOME SCREEN
-
-    QLabel* lose = new QLabel;
-    QPixmap losePix(":/losescreen.png");
-    losePix = losePix.scaled(850, 675, Qt::KeepAspectRatio, Qt::FastTransformation);
-    lose->setPixmap(losePix);
-    QVBoxLayout *loseLayout = new QVBoxLayout(lose);
-    QSpacerItem* space2 = new QSpacerItem(100, 600, QSizePolicy::Maximum, QSizePolicy::Maximum);
-    loseLayout->addItem(space2);
-
-    backToHome2 = new QPushButton(); // 'back' button on the 'you lose' page
-    backToHome2->setIcon(homePix);
-    backToHome2->setIconSize(homePix.rect().size());
-    backToHome2->setFixedSize(homePix.rect().size());
-    loseLayout->addWidget(backToHome2, 0, Qt::AlignRight);
-    connect(backToHome2, SIGNAL(clicked()),this,SLOT(goToGamePage())); // RIGHT NOW, WHEN YOU WIN/LOSE YOU CAN ONLY EXIT TO THE GAME SCREEN, NOT THE HOME SCREEN
-
-    stackedWidget->addWidget(win);
-    stackedWidget->addWidget(lose);
-
-    QPushButton *backToGame = new QPushButton("Done"); // button will be in recipes screen
-    connect(backToGame, SIGNAL(clicked()),this,SLOT(goToGamePage()));
-
-
-    QVBoxLayout* centrallayout = new QVBoxLayout;
-    centrallayout->addWidget(stackedWidget);
-    setLayout(centrallayout);
-
-    board_setup();
-}
-
-// Places food and customers
-void SecondWindow::board_setup(){
-    text1->setText("Welcome to Heck's Kitchen");
-    people_served = 0;
-    health_text->setText("      Health: " + QString::number(health));
-
-    QLabel* bread1 = new QLabel("White\nBread");
-    QLabel* bread2 = new QLabel("Whole\nWheat\nBread");
-    QLabel* bread3 = new QLabel("Pretzel\nBun");
-    QLabel* cheese1 = new QLabel("American\nCheese");
-    QLabel* cheese2 = new QLabel("Swiss\nCheese");
-    QLabel* cheese3 = new QLabel("Vegan\nCheese");
-    QLabel* meat1 = new QLabel("Turkey\nMeat");
-    QLabel* meat2 = new QLabel("Steak");
-    QLabel* meat3 = new QLabel("Impossible\nMeat");
-    QLabel* veggies1 = new QLabel("Lettuce");
-    QLabel* veggies2 = new QLabel("Peppers");
-    QLabel* veggies3 = new QLabel("Spinach");
-
-    breadBin1 = new Bread_Bin(8,2, "White Bread");
-    breadBin2 = new Bread_Bin(9,2, "Whole Wheat Bread");
-    breadBin3 = new Bread_Bin(10,2, "Prezel Bun");
-    cheeseBin1 = new Cheese_Bin(12,2, "American Cheese");
-    cheeseBin2 = new Cheese_Bin(12,3, "Swiss Cheese");
-    cheeseBin3 = new Cheese_Bin(12,4, "Vegan Cheese");
-    meatBin1 = new Meat_Bin(12,5, "Turkey Meat");
-    meatBin2 = new Meat_Bin(12,6, "Steak");
-    meatBin3 = new Meat_Bin(12,7, "Immpossible Meat");
-    veggieBin1 = new Veggie_Bin(6,6, "Lettuce");
-    veggieBin2 = new Veggie_Bin(7,6, "Peppers");
-    veggieBin3 = new Veggie_Bin(8,6, "Spinach");
-    trash = new Bin(4, 1);
+    // places customers
 
     QSpacerItem* one = new QSpacerItem(50, 50, QSizePolicy::Fixed, QSizePolicy::Fixed);
     play_space->addItem(one, 1, 1, 1, 13);
@@ -190,8 +131,17 @@ void SecondWindow::board_setup(){
     play_space->addItem(seven, 7, 1, 1, 13);
     QSpacerItem* eight = new QSpacerItem(50, 50, QSizePolicy::Fixed, QSizePolicy::Fixed);
     play_space->addItem(eight, 8, 1, 1, 13);
-    QSpacerItem* nine = new QSpacerItem(200, 200, QSizePolicy::Maximum, QSizePolicy::Maximum);
+    QSpacerItem* nine = new QSpacerItem(200, 200, QSizePolicy::Fixed, QSizePolicy::Fixed);
     play_space->addItem(nine, 9, 1, 1, 13);
+
+//    play_space->addWidget(customer1,customer1->get_pos_y(),customer1->get_pos_x());
+//    play_space->addWidget(order1, customer1->get_pos_y(),customer1->get_pos_x()+1);
+//    play_space->addWidget(customer2,customer2->get_pos_y(),customer2->get_pos_x());
+//    play_space->addWidget(order2, customer2->get_pos_y(),customer2->get_pos_x()+1);
+//    play_space->addWidget(customer3,customer3->get_pos_y(),customer3->get_pos_x());
+//    play_space->addWidget(order3, customer3->get_pos_y(),customer3->get_pos_x()+1);
+//    play_space->addWidget(customer4,customer4->get_pos_y(),customer4->get_pos_x());
+//    play_space->addWidget(order4, customer4->get_pos_y(),customer4->get_pos_x()+1);
 
     // places player
     play_space->addWidget(main_character, main_character->get_pos_y(),main_character->get_pos_x());
@@ -230,13 +180,77 @@ void SecondWindow::board_setup(){
 
     // places trash can
     play_space->addWidget(trash,trash->get_bin_pos_y(),trash->get_bin_pos_x());
-    customer1 = new Player(1,2,1);
-    customer2 = new Player(1,3,2);
-    customer3 = new Player(1,4,3);
-    customer4 = new Player(1,5,4);
-    customer5 = new Player(1,6,2);
-    customer6 = new Player(1,7,3);
-    customer7 = new Player(1,8,2);
+
+    secondPage = new QWidget;
+    fullwindow = new QVBoxLayout(secondPage);
+    fullwindow->addLayout(title_space);
+    fullwindow->addLayout(play_space);
+
+    stackedWidget = new QStackedWidget;
+    stackedWidget->addWidget(secondPage);
+
+    // 'Back' buttons on the win and lose pages
+
+    backToHome1 = new QPushButton;
+    QPixmap backPix(":/back.png");
+    backPix = backPix.scaled(650, 500, Qt::KeepAspectRatio, Qt::FastTransformation);
+    backToHome1->setIcon(backPix);
+    backToHome1->setIconSize(backPix.rect().size());
+    backToHome1->setFixedSize(backPix.rect().size());
+
+    connect(backToHome1, SIGNAL(clicked()),this,SLOT(goToGamePage())); // RIGHT NOW, WHEN YOU WIN/LOSE YOU CAN ONLY EXIT TO THE GAME SCREEN, NOT THE HOME SCREEN
+
+    backToHome2 = new QPushButton;
+    backPix = backPix.scaled(650, 500, Qt::KeepAspectRatio, Qt::FastTransformation);
+    backToHome2->setIcon(backPix);
+    backToHome2->setIconSize(backPix.rect().size());
+    backToHome2->setFixedSize(backPix.rect().size());
+
+    connect(backToHome2, SIGNAL(clicked()),this,SLOT(reset_game())); // RIGHT NOW, WHEN YOU WIN/LOSE YOU CAN ONLY EXIT TO THE GAME SCREEN, NOT THE HOME SCREEN
+
+    // widgets that show when you win
+    QLabel* win = new QLabel;
+    QPixmap winPix(":/winscreen.png");
+    winPix = winPix.scaled(850, 675, Qt::KeepAspectRatio, Qt::FastTransformation);
+    win->setPixmap(winPix);
+    QVBoxLayout *winLayout = new QVBoxLayout(win);
+    QSpacerItem* space = new QSpacerItem(100, 600, QSizePolicy::Maximum, QSizePolicy::Maximum);
+    winLayout->addItem(space);
+    winLayout->addWidget(backToHome1, 0, Qt::AlignCenter);
+
+    QLabel* lose = new QLabel;
+    QPixmap losePix(":/losescreen.png");
+    losePix = losePix.scaled(850, 675, Qt::KeepAspectRatio, Qt::FastTransformation);
+    lose->setPixmap(losePix);
+    QVBoxLayout *loseLayout = new QVBoxLayout(lose);
+    QSpacerItem* space2 = new QSpacerItem(100, 600, QSizePolicy::Maximum, QSizePolicy::Maximum);
+    loseLayout->addItem(space2);
+    loseLayout->addWidget(backToHome2, 0, Qt::AlignCenter);
+
+    stackedWidget->addWidget(win);
+    stackedWidget->addWidget(lose);
+
+//    connect(recipes, &QPushButton::pressed, this, &SecondWindow::goToRecipe1);
+    QVBoxLayout *centrallayout = new QVBoxLayout;
+    centrallayout->addWidget(stackedWidget);
+    setLayout(centrallayout);
+
+    board_setup();
+}
+
+// Places food and customers
+void SecondWindow::board_setup(){
+    text1->setText("Welcome to Heck's Kitchen");
+    people_served = 0;
+    health_text->setText("      Health: " + QString::number(health));
+
+    customer1 = new Player(1,3,1);
+    customer2 = new Player(1,4,2);
+    customer3 = new Player(1,5,3);
+    customer4 = new Player(1,6,4);
+    customer5 = new Player(1,7,2);
+    customer6 = new Player(1,8,3);
+    customer7 = new Player(1,9,2);
     order1 = new QPushButton ("Order 1");
     order2 = new QPushButton ("Order 2");
     order3 = new QPushButton ("Order 3");
@@ -579,11 +593,11 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
                     text1->setText(" No,no, that isn't right");
                 }
         } if (challenge_number == 1 && people_served == 4) {
-            goToWin(); // maybe only "you've been promoted"?
+            goToWin();
         } else if (challenge_number== 2 && people_served == 6) {
-            goToWin(); // maybe only "you've been promoted"?
+            goToWin();
         } else if (challenge_number== 3 && people_served == 7) {
-            goToWin(); // "you win"
+            goToWin();
         } if(health == 0){
             goToLose();
         }
@@ -650,7 +664,7 @@ RecipeWindow::RecipeWindow(QWidget *parent) : QWidget(parent)
     connect(recipeForward, SIGNAL(clicked()), this, SLOT(goForward()));
 
     toSecondW = new QPushButton;
-    QPixmap toSecondWPix(":/home.png");
+    QPixmap toSecondWPix(":/back.png");
     toSecondWPix = toSecondWPix.scaled(650, 500, Qt::KeepAspectRatio, Qt::FastTransformation);
     toSecondW->setIcon(toSecondWPix);
     toSecondW->setIconSize(toSecondWPix.rect().size());

@@ -8,8 +8,11 @@ int main(int argc, char *argv[])
 
     MainWindow w1;
     SecondWindow w2;
+    RecipeWindow w3;
     w1.setPartner(&w2);
     w2.setPartner(&w1);
+    w3.setPartner2(&w2);
+    w2.setPartner2(&w3);
 
     w1.show();
 

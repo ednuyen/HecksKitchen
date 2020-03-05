@@ -25,5 +25,12 @@
         <file>winscreen.png</file>
         <file>recipes.png</file>
         <file>losescreen.png</file>
+        <file>recipeback.png</file>
+        <file>recipeforward.png</file>
+        <file>recipes1.png</file>
+        <file>recipes2.png</file>
+        <file>recipes3.png</file>
+        <file>recipes4.png</file>
+        <file>back.png</file>
     </qresource>
 </RCC>

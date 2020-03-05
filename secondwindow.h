@@ -15,7 +15,6 @@
 #include "cheese_bin.h"
 #include "meat_bin.h"
 #include "veggie_bin.h"
-//#include "veggies.h"
 
 class RecipeWindow;
 
@@ -29,8 +28,8 @@ public:
     void decrease_health();
     void keyPressEvent(QKeyEvent *event);
     void setPartner(QWidget* partner);
+    // recently added
     void setPartner2(RecipeWindow* partner);
-    void play_music();
     void set_challenge_rating_w2(int);
     void customer_setup();
 
@@ -46,6 +45,8 @@ public slots:
     void goToLose();
     void goToGamePage();
     void stop_music();
+
+    // recently added
     void reset_game();
     void board_setup();
     void delete_game();
@@ -111,8 +112,8 @@ private:
     RecipeWindow* mPartner2;
     QPushButton* homeScreen;
     QPushButton* toRecipes;
-    QPushButton *backToHome1;
-    QPushButton *backToHome2;
+    QPushButton* backToHome1;
+    QPushButton* backToHome2;
     QStackedWidget* stackedWidget;
     QPushButton* mute;
 };

@@ -18,3 +18,7 @@ void Health::change_health_bar(){
     health_value = health_value-10;
     update();
 }
+
+void Health::reset_health(){
+    health_value = 100;
+}

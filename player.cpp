@@ -1,8 +1,4 @@
 #include "player.h"
-#include "bread.h"
-#include "cheese.h"
-#include "veggies.h"
-#include "meat.h"
 #include <QLabel>
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,7 +14,7 @@ Player::Player(QWidget *parent)
 
 Player::Player(int x,int y, int person){
     srand(time(NULL));
-    pos_x =x;
+    pos_x = x;
     pos_y = y;
     chara = person;
 }
@@ -53,10 +49,10 @@ void Player::set_basic_sandwich(){
      rand_num = rand() % 5 +1;
      if (rand_num == 1){
          //House Special
-         Food* a = new Bread("White Bread");
-         Food* b = new Cheese("American Cheese");
-         Food* c = new Meat("Turkey Meat");
-         Food* d = new Bread("White Bread");
+         Food* a = new Food("White Bread");
+         Food* b = new Food("American Cheese");
+         Food* c = new Food("Turkey Meat");
+         Food* d = new Food("White Bread");
          this->add_food(a);
          this->add_food(b);
          this->add_food(c);
@@ -64,10 +60,10 @@ void Player::set_basic_sandwich(){
          type_of_sandwich = "The House Special";
     } if (rand_num == 2){
          //Veggie Patty
-         Food* a = new Veggies("Lettuce");
-         Food* b = new Cheese("Vegan Cheese");
-         Food* c = new Meat("Impossible Meat");
-         Food* d = new Veggies("Lettuce");
+         Food* a = new Food("Lettuce");
+         Food* b = new Food("Vegan Cheese");
+         Food* c = new Food("Impossible Meat");
+         Food* d = new Food("Lettuce");
          this->add_food(a);
          this->add_food(b);
          this->add_food(c);
@@ -75,10 +71,10 @@ void Player::set_basic_sandwich(){
          type_of_sandwich = "The Veggie Patty";
     } if (rand_num == 3){
          //Swiss Steak
-         Food* a = new Bread("Whole Wheat Bread");
-         Food* b = new Cheese("Swiss Cheese");
-         Food* c = new Meat("Steak");
-         Food* d = new Bread("Whole Wheat Bread");
+         Food* a = new Food("Whole Wheat Bread");
+         Food* b = new Food("Swiss Cheese");
+         Food* c = new Food("Steak");
+         Food* d = new Food("Whole Wheat Bread");
          this->add_food(a);
          this->add_food(b);
          this->add_food(c);
@@ -86,10 +82,10 @@ void Player::set_basic_sandwich(){
          type_of_sandwich = "The Swiss Steak";
     } if (rand_num == 4){
          //veggie delight
-         Food* a = new Veggies("Lettuce");
-         Food* b = new Veggies("Peppers");
-         Food* c = new Veggies("Spinach");
-         Food* d = new Veggies("Lettuce");
+         Food* a = new Food("Lettuce");
+         Food* b = new Food("Peppers");
+         Food* c = new Food("Spinach");
+         Food* d = new Food("Lettuce");
          this->add_food(a);
          this->add_food(b);
          this->add_food(c);
@@ -97,10 +93,10 @@ void Player::set_basic_sandwich(){
          type_of_sandwich = "Veggie Delight";
     } if (rand_num == 5){
          //Loaf of Bread
-         Food* a = new Bread("White Bread");
-         Food* b = new Bread("Pretzel Bun");
-         Food* c = new Veggies("Whole Wheat Bread");
-         Food* d = new Veggies("White Bread");
+         Food* a = new Food("White Bread");
+         Food* b = new Food("Pretzel Bun");
+         Food* c = new Food("Whole Wheat Bread");
+         Food* d = new Food("White Bread");
          this->add_food(a);
          this->add_food(b);
          this->add_food(c);
@@ -113,10 +109,10 @@ void Player::set_intermediate_sandwich(){
     rand_num = rand() % 5 +1;
     if (rand_num == 1){
         //The Cheese Melt
-        Food* a = new Bread("White Bread");
-        Food* b = new Cheese("American Cheese");
-        Food* c = new Cheese("Swiss Cheese");
-        Food* d = new Veggies("Spinach");
+        Food* a = new Food("White Bread");
+        Food* b = new Food("American Cheese");
+        Food* c = new Food("Swiss Cheese");
+        Food* d = new Food("Spinach");
         this->add_food(a);
         this->add_food(b);
         this->add_food(c);
@@ -127,10 +123,10 @@ void Player::set_intermediate_sandwich(){
         type_of_sandwich = "The Cheese Melt";
    } if (rand_num == 2){
         //Veggie Delite
-        Food* a = new Bread("Whole Wheat Bread");
-        Food* b = new Veggies("Lettuce");
-        Food* c = new Veggies("Peppers");
-        Food* d = new Meat("Impossible Meat");
+        Food* a = new Food("Whole Wheat Bread");
+        Food* b = new Food("Lettuce");
+        Food* c = new Food("Peppers");
+        Food* d = new Food("Impossible Meat");
         this->add_food(a);
         this->add_food(b);
         this->add_food(c);
@@ -140,10 +136,10 @@ void Player::set_intermediate_sandwich(){
         type_of_sandwich = "Veggie Delite";
    } if (rand_num == 3){
         //New York Style
-        Food* a = new Bread("White Bread");
-        Food* b = new Cheese("American Cheese");
-        Food* c = new Meat("Steak");
-        Food* d = new Veggies("Spinach");
+        Food* a = new Food("White Bread");
+        Food* b = new Food("American Cheese");
+        Food* c = new Food("Steak");
+        Food* d = new Food("Spinach");
         this->add_food(a);
         this->add_food(b);
         this->add_food(c);
@@ -152,11 +148,11 @@ void Player::set_intermediate_sandwich(){
         type_of_sandwich = "The New York Style";
    } if (rand_num == 4){
         //The Spicy Green
-        Food* a = new Veggies("Lettuce");
-        Food* b = new Veggies("Peppers");
-        Food* c = new Veggies("Spinach");
-        Food* d = new Cheese("Vegan Cheese");
-        Food* e = new Meat("Impossible Meat");
+        Food* a = new Food("Lettuce");
+        Food* b = new Food("Peppers");
+        Food* c = new Food("Spinach");
+        Food* d = new Food("Vegan Cheese");
+        Food* e = new Food("Impossible Meat");
         this->add_food(a);
         this->add_food(d);
         this->add_food(c);
@@ -166,9 +162,9 @@ void Player::set_intermediate_sandwich(){
         type_of_sandwich = "The Spicy Green";
    } if (rand_num == 5){
         //Double Decker
-        Food* a = new Bread("Pretzel Bun");
-        Food* b = new Meat("Turkey Meat");
-        Food* c = new Veggies("American Cheese");
+        Food* a = new Food("Pretzel Bun");
+        Food* b = new Food("Turkey Meat");
+        Food* c = new Food("American Cheese");
         this->add_food(a);
         this->add_food(c);
         this->add_food(b);
@@ -180,16 +176,15 @@ void Player::set_intermediate_sandwich(){
    }
 }
 
-// still have to make these, sorry!!!
 void Player::set_expert_sandwich(){
     rand_num = rand() % 5 +1;
     if (rand_num == 1){
         //Turkey & Steak
-        Food* a = new Bread("White Bread");
-        Food* b = new Cheese("Swiss Cheese");
-        Food* c = new Meat("Turkey");
-        Food* d = new Meat("Steak");
-        Food* e = new Veggies("Spinach");
+        Food* a = new Food("White Bread");
+        Food* b = new Food("Swiss Cheese");
+        Food* c = new Food("Turkey");
+        Food* d = new Food("Steak");
+        Food* e = new Food("Spinach");
         this->add_food(a);
         this->add_food(e);
         this->add_food(b);
@@ -202,11 +197,11 @@ void Player::set_expert_sandwich(){
         type_of_sandwich = "Turkey & Steak";
    } if (rand_num == 2){
         //Veggie SR
-        Food* a = new Bread("Whole Wheat Bread");
-        Food* b = new Veggies("Lettuce");
-        Food* c = new Veggies("Peppers");
-        Food* d = new Meat("Impossible Meat");
-        Food* e = new Cheese("Vegan Cheese");
+        Food* a = new Food("Whole Wheat Bread");
+        Food* b = new Food("Lettuce");
+        Food* c = new Food("Peppers");
+        Food* d = new Food("Impossible Meat");
+        Food* e = new Food("Vegan Cheese");
         this->add_food(a);
         this->add_food(b);
         this->add_food(e);
@@ -219,10 +214,10 @@ void Player::set_expert_sandwich(){
         type_of_sandwich = "Veggie SR";
    } if (rand_num == 3){
         //Philly Steak
-        Food* a = new Bread("Pretzel Bun");
-        Food* b = new Cheese("American Cheese");
-        Food* c = new Cheese("Swiss Cheese");
-        Food* d = new Meat("Steak");
+        Food* a = new Food("Pretzel Bun");
+        Food* b = new Food("American Cheese");
+        Food* c = new Food("Swiss Cheese");
+        Food* d = new Food("Steak");
         this->add_food(a);
         this->add_food(b);
         this->add_food(c);
@@ -235,10 +230,10 @@ void Player::set_expert_sandwich(){
         type_of_sandwich = "Philly Steak";
    } if (rand_num == 4){
         //Thxgiving Special
-        Food* a = new Bread("White Bread");
-        Food* b = new Meat("Turkey Meat");
-        Food* c = new Bread("Whole Wheat Bread");
-        Food* d = new Cheese("American Cheese");
+        Food* a = new Food("White Bread");
+        Food* b = new Food("Turkey Meat");
+        Food* c = new Food("Whole Wheat Bread");
+        Food* d = new Food("American Cheese");
         this->add_food(a);
         this->add_food(d);
         this->add_food(b);
@@ -251,11 +246,11 @@ void Player::set_expert_sandwich(){
         type_of_sandwich = "Thxgiving Special";
    }if (rand_num == 5){
         //Meat Lovers
-        Food* a = new Bread("Pretzel Bun");
-        Food* b = new Meat("Turkey Meat");
-        Food* c = new Meat("Impossible Meat");
-        Food* d = new Meat("Steak");
-        Food* e = new Veggies("American Cheese");
+        Food* a = new Food("Pretzel Bun");
+        Food* b = new Food("Turkey Meat");
+        Food* c = new Food("Impossible Meat");
+        Food* d = new Food("Steak");
+        Food* e = new Food("American Cheese");
         this->add_food(a);
         this->add_food(b);
         this->add_food(e);
@@ -280,27 +275,30 @@ void Player::paintEvent(QPaintEvent* e) {
         QPainter painter(this);
         QPixmap player(":/chara1.png");
         player = player.scaled(this->size(), Qt::IgnoreAspectRatio);
-         painter.drawPixmap(2,2,20,30, player);}
-    if (draw_character == true && chara == 2){
+         painter.drawPixmap(2,2,25,40, player);
+    }
+    else if (draw_character == true && chara == 2){
         QPainter painter(this);
         QPixmap player(":/chara2.png");
         player = player.scaled(this->size(), Qt::IgnoreAspectRatio);
-         painter.drawPixmap(2,2,20,30, player);}
-    if (draw_character == true && chara == 3){
+         painter.drawPixmap(2,2,25,40, player);
+    }
+    else if (draw_character == true && chara == 3){
         QPainter painter(this);
         QPixmap player(":/chara3.png");
         player = player.scaled(this->size(), Qt::IgnoreAspectRatio);
-         painter.drawPixmap(2,2,20,30, player);}
-    if (draw_character == true && chara == 4){
+         painter.drawPixmap(2,2,25,40, player);
+    }
+    else if (draw_character == true && chara == 4){
         QPainter painter(this);
         QPixmap player(":/chara4.png");
         player = player.scaled(this->size(), Qt::IgnoreAspectRatio);
-         painter.drawPixmap(2,2,20,25, player);}
-    if (draw_character == true && chara == 0){
+         painter.drawPixmap(2,2,25,40, player);}
+    else if (draw_character == true && chara == 0){
         QPainter painter(this);
         QPixmap player(":/player.png");
         player = player.scaled(this->size(), Qt::IgnoreAspectRatio);
-       painter.drawPixmap(2,2,25,25, player);}
+       painter.drawPixmap(2, 2 , 40 ,40, player);}
     return;
 }
 
@@ -331,25 +329,10 @@ void Player::add_food(Food* next_food){
     //next_food->print();
 }
 
-QString* Player::print_sandwich(){
+QString* Player::get_sandwich_name(){
     //QVBoxLayout* layout = new QVBoxLayout;
     QString * title = new QString(type_of_sandwich);
     return title;
-}
-
-void Player::test_print_sandwich(){
-    QWidget* w4 = new QWidget;
-    QVBoxLayout* layout = new QVBoxLayout;
-    QLabel * title = new QLabel(type_of_sandwich);
-    layout->addWidget(title);
-    for (size_t i =0; i<sandwich.size();i++){
-        QLabel* new_one = new QLabel();
-        QString a= sandwich[i]->get_food_type();
-        new_one->setText(a);
-        layout->addWidget(new_one);
-    }
-    w4->setLayout(layout);
-    w4->show();
 }
 
 size_t Player::get_vector_size() {

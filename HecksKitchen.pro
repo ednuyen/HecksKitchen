@@ -18,40 +18,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     bin.cpp \
-    bread.cpp \
     bread_bin.cpp \
-    cheese.cpp \
     cheese_bin.cpp \
     food.cpp \
     health.cpp \
     main.cpp \
     mainwindow.cpp \
-    meat.cpp \
     meat_bin.cpp \
     player.cpp \
     secondwindow.cpp \
-    target.cpp \
-    veggie_bin.cpp \
-    veggies.cpp \
-    wall.cpp
+    veggie_bin.cpp
 
 HEADERS += \
     bin.h \
-    bread.h \
     bread_bin.h \
-    cheese.h \
     cheese_bin.h \
     food.h \
     health.h \
     mainwindow.h \
-    meat.h \
     meat_bin.h \
     player.h \
     secondwindow.h \
-    target.h \
-    veggie_bin.h \
-    veggies.h \
-    wall.h
+    veggie_bin.h
 
 FORMS += \
     mainwindow.ui
