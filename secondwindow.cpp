@@ -134,15 +134,6 @@ SecondWindow::SecondWindow(QWidget *parent)
     QSpacerItem* nine = new QSpacerItem(200, 200, QSizePolicy::Fixed, QSizePolicy::Fixed);
     play_space->addItem(nine, 9, 1, 1, 13);
 
-//    play_space->addWidget(customer1,customer1->get_pos_y(),customer1->get_pos_x());
-//    play_space->addWidget(order1, customer1->get_pos_y(),customer1->get_pos_x()+1);
-//    play_space->addWidget(customer2,customer2->get_pos_y(),customer2->get_pos_x());
-//    play_space->addWidget(order2, customer2->get_pos_y(),customer2->get_pos_x()+1);
-//    play_space->addWidget(customer3,customer3->get_pos_y(),customer3->get_pos_x());
-//    play_space->addWidget(order3, customer3->get_pos_y(),customer3->get_pos_x()+1);
-//    play_space->addWidget(customer4,customer4->get_pos_y(),customer4->get_pos_x());
-//    play_space->addWidget(order4, customer4->get_pos_y(),customer4->get_pos_x()+1);
-
     // places player
     play_space->addWidget(main_character, main_character->get_pos_y(),main_character->get_pos_x());
 
@@ -459,7 +450,7 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
             Food* a = new Food("Whole Wheat Bread");
             main_character->add_food(a);
         } if (main_character->get_pos_x() == breadBin3->get_bin_pos_x() && main_character->get_pos_y() == breadBin3->get_bin_pos_y()) {
-            Food* a = new Food("Prezel Bun");
+            Food* a = new Food("Pretzel Bun");
             main_character->add_food(a);
         } if (main_character->get_pos_x() == meatBin1->get_bin_pos_x() && main_character->get_pos_y() == meatBin1->get_bin_pos_y()) {
             Food* a = new Food("Turkey Meat");
