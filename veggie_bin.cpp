@@ -10,14 +10,14 @@ void Veggie_Bin:: paintEvent(QPaintEvent* e){
     rect().setX(5);
     rect().setY(5);
     if (name == "Lettuce"){
-         QPixmap veggies(":/veggies.png");
-          painter.drawPixmap(2,2,40,40, veggies);
+         QPixmap veggies(":/lettuce.png");
+          painter.drawPixmap(20,2,30,40, veggies);
     } else if (name == "Peppers"){
-        QPixmap veggies(":/veggies.png");
-       painter.drawPixmap(2,2,40,40, veggies);
+        QPixmap veggies(":/pepper.png");
+       painter.drawPixmap(20,2,20,40, veggies);
     } else {
-        QPixmap veggies(":/veggies.png");
-        painter.drawPixmap(2,2,40,40, veggies);
+        QPixmap veggies(":/spinach.png");
+        painter.drawPixmap(20,2,25,40, veggies);
     }
     return;
 }

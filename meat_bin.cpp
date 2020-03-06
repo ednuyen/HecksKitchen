@@ -10,17 +10,17 @@ void Meat_Bin:: paintEvent(QPaintEvent* e) {
     rect().setX(2);
     rect().setY(2);
     if (name == "Turkey Meat"){
-        QPixmap meat(":/meat.png");
+        QPixmap meat(":/turkey.png");
          //meat = meat.scaled(this->size(), Qt::IgnoreAspectRatio);
-         painter.drawPixmap(2,2,40,40, meat);
+         painter.drawPixmap(20,2,30,40, meat);
     }else if( name == "Steak"){
-        QPixmap meat(":/meat.png");
+        QPixmap meat(":/steak.png");
         meat = meat.scaled(this->size(), Qt::IgnoreAspectRatio);
-        painter.drawPixmap(2,2,40,40, meat);
+        painter.drawPixmap(20,2,30,40, meat);
     }else{
-        QPixmap meat(":/meat.png");
+        QPixmap meat(":/impossible.png");
        // meat = meat.scaled(this->size(), Qt::IgnoreAspectRatio);
-         painter.drawPixmap(2,2,40,40, meat);
+         painter.drawPixmap(20,2,30,40, meat);
     }
     return;
 }

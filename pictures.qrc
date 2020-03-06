@@ -32,5 +32,23 @@
         <file>recipes3.png</file>
         <file>recipes4.png</file>
         <file>back.png</file>
+        <file>impossible.png</file>
+        <file>lettuce.png</file>
+        <file>pepper.png</file>
+        <file>pretzel.png</file>
+        <file>spinach.png</file>
+        <file>steak.png</file>
+        <file>turkey.png</file>
+        <file>white.png</file>
+        <file>fire extinguisher.png</file>
+        <file>fire.png</file>
+        <file>order1.png</file>
+        <file>order2.png</file>
+        <file>order3.png</file>
+        <file>order4.png</file>
+        <file>order5.png</file>
+        <file>order6.png</file>
+        <file>order7.png</file>
+        <file>puddle.png</file>
     </qresource>
 </RCC>

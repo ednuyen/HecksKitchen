@@ -17,6 +17,7 @@ SecondWindow::SecondWindow(QWidget *parent)
 
     music = new QMediaPlayer(this);
     music->setMedia(QUrl("qrc:/easy music.mp3"));
+    stop_music();
 
     // button to mute music
     mute = new QPushButton;
@@ -50,27 +51,16 @@ SecondWindow::SecondWindow(QWidget *parent)
 
     title_space = new QHBoxLayout();
     play_space = new QGridLayout();
-//    sandwich_layout = new QGridLayout();
 
    /* QTimer* timer = new QTimer(this);
        connect(timer, SIGNAL(timeout()), this, SLOT(update()));
        timer->start(1000);*/
 
-    QLabel* bread1 = new QLabel("White\nBread");
-    QLabel* bread2 = new QLabel("Whole\nWheat\nBread");
-    QLabel* bread3 = new QLabel("Pretzel\nBun");
+//    QLabel* bread2 = new QLabel("Whole\nWheat\nBread");
 
     QLabel* cheese1 = new QLabel("American\nCheese");
     QLabel* cheese2 = new QLabel("Swiss\nCheese");
     QLabel* cheese3 = new QLabel("Vegan\nCheese");
-
-    QLabel* meat1 = new QLabel("Turkey\nMeat");
-    QLabel* meat2 = new QLabel("Steak");
-    QLabel* meat3 = new QLabel("Impossible\nMeat");
-
-    QLabel* veggies1 = new QLabel("Lettuce");
-    QLabel* veggies2 = new QLabel("Peppers");
-    QLabel* veggies3 = new QLabel("Spinach");
 
     text1 = new QLabel(" Welcome to Heck's Kitchen!");
     text1->setAlignment(Qt::AlignCenter);
@@ -81,26 +71,26 @@ SecondWindow::SecondWindow(QWidget *parent)
     player_health = new Health();
     main_character = new Player();
 
-    breadBin1 = new Bread_Bin(8,3, "White Bread");
-    breadBin2 = new Bread_Bin(9,3, "Whole Wheat Bread");
-    breadBin3 = new Bread_Bin(10,3, "Prezel Bun");
+    breadBin1 = new Bread_Bin(6,2, "White Bread");
+    breadBin2 = new Bread_Bin(7,2, "Whole Wheat Bread");
+    breadBin3 = new Bread_Bin(8,2, "Pretzel Bun");
 
-    cheeseBin1 = new Cheese_Bin(11,3, "American Cheese");
-    cheeseBin2 = new Cheese_Bin(11,4, "Swiss Cheese");
-    cheeseBin3 = new Cheese_Bin(11,5, "Vegan Cheese");
+    cheeseBin1 = new Cheese_Bin(10,3, "American Cheese");
+    cheeseBin2 = new Cheese_Bin(10,4, "Swiss Cheese");
+    cheeseBin3 = new Cheese_Bin(10,5, "Vegan Cheese");
 
-    meatBin1 = new Meat_Bin(11,6, "Turkey Meat");
-    meatBin2 = new Meat_Bin(11,7, "Steak");
-    meatBin3 = new Meat_Bin(11,8, "Immpossible Meat");
+    meatBin1 = new Meat_Bin(10,6, "Turkey Meat");
+    meatBin2 = new Meat_Bin(10,7, "Steak");
+    meatBin3 = new Meat_Bin(10,8, "Immpossible Meat");
 
-    veggieBin1 = new Veggie_Bin(6,6, "Lettuce");
-    veggieBin2 = new Veggie_Bin(7,6, "Peppers");
-    veggieBin3 = new Veggie_Bin(8,6, "Spinach");
+    veggieBin1 = new Veggie_Bin(5,7, "Lettuce");
+    veggieBin2 = new Veggie_Bin(6,7, "Peppers");
+    veggieBin3 = new Veggie_Bin(7,7, "Spinach");
 
-    trash = new Bin(4, 1);
+    trash = new Bin(4, 2);
+    trash2 = new Bin(8, 9);
 
     connect(mute, SIGNAL(clicked()),this,SLOT(stop_music()));
-//    connect(recipes, SIGNAL(clicked()),this,SLOT(goToMenu()));
     connect(backToGame, SIGNAL(clicked()),this,SLOT(goToGamePage()));
 
 //    QSpacerItem* top = new QSpacerItem(700, 100, QSizePolicy::Maximum, QSizePolicy::Maximum);
@@ -113,9 +103,7 @@ SecondWindow::SecondWindow(QWidget *parent)
     title_space->addWidget(mute);
     title_space->addWidget(toRecipes);
 
-    // places customers
-
-    QSpacerItem* one = new QSpacerItem(50, 50, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QSpacerItem* one = new QSpacerItem(200, 200, QSizePolicy::Fixed, QSizePolicy::Fixed);
     play_space->addItem(one, 1, 1, 1, 13);
     QSpacerItem* two = new QSpacerItem(50, 50, QSizePolicy::Fixed, QSizePolicy::Fixed);
     play_space->addItem(two, 2, 1, 1, 13);
@@ -139,11 +127,8 @@ SecondWindow::SecondWindow(QWidget *parent)
 
     // places breads
     play_space->addWidget(breadBin1,breadBin1->get_bin_pos_y(),breadBin1->get_bin_pos_x());
-    play_space->addWidget(bread1,breadBin1->get_bin_pos_y(),breadBin1->get_bin_pos_x());
     play_space->addWidget(breadBin2,breadBin2->get_bin_pos_y(),breadBin2->get_bin_pos_x());
-    play_space->addWidget(bread2,breadBin2->get_bin_pos_y(),breadBin2->get_bin_pos_x());
     play_space->addWidget(breadBin3,breadBin3->get_bin_pos_y(),breadBin3->get_bin_pos_x());
-    play_space->addWidget(bread3,breadBin3->get_bin_pos_y(),breadBin3->get_bin_pos_x());
 
     // places cheeses
     play_space->addWidget(cheeseBin1,cheeseBin1->get_bin_pos_y(),cheeseBin1->get_bin_pos_x());
@@ -155,22 +140,17 @@ SecondWindow::SecondWindow(QWidget *parent)
 
     // places protein
     play_space->addWidget(meatBin1,meatBin1->get_bin_pos_y(),meatBin1->get_bin_pos_x());
-    play_space->addWidget(meat1,meatBin1->get_bin_pos_y(),meatBin1->get_bin_pos_x());
     play_space->addWidget(meatBin2,meatBin2->get_bin_pos_y(),meatBin2->get_bin_pos_x());
-    play_space->addWidget(meat2,meatBin2->get_bin_pos_y(),meatBin2->get_bin_pos_x());
     play_space->addWidget(meatBin3,meatBin3->get_bin_pos_y(),meatBin3->get_bin_pos_x());
-    play_space->addWidget(meat3,meatBin3->get_bin_pos_y(),meatBin3->get_bin_pos_x());
 
     // places veggies
     play_space->addWidget(veggieBin1,veggieBin1->get_bin_pos_y(),veggieBin1->get_bin_pos_x());
-    play_space->addWidget(veggies1,veggieBin1->get_bin_pos_y(),veggieBin1->get_bin_pos_x());
     play_space->addWidget(veggieBin2,veggieBin2->get_bin_pos_y(),veggieBin2->get_bin_pos_x());
-    play_space->addWidget(veggies2,veggieBin2->get_bin_pos_y(),veggieBin2->get_bin_pos_x());
     play_space->addWidget(veggieBin3,veggieBin3->get_bin_pos_y(),veggieBin3->get_bin_pos_x());
-    play_space->addWidget(veggies3,veggieBin3->get_bin_pos_y(),veggieBin3->get_bin_pos_x());
 
     // places trash can
     play_space->addWidget(trash,trash->get_bin_pos_y(),trash->get_bin_pos_x());
+    play_space->addWidget(trash2,trash2->get_bin_pos_y(),trash2->get_bin_pos_x());
 
     secondPage = new QWidget;
     fullwindow = new QVBoxLayout(secondPage);
@@ -181,7 +161,6 @@ SecondWindow::SecondWindow(QWidget *parent)
     stackedWidget->addWidget(secondPage);
 
     // 'Back' buttons on the win and lose pages
-
     backToHome1 = new QPushButton;
     QPixmap backPix(":/back.png");
     backPix = backPix.scaled(650, 500, Qt::KeepAspectRatio, Qt::FastTransformation);
@@ -197,9 +176,8 @@ SecondWindow::SecondWindow(QWidget *parent)
     backToHome2->setIconSize(backPix.rect().size());
     backToHome2->setFixedSize(backPix.rect().size());
 
-    connect(backToHome2, SIGNAL(clicked()),this,SLOT(reset_game())); // RIGHT NOW, WHEN YOU WIN/LOSE YOU CAN ONLY EXIT TO THE GAME SCREEN, NOT THE HOME SCREEN
+    connect(backToHome2, SIGNAL(clicked()),this,SLOT(goToGamePage())); // RIGHT NOW, WHEN YOU WIN/LOSE YOU CAN ONLY EXIT TO THE GAME SCREEN, NOT THE HOME SCREEN
 
-    // widgets that show when you win
     QLabel* win = new QLabel;
     QPixmap winPix(":/winscreen.png");
     winPix = winPix.scaled(850, 675, Qt::KeepAspectRatio, Qt::FastTransformation);
@@ -221,19 +199,21 @@ SecondWindow::SecondWindow(QWidget *parent)
     stackedWidget->addWidget(win);
     stackedWidget->addWidget(lose);
 
-//    connect(recipes, &QPushButton::pressed, this, &SecondWindow::goToRecipe1);
     QVBoxLayout *centrallayout = new QVBoxLayout;
     centrallayout->addWidget(stackedWidget);
     setLayout(centrallayout);
 
-    board_setup();
+    begin_game();
 }
 
-// Places food and customers
-void SecondWindow::board_setup(){
+void SecondWindow::begin_game(){
     text1->setText("Welcome to Heck's Kitchen");
     people_served = 0;
     health_text->setText("      Health: " + QString::number(health));
+    puddle1 = new Puddle(1,1);
+    puddle2 = new Puddle(0,0);
+    health = 10;
+    player_health->reset_health();
 
     customer1 = new Player(1,3,1);
     customer2 = new Player(1,4,2);
@@ -254,9 +234,16 @@ void SecondWindow::board_setup(){
     customer_setup();
 }
 
-// Places customers and orders
 void SecondWindow::customer_setup(){
-    if(challenge_number >= 1) {
+    if(challenge_number >= 1){
+        customer1 = new Player(1,3,1);
+        customer2 = new Player(1,4,2);
+        customer3 = new Player(1,5,3);
+        customer4 = new Player(1,6,4);
+        order1 = new QPushButton ("Order 1");
+        order2 = new QPushButton ("Order 2");
+        order3 = new QPushButton ("Order 3");
+        order4 = new QPushButton ("Order 4");
         play_space->addWidget(customer1,customer1->get_pos_y(),customer1->get_pos_x());
         play_space->addWidget(order1, customer1->get_pos_y(),customer1->get_pos_x()+1);
         play_space->addWidget(customer2,customer2->get_pos_y(),customer2->get_pos_x());
@@ -269,48 +256,144 @@ void SecondWindow::customer_setup(){
         connect(order2, SIGNAL(clicked()), this,SLOT(customer_order2()));
         connect(order3, SIGNAL(clicked()), this,SLOT(customer_order3()));
         connect(order4, SIGNAL(clicked()), this,SLOT(customer_order4()));
-    } if (challenge_number >= 2) {
+        if (customer6->check_presence()){
+            customer6->remove_event();
+            order6->hide();
+        } if (customer5->check_presence()){
+            customer5->remove_event();
+            order5->hide();
+        } if (customer7->check_presence()){
+            customer7->remove_event();
+            order7->hide();
+        }
+    } if(challenge_number >= 2){
+        customer5 = new Player(1,7,2);
+        customer6 = new Player(1,8,3);
+        order5 = new QPushButton ("Order 5");
+        order6 = new QPushButton ("Order 6");
+        puddle1 = new Puddle(1,1);
+        puddle1 = puddle1->set_random_location();
+        play_space->addWidget(puddle1,puddle1->get_bin_pos_y(),puddle1->get_bin_pos_x());
         play_space->addWidget(customer5,customer5->get_pos_y(),customer5->get_pos_x());
         play_space->addWidget(order5, customer5->get_pos_y(),customer5->get_pos_x()+1);
         play_space->addWidget(customer6,customer6->get_pos_y(),customer6->get_pos_x());
         play_space->addWidget(order6, customer6->get_pos_y(),customer6->get_pos_x()+1);
         connect(order5, SIGNAL(clicked()), this,SLOT(customer_order5()));
         connect(order6, SIGNAL(clicked()), this,SLOT(customer_order6()));
-    } if (challenge_number >= 3 ) {
+        if (customer7->check_presence()){
+            customer7->remove_event();
+            order7->hide();
+        }
+    } if (challenge_number >=3 ) {
+        customer7 = new Player(1,9,2);
+        order7 = new QPushButton ("Order 7");
         play_space->addWidget(customer7,customer7->get_pos_y(),customer7->get_pos_x());
         play_space->addWidget(order7, customer7->get_pos_y(),customer7->get_pos_x()+1);
         connect(order7, SIGNAL(clicked()), this,SLOT(customer_order7()));
+    } if (challenge_number == 1) {
+        customer1->set_basic_sandwich();
+        //std::cout<<"hi"<<endl;
+        customer2->set_basic_sandwich();
+        customer3->set_basic_sandwich();
+        customer4->set_basic_sandwich();
+    } else if(challenge_number == 2) {
+        customer1->set_basic_sandwich();
+        customer2->set_intermediate_sandwich();
+        customer3->set_expert_sandwich();
+        customer4->set_intermediate_sandwich();
+        customer5->set_basic_sandwich();
+        customer6->set_intermediate_sandwich();
+    } else if(challenge_number == 3) {
+        customer1->set_expert_sandwich();
+        customer2->set_intermediate_sandwich();
+        customer3->set_basic_sandwich();
+        customer4->set_expert_sandwich();
+        customer5->set_intermediate_sandwich();
+        customer6->set_intermediate_sandwich();
+        customer7->set_expert_sandwich();
     }
-    // sets sandwich difficulty
-    if (challenge_number == 1){
-       customer1->set_basic_sandwich();
-       customer2->set_basic_sandwich();
-       customer3->set_basic_sandwich();
-       customer4->set_basic_sandwich();
-   } else if (challenge_number == 2){
-       customer1->set_basic_sandwich();
-       customer2->set_intermediate_sandwich();
-       customer3->set_expert_sandwich();
-       customer4->set_intermediate_sandwich();
-       customer5->set_basic_sandwich();
-       customer6->set_intermediate_sandwich();
-   } else if (challenge_number == 3){
-       customer1->set_expert_sandwich();
-       customer2->set_intermediate_sandwich();
-       customer3->set_basic_sandwich();
-       customer4->set_expert_sandwich();
-       customer5->set_intermediate_sandwich();
-       customer6->set_intermediate_sandwich();
-       customer7->set_expert_sandwich();
-   }
 }
+
+//    if(challenge_number >= 1){
+//        play_space->addWidget(customer1,customer1->get_pos_y(),customer1->get_pos_x());
+//        play_space->addWidget(order1, customer1->get_pos_y(),customer1->get_pos_x()+1);
+//        play_space->addWidget(customer2,customer2->get_pos_y(),customer2->get_pos_x());
+//        play_space->addWidget(order2, customer2->get_pos_y(),customer2->get_pos_x()+1);
+//        play_space->addWidget(customer3,customer3->get_pos_y(),customer3->get_pos_x());
+//        play_space->addWidget(order3, customer3->get_pos_y(),customer3->get_pos_x()+1);
+//        play_space->addWidget(customer4,customer4->get_pos_y(),customer4->get_pos_x());
+//        play_space->addWidget(order4, customer4->get_pos_y(),customer4->get_pos_x()+1);
+//        connect(order1, SIGNAL(clicked()), this,SLOT(customer_order1()));
+//        connect(order2, SIGNAL(clicked()), this,SLOT(customer_order2()));
+//        connect(order3, SIGNAL(clicked()), this,SLOT(customer_order3()));
+//        connect(order4, SIGNAL(clicked()), this,SLOT(customer_order4()));
+//            if (customer6->check_presence()){
+//                customer6->remove_event();
+//                order6->hide();
+//            } if (customer5->check_presence()){
+//                customer5->remove_event();
+//                order5->hide();
+//            } if (customer7->check_presence()){
+//                customer7->remove_event();
+//                order7->hide();
+//            }
+//        } if(challenge_number >= 2){
+//            customer5 = new Player(1,7,2);
+//            customer6 = new Player(1,8,3);
+//            order5 = new QPushButton ("Order 5");
+//            order6 = new QPushButton ("Order 6");
+//            play_space->addWidget(customer5,customer5->get_pos_y(),customer5->get_pos_x());
+//            play_space->addWidget(order5, customer5->get_pos_y(),customer5->get_pos_x()+1);
+//            play_space->addWidget(customer6,customer6->get_pos_y(),customer6->get_pos_x());
+//            play_space->addWidget(order6, customer6->get_pos_y(),customer6->get_pos_x()+1);
+//            connect(order5, SIGNAL(clicked()), this,SLOT(customer_order5()));
+//            connect(order6, SIGNAL(clicked()), this,SLOT(customer_order6()));
+//            if (customer7->check_presence()){
+//                customer7->remove_event();
+//                order7->hide();
+//            }
+//        } if (challenge_number >=3 ){
+//            customer7 = new Player(1,9,2);
+//            order7 = new QPushButton ("Order 7");
+//            play_space->addWidget(customer7,customer7->get_pos_y(),customer7->get_pos_x());
+//            play_space->addWidget(order7, customer7->get_pos_y(),customer7->get_pos_x()+1);
+//            connect(order7, SIGNAL(clicked()), this,SLOT(customer_order7()));
+//        } if (challenge_number == 1){
+//           customer1->set_basic_sandwich();
+//           //std::cout<<"hi"<<endl;
+//           customer2->set_basic_sandwich();
+//           customer3->set_basic_sandwich();
+//           customer4->set_basic_sandwich();
+//       } else if(challenge_number == 2){
+//           customer1->set_basic_sandwich();
+//           customer2->set_intermediate_sandwich();
+//           customer3->set_expert_sandwich();
+//           customer4->set_intermediate_sandwich();
+//           customer5->set_basic_sandwich();
+//           customer6->set_intermediate_sandwich();
+//       } else if(challenge_number == 3){
+//           customer1->set_expert_sandwich();
+//           customer2->set_intermediate_sandwich();
+//           customer3->set_basic_sandwich();
+//           customer4->set_expert_sandwich();
+//           customer5->set_intermediate_sandwich();
+//           customer6->set_intermediate_sandwich();
+//           customer7->set_expert_sandwich();
+//       } /*if(challenge_number>=2){
+////           play_space->addWidget(customer5,customer5->get_pos_y(),customer5->get_pos_x());
+////           play_space->addWidget(order5, customer5->get_pos_y(),customer5->get_pos_x()+1);
+////           play_space->addWidget(customer6,customer6->get_pos_y(),customer6->get_pos_x());
+////           play_space->addWidget(order6, customer6->get_pos_y(),customer6->get_pos_x()+1);
+//       }*/ /*if (challenge_number>=3){
+//           play_space->addWidget(customer7,customer7->get_pos_y(),customer7->get_pos_x());
+//           play_space->addWidget(order7, customer7->get_pos_y(),customer7->get_pos_x()+1);
+//       }*/
+//    }
 
 void SecondWindow::reset_game() {
     delete_game();
     this->hide();
-    health = 100;
-    player_health->reset_health();
-    board_setup();
+    begin_game();
 }
 
 void SecondWindow::delete_game() {
@@ -335,6 +418,7 @@ void SecondWindow::delete_game() {
     delete order5;
     delete order6;
     delete order7;
+    delete puddle1;
 }
 
 void SecondWindow::stop_music(){
@@ -387,7 +471,7 @@ void SecondWindow::customer_order7() {
 }
 
 void SecondWindow::decrease_health(){
-    health = health - 10;
+    health = health - 1;
 }
 
 void SecondWindow::set_challenge_rating_w2(int a){
@@ -429,63 +513,68 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
             play_space->addWidget(main_character, main_character->get_pos_y(),main_character->get_pos_x());
         }
     } else if(event->key() == Qt::Key_S||event->key() == Qt::Key_Down) {
-        if (main_character->get_pos_y() < 8) {
+        if (main_character->get_pos_y() < 9) {
             main_character->move_down();
             play_space->addWidget(main_character, main_character->get_pos_y(),main_character->get_pos_x());
         }
     } if (event->key() == Qt::Key_Space){
         if (main_character->get_pos_x() == cheeseBin1->get_bin_pos_x()&&main_character->get_pos_y() == cheeseBin1->get_bin_pos_y()) {
-            Food* a = new Food("American Cheese");
+            Food* a = new Cheese("American Cheese");
             main_character->add_food(a);
         } if (main_character->get_pos_x() == cheeseBin2->get_bin_pos_x()&&main_character->get_pos_y() == cheeseBin2->get_bin_pos_y()) {
-            Food* a = new Food("Swiss Cheese");
+            Food* a = new Cheese("Swiss Cheese");
             main_character->add_food(a);
         } if (main_character->get_pos_x() == cheeseBin3->get_bin_pos_x()&&main_character->get_pos_y() == cheeseBin3->get_bin_pos_y()) {
-            Food* a = new Food("Vegan Cheese");
+            Food* a = new Cheese("Vegan Cheese");
             main_character->add_food(a);
         } if (main_character->get_pos_x() == breadBin1->get_bin_pos_x() && main_character->get_pos_y() == breadBin1->get_bin_pos_y()) {
-            Food* a = new Food("White Bread");
+            Food* a = new Bread("White Bread");
             main_character->add_food(a);
         } if (main_character->get_pos_x() == breadBin2->get_bin_pos_x() && main_character->get_pos_y() == breadBin2->get_bin_pos_y()) {
-            Food* a = new Food("Whole Wheat Bread");
+            Food* a = new Bread("Whole Wheat Bread");
             main_character->add_food(a);
         } if (main_character->get_pos_x() == breadBin3->get_bin_pos_x() && main_character->get_pos_y() == breadBin3->get_bin_pos_y()) {
-            Food* a = new Food("Pretzel Bun");
+            Food* a = new Bread("Pretzel Bun");
             main_character->add_food(a);
         } if (main_character->get_pos_x() == meatBin1->get_bin_pos_x() && main_character->get_pos_y() == meatBin1->get_bin_pos_y()) {
-            Food* a = new Food("Turkey Meat");
+            Food* a = new Meat("Turkey Meat");
             main_character->add_food(a);
         } if (main_character->get_pos_x() == meatBin2->get_bin_pos_x() && main_character->get_pos_y() == meatBin2->get_bin_pos_y()) {
-            Food* a = new Food("Steak");
+            Food* a = new Meat("Steak");
             main_character->add_food(a);
         } if(main_character->get_pos_x() == meatBin3->get_bin_pos_x() && main_character->get_pos_y() == meatBin3->get_bin_pos_y()) {
-            Food* a = new Food("Impossible Meat");
+            Food* a = new Meat("Impossible Meat");
             main_character->add_food(a);
         } if (main_character->get_pos_x() == veggieBin1->get_bin_pos_x() && main_character->get_pos_y() == veggieBin1->get_bin_pos_y()) {
-            Food* a = new Food("Lettuce");
+            Food* a = new Veggies("Lettuce");
             main_character->add_food(a);
         } if (main_character->get_pos_x() == veggieBin2->get_bin_pos_x() && main_character->get_pos_y() == veggieBin2->get_bin_pos_y()) {
-            Food* a = new Food("Peppers");
+            Food* a = new Veggies("Peppers");
             main_character->add_food(a);
         } if (main_character->get_pos_x() == veggieBin3->get_bin_pos_x() && main_character->get_pos_y() == veggieBin3->get_bin_pos_y()) {
-            Food* a = new Food("Spinach");
+            Food* a = new Veggies("Spinach");
             main_character->add_food(a);
         }
     }
-    // to clear the sandwich when player is touching the trash can
+    // to clear the sandwich when player is touching the trash can or slips on puddle
     if (main_character->get_pos_x() == trash->get_bin_pos_x() && main_character->get_pos_y()==trash->get_bin_pos_y()){
         main_character->delete_sandwich();
+    } if (main_character->get_pos_x() == trash2->get_bin_pos_x() && main_character->get_pos_y()==trash2->get_bin_pos_y()){
+        main_character->delete_sandwich();
+    } if(main_character->get_pos_x() == puddle1->get_bin_pos_x() && main_character->get_pos_y()==puddle1->get_bin_pos_y()){
+        main_character->delete_sandwich();
+//        decrease_health();
     }
     // to serve sandwiches
     if(event->key() == Qt::Key_G) {
         if ( main_character->get_pos_x()-2 == customer1->get_pos_x() && main_character->get_pos_y()==customer1->get_pos_y()&& customer1->check_presence()) {
             main_character->get_sandwich_name();
-            if (main_character->check_order(customer1)){
-               people_served++;
-               main_character->delete_sandwich();
-               text1->setText("Thanks!!");
-               customer1->remove_event();
-               order1->hide();
+            if (main_character->check_order(customer1)) {
+                people_served++;
+                main_character->delete_sandwich();
+                text1->setText("Thanks!!");
+                customer1->remove_event();
+                order1->hide();
             } else {
                 main_character->delete_sandwich();
                 decrease_health();
@@ -569,20 +658,20 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
                 text1->setText(" Oh... that isn't what I asked for");
             }
         } else if( main_character->get_pos_x()-2 == customer7->get_pos_x() &&main_character->get_pos_y()==customer7->get_pos_y()&& customer7->check_presence()) {
-                main_character->get_sandwich_name();
-                if (main_character->check_order(customer7)) {
-                    people_served++;
-                    main_character->delete_sandwich();
-                    customer7->remove_event();
-                    order7->hide();
-                    text1->setText(" Yum! Thanks!");
-                } else {
-                    main_character->delete_sandwich();
-                    decrease_health();
-                    player_health->change_health_bar();
-                    health_text->setText("      Health: " + QString::number(health));
-                    text1->setText(" No,no, that isn't right");
-                }
+            main_character->get_sandwich_name();
+            if (main_character->check_order(customer7)) {
+                people_served++;
+                main_character->delete_sandwich();
+                customer7->remove_event();
+                order7->hide();
+                text1->setText(" Yum! Thanks!");
+            } else {
+                main_character->delete_sandwich();
+                decrease_health();
+                player_health->change_health_bar();
+                health_text->setText("      Health: " + QString::number(health));
+                text1->setText(" No,no, that isn't right");
+            }
         } if (challenge_number == 1 && people_served == 4) {
             goToWin();
         } else if (challenge_number== 2 && people_served == 6) {
@@ -693,6 +782,7 @@ void RecipeWindow::goForward(){
     }
     else if (recipeCounter == 3){
         ++recipeCounter;
+         recipeForward->hide();
         QPixmap recipes4(":/recipes4.png");
         recipes4 = recipes4.scaled(this->size(), Qt::IgnoreAspectRatio);
         recipebkgnd.setBrush(QPalette::Background, recipes4);
@@ -705,7 +795,7 @@ void RecipeWindow::goBack(){
         recipeBack->hide();
         return;}
     else if (recipeCounter == 2){
-        recipeBack->show();
+        recipeBack->hide();
         --recipeCounter;
         QPixmap recipes1(":/recipes1.png");
         recipes1 = recipes1.scaled(this->size(), Qt::IgnoreAspectRatio);

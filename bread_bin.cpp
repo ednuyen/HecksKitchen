@@ -9,14 +9,14 @@ Bread_Bin::Bread_Bin(int x,int y,QString a): Bin(x,y) {
 void Bread_Bin:: paintEvent(QPaintEvent* e) {
     QPainter painter(this);
     if (name == "White Bread"){
-        QPixmap bread(":/bread.png");
-        painter.drawPixmap(2,2,40,40, bread);
+        QPixmap bread(":/white.png");
+        painter.drawPixmap(20,2,30,40, bread);
     } else if (name == "Whole Wheat Bread"){
         QPixmap bread(":/bread.png");
         painter.drawPixmap(2,2,40,40, bread);
     } else {
-        QPixmap bread(":/bread.png");
-        painter.drawPixmap(2,2,40,40, bread);
+        QPixmap bread(":/pretzel.png");
+        painter.drawPixmap(20,2,30,40, bread);
     }
     return;
 }

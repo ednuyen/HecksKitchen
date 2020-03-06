@@ -26,6 +26,7 @@ SOURCES += \
     mainwindow.cpp \
     meat_bin.cpp \
     player.cpp \
+    puddle.cpp \
     secondwindow.cpp \
     veggie_bin.cpp
 
@@ -38,6 +39,7 @@ HEADERS += \
     mainwindow.h \
     meat_bin.h \
     player.h \
+    puddle.h \
     secondwindow.h \
     veggie_bin.h
 

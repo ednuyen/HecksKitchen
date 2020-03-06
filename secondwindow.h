@@ -11,10 +11,12 @@
 #include <QStackedWidget>
 #include "health.h"
 #include "player.h"
+#include "food.h"
 #include "bread_bin.h"
 #include "cheese_bin.h"
 #include "meat_bin.h"
 #include "veggie_bin.h"
+#include "puddle.h"
 
 class RecipeWindow;
 
@@ -48,7 +50,7 @@ public slots:
 
     // recently added
     void reset_game();
-    void board_setup();
+    void begin_game();
     void delete_game();
 
 signals:
@@ -57,7 +59,7 @@ private:
     QLabel* text1;
     Health* player_health;
     QLabel* health_text;
-    qreal health = 100;
+    qreal health = 10;
     qreal people_served = 0;
     int challenge_number = 1;
     QGridLayout* play_space;
@@ -88,6 +90,10 @@ private:
     Veggie_Bin* veggieBin3;
 
     Bin* trash;
+    Bin* trash2;
+
+    Puddle* puddle1;
+    Puddle* puddle2;
 
     Player* customer1;
     QPushButton* order1;
