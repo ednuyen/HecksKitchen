@@ -12,5 +12,6 @@ public:
     Puddle* set_random_location();
 private:
     int rand_num=0;
+
 };
 #endif // PUDDLE_H

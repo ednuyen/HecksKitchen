@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QTimer>
+#include <QTime>
 #include <QMediaPlayer>
 #include <QStackedWidget>
 #include "health.h"
@@ -17,8 +18,11 @@
 #include "meat_bin.h"
 #include "veggie_bin.h"
 #include "puddle.h"
+#include "fire.h"
 
 class RecipeWindow;
+class Lose;
+class Win;
 
 class SecondWindow: public QWidget
 {
@@ -29,11 +33,13 @@ public:
     ~SecondWindow();
     void decrease_health();
     void keyPressEvent(QKeyEvent *event);
-    void setPartner(QWidget* partner);
+    void setPartner(QWidget* partner, RecipeWindow* partner2, Lose* partner3, Win* partner4);
     // recently added
     void setPartner2(RecipeWindow* partner);
     void set_challenge_rating_w2(int);
     void customer_setup();
+//    void tickTime();
+
 
 public slots:
     void customer_order1();
@@ -43,8 +49,6 @@ public slots:
     void customer_order5();
     void customer_order6();
     void customer_order7();
-    void goToWin();
-    void goToLose();
     void goToGamePage();
     void stop_music();
 
@@ -52,14 +56,33 @@ public slots:
     void reset_game();
     void begin_game();
     void delete_game();
+    void loseConditionSatisfied() { emit loseCondition();}
+    void winConditionSatisfied() { emit winCondition();}
+
+    // testing
+    void updateTime();
+
+
+private slots:
+//    void showTime();
 
 signals:
+    void loseCondition();
+    void winCondition();
 
 private:
+    // testing
+    QLabel* timeLabel;
+    QTime time;
+    QTimer timer;
+
     QLabel* text1;
     Health* player_health;
+//    QTimer* timer;
+//    QString ticking_time;
+//    QLabel* time_text;
     QLabel* health_text;
-    qreal health = 10;
+    qreal health = 100;
     qreal people_served = 0;
     int challenge_number = 1;
     QGridLayout* play_space;
@@ -94,6 +117,7 @@ private:
 
     Puddle* puddle1;
     Puddle* puddle2;
+    Fire* fire1;
 
     Player* customer1;
     QPushButton* order1;
@@ -116,6 +140,8 @@ private:
     QWidget* youLosePage;
     QWidget* mPartner;
     RecipeWindow* mPartner2;
+    Lose* mPartner3;
+    Win* mPartner4;
     QPushButton* homeScreen;
     QPushButton* toRecipes;
     QPushButton* backToHome1;
@@ -143,6 +169,38 @@ private:
     QGridLayout* buttonLayout;
     int recipeCounter = 1;
     QPalette recipebkgnd;
+};
+
+class Win: public QWidget
+{
+    Q_OBJECT
+public:
+    explicit Win(QWidget *parent = nullptr);
+    ~Win();
+    void setWinScreen();
+    void setPartner4(QWidget* partner);
+    friend class SecondWindow;
+signals:
+public slots:
+private:
+    QWidget* mPartner4;
+    QPushButton* backToHome;
+};
+
+class Lose: public QWidget
+{
+    Q_OBJECT
+public:
+    explicit Lose(QWidget *parent = nullptr);
+    ~Lose();
+    void setLoseScreen();
+    void setPartner3(QWidget* partner);
+    friend class SecondWindow;
+signals:
+public slots:
+private:
+    QWidget* mPartner3;
+    QPushButton* backToHome;
 };
 
 #endif // SECONDWINDOW_H

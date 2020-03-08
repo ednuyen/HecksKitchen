@@ -2,9 +2,11 @@
 #include <iostream>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+    : QMainWindow(parent) //, ui(new Ui::MainWindow)
 {
+//    ui->setupUi(this);
     this->setFixedSize(875,700);
+    move(300,50);
 
     QPixmap bkgnd(":/menu.png");
     bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
@@ -15,9 +17,10 @@ MainWindow::MainWindow(QWidget *parent)
     homePage = new QWidget();
     homePage->setParent(this);
 
-    buttons = new QGridLayout(homePage); // does this set parent?? i think yes
+    buttons = new QGridLayout(homePage);// does this set parent?? i think yes
     choose_difficulty = new QSlider();
     choose_difficulty->setRange(1,3);
+    choose_difficulty->setFixedHeight(225);
 
     startButton = new QPushButton(homePage);
     QPixmap startPix(":/play.png");
@@ -55,17 +58,20 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(choose_difficulty, &QSlider::sliderMoved,this, &MainWindow::set_challenge_rating);
     connect(exitButton,&QPushButton::pressed, this, &MainWindow::pressedExit);
+    connect(startButton,&QPushButton::pressed, this, &MainWindow::start_timer);
 
-    QLabel* instructionsPage = new QLabel(homePage);
+
+    QLabel* instructionsPage = new QLabel;
     QPixmap instructPix(":/instructions.png");
-    instructPix = instructPix.scaled(850, 675, Qt::KeepAspectRatio, Qt::FastTransformation);
+    instructPix = instructPix.scaled(875,700, Qt::KeepAspectRatio, Qt::FastTransformation);
     instructionsPage->setPixmap(instructPix);
     QPushButton *backToHome = new QPushButton(instructionsPage); // 'back to home' button on instructions page
-    QPixmap homePix(":/home.png");
-    homePix = homePix.scaled(100, 60, Qt::KeepAspectRatio, Qt::FastTransformation);
+    QPixmap homePix(":/back.png");
+    homePix = homePix.scaled(650, 500, Qt::KeepAspectRatio, Qt::FastTransformation);
     backToHome->setIcon(homePix);
     backToHome->setIconSize(homePix.rect().size());
     backToHome->setFixedSize(homePix.rect().size());
+
 
     /* FOR REFERENCE
      * color of the yellow background: rgb(255,223,130)
@@ -74,7 +80,7 @@ MainWindow::MainWindow(QWidget *parent)
     QVBoxLayout *instrctnsLayout = new QVBoxLayout(instructionsPage);
     QSpacerItem* space = new QSpacerItem(100, 600, QSizePolicy::Maximum, QSizePolicy::Maximum);
     instrctnsLayout->addItem(space);
-    instrctnsLayout->addWidget(backToHome, 0, Qt::AlignRight);
+    instrctnsLayout->addWidget(backToHome, 0, Qt::AlignCenter);
 
     stackedWidget = new QStackedWidget(this); // 'this' sets parent to be MainWindow...i think
     stackedWidget->addWidget(homePage);
@@ -104,8 +110,23 @@ void MainWindow::setPartner(SecondWindow* partner) {
 void MainWindow::set_challenge_rating(int a){
     difficulty_level = a;
     this->mPartner->set_challenge_rating_w2(a);
-    this->mPartner->customer_setup();
+    this->mPartner->reset_game();
     return;
+}
+
+void MainWindow::start_timer() {
+//    time.start();
+//    mPartner->updateTime();
+//    connect(&timer, SIGNAL(timeout()), mPartner, SLOT(updateTime()));
+//    timer.start(500);  // twice per second
+    if (difficulty_level == 1){
+        QTimer::singleShot(180000, mPartner, SLOT(loseConditionSatisfied())); // you will lose after 3 min, 1000 is 1 sec
+//        QTimer::singleShot(10000, mPartner, SLOT(loseConditionSatisfied())); // you will lose after 3 min, 1000 is 1 sec
+    } else if (difficulty_level ==2){
+        QTimer::singleShot(240000, mPartner, SLOT(loseConditionSatisfied())); // you will lose after 4 min
+    } else {
+        QTimer::singleShot(300000, mPartner, SLOT(loseConditionSatisfied())); // you will lose after 5 min
+    }
 }
 
 MainWindow::~MainWindow() {}

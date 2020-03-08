@@ -14,8 +14,8 @@ void Health:: paintEvent(QPaintEvent* e) {
     return;
 }
 
-void Health::change_health_bar(){
-    health_value = health_value-10;
+void Health::change_health_bar(int a){
+    health_value = health_value-a;
     update();
 }
 

@@ -313,7 +313,7 @@ void Player::paintEvent(QPaintEvent* e) {
         QPainter painter(this);
         QPixmap player(":/player.png");
         player = player.scaled(this->size(), Qt::IgnoreAspectRatio);
-        painter.drawPixmap(2, 2 , 40 ,40, player);
+        painter.drawPixmap(2, 2, 40 ,45, player);
         //for loop for food in vector, not completely finished yet cuz i may need to adjust size of rectangles and need to adjust colors of stack
         int x = 0;
         int y = 18; // tallest sandwich is 9 so 18 makes sure all the ingredients get stacked !

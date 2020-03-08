@@ -1,11 +1,14 @@
 #include "secondwindow.h"
 #include <QString>
+#include <iostream>
 
 //Makes the second window which will be able to recieve the signal from MainWindow
 SecondWindow::SecondWindow(QWidget *parent)
     : QWidget(parent)
 {
     this->setFixedSize(875,700);
+    move(300,50);
+
     QPixmap bkgnd(":/main.png");
     bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
@@ -15,9 +18,7 @@ SecondWindow::SecondWindow(QWidget *parent)
 
     QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    music = new QMediaPlayer(this);
-    music->setMedia(QUrl("qrc:/easy music.mp3"));
-    stop_music();
+     music = new QMediaPlayer(this);
 
     // button to mute music
     mute = new QPushButton;
@@ -46,21 +47,8 @@ SecondWindow::SecondWindow(QWidget *parent)
     homeScreen->setIconSize(homePix.rect().size());
     homeScreen->setFixedSize(homePix.rect().size());
 
-    // button will be in recipes screen
-    QPushButton *backToGame = new QPushButton("Done");
-
     title_space = new QHBoxLayout();
     play_space = new QGridLayout();
-
-   /* QTimer* timer = new QTimer(this);
-       connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-       timer->start(1000);*/
-
-//    QLabel* bread2 = new QLabel("Whole\nWheat\nBread");
-
-    QLabel* cheese1 = new QLabel("American\nCheese");
-    QLabel* cheese2 = new QLabel("Swiss\nCheese");
-    QLabel* cheese3 = new QLabel("Vegan\nCheese");
 
     text1 = new QLabel(" Welcome to Heck's Kitchen!");
     text1->setAlignment(Qt::AlignCenter);
@@ -68,6 +56,13 @@ SecondWindow::SecondWindow(QWidget *parent)
     text1->setStyleSheet("QLabel { color : black }");
     health_text = new QLabel("      Health: "+ QString::number(health) );
     health_text->setStyleSheet("QLabel { color : black }");
+
+//    time_text = new QLabel("05:00");
+
+    timeLabel = new QLabel(this);
+    timeLabel->setFixedWidth(50);
+    timeLabel->setStyleSheet("QLabel { color : black; font-weight : bold; font-size: 20px;height: 30px; width: 80px }");
+
     player_health = new Health();
     main_character = new Player();
 
@@ -91,7 +86,6 @@ SecondWindow::SecondWindow(QWidget *parent)
     trash2 = new Bin(8, 9);
 
     connect(mute, SIGNAL(clicked()),this,SLOT(stop_music()));
-    connect(backToGame, SIGNAL(clicked()),this,SLOT(goToGamePage()));
 
 //    QSpacerItem* top = new QSpacerItem(700, 100, QSizePolicy::Maximum, QSizePolicy::Maximum);
 //    title_space->addItem(top, 1, 1, 2, 10, Qt::AlignCenter);
@@ -102,6 +96,8 @@ SecondWindow::SecondWindow(QWidget *parent)
     title_space->addWidget(homeScreen);
     title_space->addWidget(mute);
     title_space->addWidget(toRecipes);
+
+    play_space->addWidget(timeLabel, 1,1);
 
     QSpacerItem* one = new QSpacerItem(200, 200, QSizePolicy::Fixed, QSizePolicy::Fixed);
     play_space->addItem(one, 1, 1, 1, 13);
@@ -122,9 +118,6 @@ SecondWindow::SecondWindow(QWidget *parent)
     QSpacerItem* nine = new QSpacerItem(200, 200, QSizePolicy::Fixed, QSizePolicy::Fixed);
     play_space->addItem(nine, 9, 1, 1, 13);
 
-    // places player
-    play_space->addWidget(main_character, main_character->get_pos_y(),main_character->get_pos_x());
-
     // places breads
     play_space->addWidget(breadBin1,breadBin1->get_bin_pos_y(),breadBin1->get_bin_pos_x());
     play_space->addWidget(breadBin2,breadBin2->get_bin_pos_y(),breadBin2->get_bin_pos_x());
@@ -132,11 +125,11 @@ SecondWindow::SecondWindow(QWidget *parent)
 
     // places cheeses
     play_space->addWidget(cheeseBin1,cheeseBin1->get_bin_pos_y(),cheeseBin1->get_bin_pos_x());
-    play_space->addWidget(cheese1,cheeseBin1->get_bin_pos_y(),cheeseBin1->get_bin_pos_x());
+
     play_space->addWidget(cheeseBin2,cheeseBin2->get_bin_pos_y(),cheeseBin2->get_bin_pos_x());
-    play_space->addWidget(cheese2,cheeseBin2->get_bin_pos_y(),cheeseBin2->get_bin_pos_x());
+
     play_space->addWidget(cheeseBin3,cheeseBin3->get_bin_pos_y(),cheeseBin3->get_bin_pos_x());
-    play_space->addWidget(cheese3,cheeseBin3->get_bin_pos_y(),cheeseBin3->get_bin_pos_x());
+
 
     // places protein
     play_space->addWidget(meatBin1,meatBin1->get_bin_pos_y(),meatBin1->get_bin_pos_x());
@@ -207,14 +200,44 @@ SecondWindow::SecondWindow(QWidget *parent)
 }
 
 void SecondWindow::begin_game(){
+    time.start();
+    updateTime();
+    connect(&timer, SIGNAL(timeout()), this, SLOT(updateTime()));
+    timer.start(500);  // twice per second
+
+    music = new QMediaPlayer(this);
+    if(challenge_number == 1){
+    music->setMedia(QUrl("qrc:/easy music.mp3"));
+    } else if(challenge_number ==2){
+    music->setMedia(QUrl("qrc:/medium music.mp3"));
+    } else{
+    music->setMedia(QUrl("qrc:/hard music.mp3"));
+    }
+    stop_music();
     text1->setText("Welcome to Heck's Kitchen");
     people_served = 0;
+    health= 100;
     health_text->setText("      Health: " + QString::number(health));
     puddle1 = new Puddle(1,1);
     puddle2 = new Puddle(0,0);
-    health = 10;
+    fire1 = new Fire(2,2);
     player_health->reset_health();
+    if (challenge_number >=2){
+        puddle1 = puddle1->set_random_location();
+        play_space->addWidget(puddle1,puddle1->get_bin_pos_y(),puddle1->get_bin_pos_x());
+    }
+    if(challenge_number>=3){
+        puddle2 = puddle2->set_random_location();
 
+        while(puddle1->get_bin_pos_y()==puddle2->get_bin_pos_y()&&puddle2->get_bin_pos_x()==puddle1->get_bin_pos_x()){
+            puddle2 = puddle2->set_random_location();
+        }
+        play_space->addWidget(puddle2,puddle2->get_bin_pos_y(),puddle2->get_bin_pos_x());
+        fire1 = fire1->set_random_location();
+        play_space->addWidget(fire1,fire1->get_bin_pos_y(),fire1->get_bin_pos_x());
+    }
+    main_character = new Player();
+    play_space->addWidget(main_character, main_character->get_pos_y(),main_character->get_pos_x());
     customer1 = new Player(1,3,1);
     customer2 = new Player(1,4,2);
     customer3 = new Player(1,5,3);
@@ -230,20 +253,11 @@ void SecondWindow::begin_game(){
     order6 = new QPushButton ("Order 6");
     order7 = new QPushButton ("Order 7");
     customer1->create_event();
-
     customer_setup();
 }
 
 void SecondWindow::customer_setup(){
     if(challenge_number >= 1){
-        customer1 = new Player(1,3,1);
-        customer2 = new Player(1,4,2);
-        customer3 = new Player(1,5,3);
-        customer4 = new Player(1,6,4);
-        order1 = new QPushButton ("Order 1");
-        order2 = new QPushButton ("Order 2");
-        order3 = new QPushButton ("Order 3");
-        order4 = new QPushButton ("Order 4");
         play_space->addWidget(customer1,customer1->get_pos_y(),customer1->get_pos_x());
         play_space->addWidget(order1, customer1->get_pos_y(),customer1->get_pos_x()+1);
         play_space->addWidget(customer2,customer2->get_pos_y(),customer2->get_pos_x());
@@ -271,9 +285,6 @@ void SecondWindow::customer_setup(){
         customer6 = new Player(1,8,3);
         order5 = new QPushButton ("Order 5");
         order6 = new QPushButton ("Order 6");
-        puddle1 = new Puddle(1,1);
-        puddle1 = puddle1->set_random_location();
-        play_space->addWidget(puddle1,puddle1->get_bin_pos_y(),puddle1->get_bin_pos_x());
         play_space->addWidget(customer5,customer5->get_pos_y(),customer5->get_pos_x());
         play_space->addWidget(order5, customer5->get_pos_y(),customer5->get_pos_x()+1);
         play_space->addWidget(customer6,customer6->get_pos_y(),customer6->get_pos_x());
@@ -314,82 +325,6 @@ void SecondWindow::customer_setup(){
     }
 }
 
-//    if(challenge_number >= 1){
-//        play_space->addWidget(customer1,customer1->get_pos_y(),customer1->get_pos_x());
-//        play_space->addWidget(order1, customer1->get_pos_y(),customer1->get_pos_x()+1);
-//        play_space->addWidget(customer2,customer2->get_pos_y(),customer2->get_pos_x());
-//        play_space->addWidget(order2, customer2->get_pos_y(),customer2->get_pos_x()+1);
-//        play_space->addWidget(customer3,customer3->get_pos_y(),customer3->get_pos_x());
-//        play_space->addWidget(order3, customer3->get_pos_y(),customer3->get_pos_x()+1);
-//        play_space->addWidget(customer4,customer4->get_pos_y(),customer4->get_pos_x());
-//        play_space->addWidget(order4, customer4->get_pos_y(),customer4->get_pos_x()+1);
-//        connect(order1, SIGNAL(clicked()), this,SLOT(customer_order1()));
-//        connect(order2, SIGNAL(clicked()), this,SLOT(customer_order2()));
-//        connect(order3, SIGNAL(clicked()), this,SLOT(customer_order3()));
-//        connect(order4, SIGNAL(clicked()), this,SLOT(customer_order4()));
-//            if (customer6->check_presence()){
-//                customer6->remove_event();
-//                order6->hide();
-//            } if (customer5->check_presence()){
-//                customer5->remove_event();
-//                order5->hide();
-//            } if (customer7->check_presence()){
-//                customer7->remove_event();
-//                order7->hide();
-//            }
-//        } if(challenge_number >= 2){
-//            customer5 = new Player(1,7,2);
-//            customer6 = new Player(1,8,3);
-//            order5 = new QPushButton ("Order 5");
-//            order6 = new QPushButton ("Order 6");
-//            play_space->addWidget(customer5,customer5->get_pos_y(),customer5->get_pos_x());
-//            play_space->addWidget(order5, customer5->get_pos_y(),customer5->get_pos_x()+1);
-//            play_space->addWidget(customer6,customer6->get_pos_y(),customer6->get_pos_x());
-//            play_space->addWidget(order6, customer6->get_pos_y(),customer6->get_pos_x()+1);
-//            connect(order5, SIGNAL(clicked()), this,SLOT(customer_order5()));
-//            connect(order6, SIGNAL(clicked()), this,SLOT(customer_order6()));
-//            if (customer7->check_presence()){
-//                customer7->remove_event();
-//                order7->hide();
-//            }
-//        } if (challenge_number >=3 ){
-//            customer7 = new Player(1,9,2);
-//            order7 = new QPushButton ("Order 7");
-//            play_space->addWidget(customer7,customer7->get_pos_y(),customer7->get_pos_x());
-//            play_space->addWidget(order7, customer7->get_pos_y(),customer7->get_pos_x()+1);
-//            connect(order7, SIGNAL(clicked()), this,SLOT(customer_order7()));
-//        } if (challenge_number == 1){
-//           customer1->set_basic_sandwich();
-//           //std::cout<<"hi"<<endl;
-//           customer2->set_basic_sandwich();
-//           customer3->set_basic_sandwich();
-//           customer4->set_basic_sandwich();
-//       } else if(challenge_number == 2){
-//           customer1->set_basic_sandwich();
-//           customer2->set_intermediate_sandwich();
-//           customer3->set_expert_sandwich();
-//           customer4->set_intermediate_sandwich();
-//           customer5->set_basic_sandwich();
-//           customer6->set_intermediate_sandwich();
-//       } else if(challenge_number == 3){
-//           customer1->set_expert_sandwich();
-//           customer2->set_intermediate_sandwich();
-//           customer3->set_basic_sandwich();
-//           customer4->set_expert_sandwich();
-//           customer5->set_intermediate_sandwich();
-//           customer6->set_intermediate_sandwich();
-//           customer7->set_expert_sandwich();
-//       } /*if(challenge_number>=2){
-////           play_space->addWidget(customer5,customer5->get_pos_y(),customer5->get_pos_x());
-////           play_space->addWidget(order5, customer5->get_pos_y(),customer5->get_pos_x()+1);
-////           play_space->addWidget(customer6,customer6->get_pos_y(),customer6->get_pos_x());
-////           play_space->addWidget(order6, customer6->get_pos_y(),customer6->get_pos_x()+1);
-//       }*/ /*if (challenge_number>=3){
-//           play_space->addWidget(customer7,customer7->get_pos_y(),customer7->get_pos_x());
-//           play_space->addWidget(order7, customer7->get_pos_y(),customer7->get_pos_x()+1);
-//       }*/
-//    }
-
 void SecondWindow::reset_game() {
     delete_game();
     this->hide();
@@ -404,6 +339,12 @@ void SecondWindow::delete_game() {
     customer5->remove_event();
     customer6->remove_event();
     customer7->remove_event();
+//    delete timeLabel; // when i delete timeLabel it crashes...hm..
+//    delete time;
+//    delete timer;
+    delete music;
+    music_mute = 0;
+    delete main_character;
     delete customer1;
     delete customer2;
     delete customer3;
@@ -419,6 +360,8 @@ void SecondWindow::delete_game() {
     delete order6;
     delete order7;
     delete puddle1;
+    delete puddle2;
+    delete fire1;
 }
 
 void SecondWindow::stop_music(){
@@ -427,6 +370,23 @@ void SecondWindow::stop_music(){
     } else {
            music->pause();
     } music_mute++;
+}
+
+//void SecondWindow::showTime() {
+//    QTime time = QTime();
+//    time.elapsed();
+//    ticking_time = time.toString("mm : ss");
+//    time_text->setText(ticking_time);
+//    time_text->setStyleSheet("QLabel { color : black; font-weight: bold; }");
+//}
+
+void SecondWindow::updateTime() {
+    int secs = time.elapsed() / 1000;
+    int mins = (secs / 60) % 60;
+    secs = secs % 60;
+    timeLabel->setText(QString("%2:%3")
+                       .arg(mins, 2, 10, QLatin1Char(' '))
+                       .arg(secs, 2, 10, QLatin1Char('0')) );
 }
 
 void SecondWindow::customer_order1() {
@@ -471,29 +431,16 @@ void SecondWindow::customer_order7() {
 }
 
 void SecondWindow::decrease_health(){
-    health = health - 1;
+    health = health - 10;
 }
 
 void SecondWindow::set_challenge_rating_w2(int a){
     challenge_number = a;
-//    std::cout<<a<<std::endl;
 }
 
 void SecondWindow::goToGamePage() {
     stackedWidget->setCurrentIndex(0);
 }
-
-void SecondWindow::goToLose() {
-    stackedWidget->setCurrentIndex(2);
-}
-
-void SecondWindow::goToWin() {
-    stackedWidget->setCurrentIndex(1);
-}
-
-//void SecondWindow::goToMenu() {
-//    stackedWidget->setCurrentIndex(3);
-//}
 
 void SecondWindow::keyPressEvent(QKeyEvent *event) {
     // to move the player
@@ -556,15 +503,25 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
             main_character->add_food(a);
         }
     }
-    // to clear the sandwich when player is touching the trash can or slips on puddle
+    // to clear the sandwich when player is touching the trash can, slips on puddle, or steps in fire
     if (main_character->get_pos_x() == trash->get_bin_pos_x() && main_character->get_pos_y()==trash->get_bin_pos_y()){
         main_character->delete_sandwich();
     } if (main_character->get_pos_x() == trash2->get_bin_pos_x() && main_character->get_pos_y()==trash2->get_bin_pos_y()){
         main_character->delete_sandwich();
     } if(main_character->get_pos_x() == puddle1->get_bin_pos_x() && main_character->get_pos_y()==puddle1->get_bin_pos_y()){
-        main_character->delete_sandwich();
-//        decrease_health();
-    }
+        main_character->delete_sandwich(); text1->setText(" Oops! I sliped!");}
+      if(main_character->get_pos_x() == puddle2->get_bin_pos_x() && main_character->get_pos_y()==puddle2->get_bin_pos_y()){
+            main_character->delete_sandwich();text1->setText(" Oops! I sliped!");}
+      if(main_character->get_pos_x() == fire1->get_bin_pos_x() && main_character->get_pos_y()==fire1->get_bin_pos_y()){
+            text1->setText(" Ow!!");
+            player_health->change_health_bar(50);
+            health = health-50;
+            health_text->setText("      Health: " + QString::number(health));
+            if(health <= 0){ loseConditionSatisfied();}
+      }
+      if (time.elapsed() == 10000) {
+          loseConditionSatisfied();
+      }
     // to serve sandwiches
     if(event->key() == Qt::Key_G) {
         if ( main_character->get_pos_x()-2 == customer1->get_pos_x() && main_character->get_pos_y()==customer1->get_pos_y()&& customer1->check_presence()) {
@@ -579,7 +536,7 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
                 main_character->delete_sandwich();
                 decrease_health();
                 text1->setText(" Oh... that isn't what I asked for");
-                player_health->change_health_bar();
+                player_health->change_health_bar(10);
                 health_text->setText("      Health: " + QString::number(health));
             }
         } else if( main_character->get_pos_x()-2 == customer2->get_pos_x() && main_character->get_pos_y()==customer2->get_pos_y()&& customer2->check_presence()) {
@@ -594,7 +551,7 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
                 main_character->delete_sandwich();
                 decrease_health();
                 text1->setText(" Oh... that isn't what I asked for");
-                player_health->change_health_bar();
+                player_health->change_health_bar(10);
                 health_text->setText( "      Health: " + QString::number(health));
             }
         } else if( main_character->get_pos_x()-2 == customer3->get_pos_x() &&main_character->get_pos_y()==customer3->get_pos_y()&& customer3->check_presence()){
@@ -609,7 +566,7 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
                 main_character->delete_sandwich();
                 decrease_health();
                 health_text->setText("      Health: " + QString::number(health));
-                player_health->change_health_bar();
+                player_health->change_health_bar(10);
                 text1->setText(" Um, No, Try again");
             }
         } else if( main_character->get_pos_x()-2 == customer4->get_pos_x() &&main_character->get_pos_y()==customer4->get_pos_y()&& customer4->check_presence()) {
@@ -624,7 +581,7 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
                 main_character->delete_sandwich();
                 decrease_health();
                 health_text->setText("      Health: " + QString::number(health));
-                player_health->change_health_bar();
+                player_health->change_health_bar(10);
                 text1->setText(" Oh... that isn't what I asked for");
             }
         } else if( main_character->get_pos_x()-2 == customer5->get_pos_x() &&main_character->get_pos_y()==customer5->get_pos_y()&& customer5->check_presence()) {
@@ -639,7 +596,7 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
                 main_character->delete_sandwich();
                 decrease_health();
                 health_text->setText("      Health: " + QString::number(health));
-                player_health->change_health_bar();
+                player_health->change_health_bar(10);
                 text1->setText(" Hmm you aren't very good at this, hm?");
             }
         } else if( main_character->get_pos_x()-2 == customer6->get_pos_x() &&main_character->get_pos_y()==customer6->get_pos_y()&& customer6->check_presence()) {
@@ -654,7 +611,7 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
                 main_character->delete_sandwich();
                 decrease_health();
                 health_text->setText("      Health: " + QString::number(health));
-                player_health->change_health_bar();
+                player_health->change_health_bar(10);
                 text1->setText(" Oh... that isn't what I asked for");
             }
         } else if( main_character->get_pos_x()-2 == customer7->get_pos_x() &&main_character->get_pos_y()==customer7->get_pos_y()&& customer7->check_presence()) {
@@ -668,24 +625,23 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
             } else {
                 main_character->delete_sandwich();
                 decrease_health();
-                player_health->change_health_bar();
+                player_health->change_health_bar(10);
                 health_text->setText("      Health: " + QString::number(health));
                 text1->setText(" No,no, that isn't right");
             }
         } if (challenge_number == 1 && people_served == 4) {
-            goToWin();
+            winConditionSatisfied();
         } else if (challenge_number== 2 && people_served == 6) {
-            goToWin();
+            winConditionSatisfied();
         } else if (challenge_number== 3 && people_served == 7) {
-            goToWin();
-        } if(health == 0){
-            goToLose();
+            winConditionSatisfied();
         }
+        if (health == 0) {loseConditionSatisfied();}
     }
     return;
 }
 
-void SecondWindow::setPartner(QWidget* partner) {
+void SecondWindow::setPartner(QWidget* partner, RecipeWindow* partner2, Lose* partner3, Win* partner4) {
     if (partner == 0)
         return;
     if (mPartner != partner) {
@@ -697,6 +653,39 @@ void SecondWindow::setPartner(QWidget* partner) {
         connect(homeScreen, SIGNAL(clicked()), this, SLOT(reset_game()));
         connect(homeScreen, SIGNAL(clicked()), mPartner, SLOT(showMaximized()));
     }
+    if (partner2 == 0)
+        return;
+    if (mPartner2 != partner2) {
+            if (mPartner2 != 0) {
+                disconnect(toRecipes, SIGNAL(clicked()), this, SLOT(hide()));
+                disconnect(toRecipes, SIGNAL(clicked()), mPartner2, SLOT(showMaximized()));
+            }
+            mPartner2 = partner2;
+            connect(toRecipes, SIGNAL(clicked()), this, SLOT(hide()));
+            connect(toRecipes, SIGNAL(clicked()), mPartner2, SLOT(showMaximized()));
+        }
+    if (partner3 == 0)
+        return;
+    if (mPartner3 != partner3) {
+        if(mPartner3 != 0) {
+            disconnect(this, SIGNAL(loseCondition()), this, SLOT(reset_game()));
+            disconnect(this, SIGNAL(loseCondition()), mPartner3, SLOT(showMaximized()));
+        }
+        mPartner3 = partner3;
+        connect(this, SIGNAL(loseCondition()), this, SLOT(reset_game()));
+        connect(this, SIGNAL(loseCondition()), mPartner3, SLOT(showMaximized()));
+        }
+    if (partner4 == 0)
+        return;
+    if (mPartner4 != partner4) {
+        if(mPartner4 != 0) {
+            disconnect(this, SIGNAL(winCondition()), this, SLOT(reset_game()));
+            disconnect(this, SIGNAL(winCondition()), mPartner4, SLOT(showMaximized()));
+        }
+        mPartner4 = partner4;
+        connect(this, SIGNAL(winCondition()), this, SLOT(reset_game()));
+        connect(this, SIGNAL(winCondition()), mPartner4, SLOT(showMaximized()));
+        }
 }
 
 void SecondWindow::setPartner2(RecipeWindow *partner) {
@@ -718,6 +707,7 @@ SecondWindow::~SecondWindow() {}
 RecipeWindow::RecipeWindow(QWidget *parent) : QWidget(parent)
 {
     this->setFixedSize(875,700);
+    move(300,50);
     QPixmap recipes1(":/recipes1.png");
     recipes1 = recipes1.scaled(this->size(), Qt::IgnoreAspectRatio);
     recipebkgnd.setBrush(QPalette::Background, recipes1);
@@ -834,3 +824,85 @@ void RecipeWindow::setPartner2(SecondWindow* partner) {
 }
 
 RecipeWindow::~ RecipeWindow(){}
+
+Lose::Lose(QWidget *parent) : QWidget(parent)
+{
+    this->setFixedSize(875,700);
+    move(300,50);
+    QPixmap losePix(":/losescreen.png");
+    losePix = losePix.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette loseBkgnd;
+    loseBkgnd.setBrush(QPalette::Background, losePix);
+    this->setPalette(loseBkgnd);
+
+    backToHome = new QPushButton;
+    QPixmap backToHomePix(":/back.png");
+    backToHomePix = backToHomePix.scaled(650, 500, Qt::KeepAspectRatio, Qt::FastTransformation);
+    backToHome->setIcon(backToHomePix);
+    backToHome->setIconSize(backToHomePix.rect().size());
+    backToHome->setFixedSize(backToHomePix.rect().size());
+    QSpacerItem* top = new QSpacerItem(300, 600, QSizePolicy::Maximum, QSizePolicy::Maximum);
+    QVBoxLayout* pageLayout = new QVBoxLayout;
+    pageLayout->addItem(top);
+    pageLayout->addWidget(backToHome);
+    pageLayout->setAlignment(backToHome, Qt::AlignHCenter);
+    setLayout(pageLayout);
+
+}
+
+Lose::~Lose(){};
+
+void Lose::setPartner3(QWidget* partner){
+        if (partner == 0)
+            return;
+        if (mPartner3 != partner) {
+            if(mPartner3 != 0) {
+                disconnect(backToHome, SIGNAL(clicked()), this, SLOT(hide()));
+                disconnect(backToHome, SIGNAL(clicked()), mPartner3, SLOT(showMaximized()));
+            }
+            mPartner3 = partner;
+            connect(backToHome, SIGNAL(clicked()), this, SLOT(hide()));
+            connect(backToHome, SIGNAL(clicked()), mPartner3, SLOT(showMaximized()));
+            }
+    }
+
+
+Win::Win(QWidget *parent) : QWidget(parent)
+{
+    this->setFixedSize(875,700);
+    move(300,50);
+    QPixmap winPix(":/winscreen.png");
+    winPix = winPix.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette winBkgnd;
+    winBkgnd.setBrush(QPalette::Background, winPix);
+    this->setPalette(winBkgnd);
+
+    backToHome = new QPushButton;
+    QPixmap backToHomePix(":/back.png");
+    backToHomePix = backToHomePix.scaled(650, 500, Qt::KeepAspectRatio, Qt::FastTransformation);
+    backToHome->setIcon(backToHomePix);
+    backToHome->setIconSize(backToHomePix.rect().size());
+    backToHome->setFixedSize(backToHomePix.rect().size());
+    QSpacerItem* top = new QSpacerItem(300, 600, QSizePolicy::Maximum, QSizePolicy::Maximum);
+    QVBoxLayout* pageLayout = new QVBoxLayout;
+    pageLayout->addItem(top);
+    pageLayout->addWidget(backToHome);
+    pageLayout->setAlignment(backToHome, Qt::AlignHCenter);
+    setLayout(pageLayout);
+}
+
+Win::~Win(){};
+
+void Win::setPartner4(QWidget* partner){
+        if (partner == 0)
+            return;
+        if (mPartner4 != partner) {
+            if(mPartner4 != 0) {
+                disconnect(backToHome, SIGNAL(clicked()), this, SLOT(hide()));
+                disconnect(backToHome, SIGNAL(clicked()), mPartner4, SLOT(showMaximized()));
+            }
+            mPartner4 = partner;
+            connect(backToHome, SIGNAL(clicked()), this, SLOT(hide()));
+            connect(backToHome, SIGNAL(clicked()), mPartner4, SLOT(showMaximized()));
+            }
+}

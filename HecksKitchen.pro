@@ -20,6 +20,7 @@ SOURCES += \
     bin.cpp \
     bread_bin.cpp \
     cheese_bin.cpp \
+    fire.cpp \
     food.cpp \
     health.cpp \
     main.cpp \
@@ -34,6 +35,7 @@ HEADERS += \
     bin.h \
     bread_bin.h \
     cheese_bin.h \
+    fire.h \
     food.h \
     health.h \
     mainwindow.h \

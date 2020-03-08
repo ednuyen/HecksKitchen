@@ -12,11 +12,13 @@
 #include "secondwindow.h"
 
 class MainWindow : public QMainWindow {
+
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void pressedExit();
     void setPartner(SecondWindow* partner);
+    void start_timer();
 
 public slots:
     void goToPage1();
@@ -24,6 +26,10 @@ public slots:
     void set_challenge_rating(int a);
 
 private:
+    QLabel* timeLabel;
+    QTime time;
+    QTimer timer;
+
     QWidget* homePage;
     qreal difficulty_level = 1; // !! not a pointer. will have to delete at some point? no bc this is on the stack...WHAT
     QSlider* choose_difficulty;

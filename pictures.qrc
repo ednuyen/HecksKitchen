@@ -7,12 +7,7 @@
         <file>main.png</file>
         <file>player.png</file>
         <file>title.png</file>
-        <file>wall.png</file>
-        <file>target.png</file>
         <file>bread.png</file>
-        <file>meat.png</file>
-        <file>cheese.png</file>
-        <file>veggies.png</file>
         <file>chara1.png</file>
         <file>chara2.png</file>
         <file>chara3.png</file>
@@ -50,5 +45,9 @@
         <file>order6.png</file>
         <file>order7.png</file>
         <file>puddle.png</file>
+        <file>american.png</file>
+        <file>swiss.png</file>
+        <file>vegan.png</file>
+        <file>wholewheat.png</file>
     </qresource>
 </RCC>

@@ -7,14 +7,14 @@ Cheese_Bin::Cheese_Bin(int x,int y, QString a) : Bin(x,y) {
 void Cheese_Bin:: paintEvent(QPaintEvent* e) {
     QPainter painter(this);
     if (name == "American Cheese") {
-        QPixmap cheese(":/cheese.png");
-        painter.drawPixmap(2,2,40,40, cheese);
+        QPixmap cheese(":/american.png");
+        painter.drawPixmap(20,2,30,40, cheese);
     } else if(name == "Swiss Cheese"){
-        QPixmap cheese(":/cheese.png");
-        painter.drawPixmap(2,2,40,40, cheese);
+        QPixmap cheese(":/swiss.png");
+        painter.drawPixmap(20,2,30,40, cheese);
     } else{
-        QPixmap cheese(":/cheese.png");
-        painter.drawPixmap(2,2,40,40, cheese);
+        QPixmap cheese(":/vegan.png");
+        painter.drawPixmap(20,2,30,40, cheese);
     }
     return;
 }

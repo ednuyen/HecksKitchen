@@ -9,7 +9,7 @@ public:
     Health(QWidget *parent = nullptr);
     void paintEvent(QPaintEvent* e);
 //    QLabel get_health_text();
-    void change_health_bar();
+    void change_health_bar(int a);
     void reset_health();
 private:
     qreal health_value = 10;
