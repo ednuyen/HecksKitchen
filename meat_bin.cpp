@@ -1,9 +1,7 @@
 #include "meat_bin.h"
 
 Meat_Bin::Meat_Bin(int x,int y, QString a)
-    : Bin(x,y) {
-    name = a;
-}
+    : Bin(x,y), name(a) {}
 
 void Meat_Bin:: paintEvent(QPaintEvent* e) {
     QPainter painter(this);

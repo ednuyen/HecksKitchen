@@ -4,7 +4,7 @@
 #include <time.h>
 #include <iostream>
 
-Puddle::Puddle(int x,int y): Bin(x,y) {rand_num = rand() % 5 +1;srand(time(NULL));}
+Puddle::Puddle(int x,int y): Bin(x,y) { rand_num = rand() % 5 +1;srand(time(NULL));}
 
 void Puddle:: paintEvent(QPaintEvent* e) {
     QPainter painter(this);

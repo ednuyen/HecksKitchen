@@ -12,7 +12,7 @@ public:
     void change_health_bar(int a);
     void reset_health();
 private:
-    qreal health_value = 10;
+    qreal health_value;
     QLabel* health_text;
 };
 

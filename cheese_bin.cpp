@@ -1,8 +1,6 @@
 #include "cheese_bin.h"
 
-Cheese_Bin::Cheese_Bin(int x,int y, QString a) : Bin(x,y) {
-    name = a;
-}
+Cheese_Bin::Cheese_Bin(int x,int y, QString a) : Bin(x,y), name(a) {}
 
 void Cheese_Bin:: paintEvent(QPaintEvent* e) {
     QPainter painter(this);

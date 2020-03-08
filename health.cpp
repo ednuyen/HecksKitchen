@@ -1,14 +1,12 @@
 #include "health.h"
 
 Health::Health(QWidget *parent)
-    : QWidget(parent) {
-    health_value = 100;
-//    health_text = new QLabel("Health");
-}
+    : QWidget(parent), health_value(100) {}
 
-void Health:: paintEvent(QPaintEvent* e) {
+void Health::paintEvent(QPaintEvent* e) {
     QPainter painter(this);
     painter.setBrush(QBrush(Qt::red));
+    painter.setPen(Qt::red);
     QRectF pff(0,0,health_value,10);
     painter.drawRect(pff);
     return;

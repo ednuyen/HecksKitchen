@@ -2,7 +2,6 @@
 #include <QString>
 #include <iostream>
 
-//Makes the second window which will be able to recieve the signal from MainWindow
 SecondWindow::SecondWindow(QWidget *parent)
     : QWidget(parent)
 {
@@ -99,24 +98,26 @@ SecondWindow::SecondWindow(QWidget *parent)
 
     play_space->addWidget(timeLabel, 1,1);
 
-    QSpacerItem* one = new QSpacerItem(200, 200, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QSpacerItem* one = new QSpacerItem(300, 300, QSizePolicy::Fixed, QSizePolicy::Fixed);
     play_space->addItem(one, 1, 1, 1, 13);
-    QSpacerItem* two = new QSpacerItem(50, 50, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QSpacerItem* two = new QSpacerItem(45, 45, QSizePolicy::Fixed, QSizePolicy::Fixed);
     play_space->addItem(two, 2, 1, 1, 13);
-    QSpacerItem* three = new QSpacerItem(50, 50, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QSpacerItem* three = new QSpacerItem(45, 45, QSizePolicy::Fixed, QSizePolicy::Fixed);
     play_space->addItem(three, 3, 1, 1, 13);
-    QSpacerItem* four = new QSpacerItem(50, 50, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QSpacerItem* four = new QSpacerItem(45, 45, QSizePolicy::Fixed, QSizePolicy::Fixed);
     play_space->addItem(four, 4, 1, 1, 13);
-    QSpacerItem* five = new QSpacerItem(50, 50, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QSpacerItem* five = new QSpacerItem(45, 45, QSizePolicy::Fixed, QSizePolicy::Fixed);
     play_space->addItem(five, 5, 1, 1, 13);
-    QSpacerItem* six = new QSpacerItem(50, 50, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QSpacerItem* six = new QSpacerItem(45, 45, QSizePolicy::Fixed, QSizePolicy::Fixed);
     play_space->addItem(six, 6, 1, 1, 13);
-    QSpacerItem* seven = new QSpacerItem(50, 50, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QSpacerItem* seven = new QSpacerItem(45, 45, QSizePolicy::Fixed, QSizePolicy::Fixed);
     play_space->addItem(seven, 7, 1, 1, 13);
-    QSpacerItem* eight = new QSpacerItem(50, 50, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QSpacerItem* eight = new QSpacerItem(45, 45, QSizePolicy::Fixed, QSizePolicy::Fixed);
     play_space->addItem(eight, 8, 1, 1, 13);
-    QSpacerItem* nine = new QSpacerItem(200, 200, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QSpacerItem* nine = new QSpacerItem(45, 45, QSizePolicy::Fixed, QSizePolicy::Fixed);
     play_space->addItem(nine, 9, 1, 1, 13);
+    QSpacerItem* ten = new QSpacerItem(250, 250, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    play_space->addItem(ten, 10, 1, 1, 13);
 
     // places breads
     play_space->addWidget(breadBin1,breadBin1->get_bin_pos_y(),breadBin1->get_bin_pos_x());

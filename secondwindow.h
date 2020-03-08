@@ -78,9 +78,6 @@ private:
 
     QLabel* text1;
     Health* player_health;
-//    QTimer* timer;
-//    QString ticking_time;
-//    QLabel* time_text;
     QLabel* health_text;
     qreal health = 100;
     qreal people_served = 0;

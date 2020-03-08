@@ -1,12 +1,7 @@
 #include "bin.h"
-Bin::Bin(){
-    x = 0;
-    y = 0;
-}
-Bin::Bin(int a, int b){
-    x = a;
-    y = b;
-}
+Bin::Bin() : x(0), y(0) {}
+
+Bin::Bin(int a, int b) : x(a), y(b) {}
 
 int Bin::get_bin_pos_x() { return x; }
 

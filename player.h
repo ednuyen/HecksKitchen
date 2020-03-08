@@ -43,9 +43,9 @@ public:
 private:
     std::vector<Food*> sandwich;
     int rand_num = 0;
-    int chara;
     int pos_x;
     int pos_y;
+    int chara;
     bool draw_character = true;
     bool change_character = true;
     QString type_of_sandwich;

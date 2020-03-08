@@ -5,18 +5,12 @@
 #include <time.h>
 
 Player::Player(QWidget *parent)
-    : QWidget(parent) {
-    pos_x = 5;
-    pos_y = 5;
-    chara = 0;
+    : QWidget(parent), pos_x(5), pos_y(5), chara(0) {
     setFocusPolicy(Qt::ClickFocus);
 }
 
-Player::Player(int x,int y, int person){
+Player::Player(int x,int y, int person) : pos_x(x), pos_y(y), chara(person) {
     srand(time(NULL));
-    pos_x = x;
-    pos_y = y;
-    chara = person;
 }
 
 void Player::set_character() {

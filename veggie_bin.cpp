@@ -1,9 +1,7 @@
 #include "veggie_bin.h"
 
 Veggie_Bin::Veggie_Bin(int x, int y, QString a)
-    : Bin(x,y){
-    name = a;
-}
+    : Bin(x,y), name(a) {}
 
 void Veggie_Bin:: paintEvent(QPaintEvent* e){
     QPainter painter(this);
