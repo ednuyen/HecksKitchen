@@ -54,7 +54,7 @@ SecondWindow::SecondWindow(QWidget *parent)
     text1->setFixedWidth(225);
     text1->setStyleSheet("QLabel { color : black }");
     health_text = new QLabel("      Health: "+ QString::number(health) );
-    health_text->setStyleSheet("QLabel { color : black }");
+    health_text->setStyleSheet("QLabel { color : black; font-size: 14px; }");
 
 //    time_text = new QLabel("05:00");
 
@@ -246,13 +246,47 @@ void SecondWindow::begin_game(){
     customer5 = new Player(1,7,2);
     customer6 = new Player(1,8,3);
     customer7 = new Player(1,9,2);
-    order1 = new QPushButton ("Order 1");
-    order2 = new QPushButton ("Order 2");
-    order3 = new QPushButton ("Order 3");
-    order4 = new QPushButton ("Order 4");
-    order5 = new QPushButton ("Order 5");
-    order6 = new QPushButton ("Order 6");
-    order7 = new QPushButton ("Order 7");
+//    order1 = new QPushButton ("Order 1");
+//    order2 = new QPushButton ("Order 2");
+//    order3 = new QPushButton ("Order 3");
+//    order4 = new QPushButton ("Order 4");
+//    order5 = new QPushButton ("Order 5");
+//    order6 = new QPushButton ("Order 6");
+//    order7 = new QPushButton ("Order 7");
+    QSpacerItem* hor = new QSpacerItem(65, 65, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    play_space->addItem(hor, 1, 1, 10, 1);
+    order1 = new QPushButton;
+    QPixmap order1Pix(":/order1.png");
+    order1Pix = order1Pix.scaled(40, 30, Qt::KeepAspectRatio, Qt::FastTransformation);
+    order1->setIcon(order1Pix);
+    order1->setIconSize(order1Pix.rect().size());
+    order1->setFixedSize(order1Pix.rect().size());
+
+    order2 = new QPushButton;
+    QPixmap order2Pix(":/order2.png");
+    order2Pix = order2Pix.scaled(40, 30, Qt::KeepAspectRatio, Qt::FastTransformation);
+    order2->setIcon(order2Pix);
+    order2->setIconSize(order2Pix.rect().size());
+    order2->setFixedSize(order2Pix.rect().size());
+
+    order3 = new QPushButton;
+    QPixmap order3Pix(":/order3.png");
+    order3Pix = order3Pix.scaled(40, 30, Qt::KeepAspectRatio, Qt::FastTransformation);
+    order3->setIcon(order3Pix);
+    order3->setIconSize(order3Pix.rect().size());
+    order3->setFixedSize(order3Pix.rect().size());
+
+    order4 = new QPushButton;
+    QPixmap order4Pix(":/order4.png");
+    order4Pix = order4Pix.scaled(40, 30, Qt::KeepAspectRatio, Qt::FastTransformation);
+    order4->setIcon(order4Pix);
+    order4->setIconSize(order4Pix.rect().size());
+    order4->setFixedSize(order4Pix.rect().size());
+
+    order5 = new QPushButton;
+    order6 = new QPushButton;
+    order7 = new QPushButton;
+
     customer1->create_event();
     customer_setup();
 }
@@ -284,8 +318,22 @@ void SecondWindow::customer_setup(){
     } if(challenge_number >= 2){
         customer5 = new Player(1,7,2);
         customer6 = new Player(1,8,3);
-        order5 = new QPushButton ("Order 5");
-        order6 = new QPushButton ("Order 6");
+//        order5 = new QPushButton ("Order 5");
+//        order6 = new QPushButton ("Order 6");
+        order5 = new QPushButton;
+        QPixmap order5Pix(":/order5.png");
+        order5Pix = order5Pix.scaled(40, 30, Qt::KeepAspectRatio, Qt::FastTransformation);
+        order5->setIcon(order5Pix);
+        order5->setIconSize(order5Pix.rect().size());
+        order5->setFixedSize(order5Pix.rect().size());
+
+        order6 = new QPushButton;
+        QPixmap order6Pix(":/order6.png");
+        order6Pix = order6Pix.scaled(40, 30, Qt::KeepAspectRatio, Qt::FastTransformation);
+        order6->setIcon(order6Pix);
+        order6->setIconSize(order6Pix.rect().size());
+        order6->setFixedSize(order6Pix.rect().size());
+
         play_space->addWidget(customer5,customer5->get_pos_y(),customer5->get_pos_x());
         play_space->addWidget(order5, customer5->get_pos_y(),customer5->get_pos_x()+1);
         play_space->addWidget(customer6,customer6->get_pos_y(),customer6->get_pos_x());
@@ -298,7 +346,12 @@ void SecondWindow::customer_setup(){
         }
     } if (challenge_number >=3 ) {
         customer7 = new Player(1,9,2);
-        order7 = new QPushButton ("Order 7");
+        order7 = new QPushButton;
+        QPixmap order7Pix(":/order7.png");
+        order7Pix = order7Pix.scaled(40, 30, Qt::KeepAspectRatio, Qt::FastTransformation);
+        order7->setIcon(order7Pix);
+        order7->setIconSize(order7Pix.rect().size());
+        order7->setFixedSize(order7Pix.rect().size());
         play_space->addWidget(customer7,customer7->get_pos_y(),customer7->get_pos_x());
         play_space->addWidget(order7, customer7->get_pos_y(),customer7->get_pos_x()+1);
         connect(order7, SIGNAL(clicked()), this,SLOT(customer_order7()));

@@ -5,9 +5,9 @@ Health::Health(QWidget *parent)
 
 void Health::paintEvent(QPaintEvent* e) {
     QPainter painter(this);
-    painter.setBrush(QBrush(Qt::red));
+    painter.setBrush(QBrush(QColor::fromRgb(255,60,0)));
     painter.setPen(Qt::red);
-    QRectF pff(0,0,health_value,10);
+    QRectF pff(0,5,health_value,10);
     painter.drawRect(pff);
     return;
 }

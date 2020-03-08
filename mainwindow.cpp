@@ -121,12 +121,13 @@ void MainWindow::start_timer() {
 //    timer.start(500);  // twice per second
     if (difficulty_level == 1){
         QTimer::singleShot(180000, mPartner, SLOT(loseConditionSatisfied())); // you will lose after 3 min, 1000 is 1 sec
-//        QTimer::singleShot(10000, mPartner, SLOT(loseConditionSatisfied())); // you will lose after 3 min, 1000 is 1 sec
+//        QTimer::singleShot(5000, mPartner, SLOT(loseConditionSatisfied())); // you will lose after 3 min, 1000 is 1 sec
     } else if (difficulty_level == 2){
         QTimer::singleShot(240000, mPartner, SLOT(loseConditionSatisfied())); // you will lose after 4 min
-    } else {
+//        QTimer::singleShot(7000, mPartner, SLOT(loseConditionSatisfied())); // you will lose after 4 min
+    } else if (difficulty_level == 3) {
+//        QTimer::singleShot(10000, mPartner, SLOT(loseConditionSatisfied())); // you will lose after 5 min
         QTimer::singleShot(300000, mPartner, SLOT(loseConditionSatisfied())); // you will lose after 5 min
-//        QTimer::singleShot(300000, mPartner, SLOT(loseConditionSatisfied())); // you will lose after 5 min
     }
 }
 
