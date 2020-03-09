@@ -13,10 +13,10 @@
 
 class Player:public QWidget{
 public:
-    void set_position(int,int);
     Player(QWidget *parent= nullptr);
     Player(int,int,int player = 0);
 
+    void set_position(int,int);
     void paintEvent(QPaintEvent* e);
     void remove_event();
     void create_event();

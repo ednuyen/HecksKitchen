@@ -1,4 +1,4 @@
-#ifndef HEALTH_H
+/*#ifndef HEALTH_H
 #define HEALTH_H
 #include <QMainWindow>
 #include <QLabel>
@@ -12,8 +12,9 @@ public:
     void change_health_bar(int a);
     void reset_health();
 private:
-    qreal health_value;
-    QLabel* health_text;
+    qreal health_value = 10;
+//    QLabel* health_text;
 };
 
 #endif // HEALTH_H
+*/

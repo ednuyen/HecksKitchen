@@ -1,7 +1,9 @@
-#include "health.h"
+/*#include "health.h"
 
 Health::Health(QWidget *parent)
-    : QWidget(parent), health_value(100) {}
+    : QWidget(parent) {
+    health_value = 100;
+}
 
 void Health::paintEvent(QPaintEvent* e) {
     QPainter painter(this);
@@ -20,3 +22,4 @@ void Health::change_health_bar(int a){
 void Health::reset_health(){
     health_value = 100;
 }
+*/

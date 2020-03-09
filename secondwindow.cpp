@@ -54,7 +54,7 @@ SecondWindow::SecondWindow(QWidget *parent)
     text1->setFixedWidth(225);
     text1->setStyleSheet("QLabel { color : black }");
     health_text = new QLabel("      Health: "+ QString::number(health) );
-    health_text->setStyleSheet("QLabel { color : black; font-size: 14px; }");
+    health_text->setStyleSheet("QLabel { color : black; font-size: 18px; }");
 
     timeLabel = new QLabel(this);
     timeLabel->setFixedWidth(50);
@@ -361,21 +361,23 @@ void SecondWindow::stop_music(){
     } music_mute++;
 }
 
-
 void SecondWindow::start_timer() {
     actual_game_timer->setInterval(150000);
+    if (challenge_number == 2) {
+        actual_game_timer->setInterval(20000);
+    }
     actual_game_timer->setSingleShot(true);
     connect(actual_game_timer, SIGNAL(timeout()), this, SLOT(loseConditionSatisfied()));
     actual_game_timer->start();
 
-    elapsed_time.start();
+    time_display.start();
     updateTime();
-    connect(&elapsed_timer, SIGNAL(timeout()), this, SLOT(updateTime()));
-    elapsed_timer.start(500);  // twice per second
+    connect(&timer_display, SIGNAL(timeout()), this, SLOT(updateTime()));
+    timer_display.start(500);  // twice per second
 }
 
 void SecondWindow::updateTime() {
-    int secs = elapsed_time.elapsed() / 1000;
+    int secs = time_display.elapsed() / 1000;
     int mins = (secs / 60) % 60;
     secs = secs % 60;
     timeLabel->setText(QString("%2:%3")
@@ -460,6 +462,8 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
             main_character->move_down();
             play_space->addWidget(main_character, main_character->get_pos_y(),main_character->get_pos_x());
         }
+
+    // Press SPACE to pick up food
     } if (event->key() == Qt::Key_Space){
         if (main_character->get_pos_x() == cheeseBin1->get_bin_pos_x()&&main_character->get_pos_y() == cheeseBin1->get_bin_pos_y()) {
             Food* a = new Cheese("American Cheese");
@@ -525,9 +529,11 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
             health_text->setText("      Health: " + QString::number(health));
             if(health <= 0){ loseConditionSatisfied();}
       }
-    // to serve sandwiches
+
+    // Press 'G' to serve sandwiches
     if(event->key() == Qt::Key_G) {
-        if ( main_character->get_pos_x()-2 == customer1->get_pos_x() && main_character->get_pos_y()==customer1->get_pos_y()&& customer1->check_presence()) {
+        if ( main_character->get_pos_x()-2 == customer1->get_pos_x()
+             && main_character->get_pos_y()==customer1->get_pos_y() && customer1->check_presence()) {
             main_character->get_sandwich_name();
             if (main_character->check_order(customer1)) {
                 people_served++;
@@ -542,7 +548,9 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
                 player_health->change_health_bar(10);
                 health_text->setText("      Health: " + QString::number(health));
             }
-        } else if( main_character->get_pos_x()-2 == customer2->get_pos_x() && main_character->get_pos_y()==customer2->get_pos_y()&& customer2->check_presence()) {
+        }
+
+        else if( main_character->get_pos_x()-2 == customer2->get_pos_x() && main_character->get_pos_y()==customer2->get_pos_y()&& customer2->check_presence()) {
             main_character->get_sandwich_name();
             if (main_character->check_order(customer2)) {
                 people_served++;
@@ -553,7 +561,7 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
             } else {
                 main_character->delete_sandwich();
                 decrease_health();
-                text1->setText(" Oh... that isn't what I asked for");
+                text1->setText(" Um...why'd they hire you? ");
                 player_health->change_health_bar(10);
                 health_text->setText( "      Health: " + QString::number(health));
             }
@@ -630,7 +638,7 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
                 decrease_health();
                 player_health->change_health_bar(10);
                 health_text->setText("      Health: " + QString::number(health));
-                text1->setText(" No,no, that isn't right");
+                text1->setText(" No, no, that isn't right");
             }
         } if (challenge_number == 1 && people_served == 4) {
             winConditionSatisfied();
@@ -639,7 +647,7 @@ void SecondWindow::keyPressEvent(QKeyEvent *event) {
         } else if (challenge_number== 3 && people_served == 7) {
             winConditionSatisfied();
         }
-        if (health == 0) {loseConditionSatisfied();}
+        if (health <= 0) {loseConditionSatisfied();}
     }
     return;
 }

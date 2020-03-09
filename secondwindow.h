@@ -82,8 +82,8 @@ signals:
 private:
     // time
     QLabel* timeLabel;
-    QTime elapsed_time;
-    QTimer elapsed_timer;
+    QTime time_display;
+    QTimer timer_display;
     QTimer* actual_game_timer;
 
     QLabel* text1;
