@@ -49,5 +49,6 @@
         <file>swiss.png</file>
         <file>vegan.png</file>
         <file>wholewheat.png</file>
+        <file>playerflipped.png</file>
     </qresource>
 </RCC>

@@ -2,9 +2,8 @@
 #include <iostream>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent) //, ui(new Ui::MainWindow)
+    : QMainWindow(parent)
 {
-//    ui->setupUi(this);
     this->setFixedSize(875,700);
     move(300,50);
 
@@ -60,7 +59,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(exitButton,&QPushButton::pressed, this, &MainWindow::pressedExit);
     connect(startButton,&QPushButton::pressed, this, &MainWindow::start_timer);
 
-
     QLabel* instructionsPage = new QLabel;
     QPixmap instructPix(":/instructions.png");
     instructPix = instructPix.scaled(875,700, Qt::KeepAspectRatio, Qt::FastTransformation);
@@ -72,17 +70,12 @@ MainWindow::MainWindow(QWidget *parent)
     backToHome->setIconSize(homePix.rect().size());
     backToHome->setFixedSize(homePix.rect().size());
 
-
-    /* FOR REFERENCE
-     * color of the yellow background: rgb(255,223,130)
-     * color of the brown text: rgb(93,63,55)
-    */
     QVBoxLayout *instrctnsLayout = new QVBoxLayout(instructionsPage);
     QSpacerItem* space = new QSpacerItem(100, 600, QSizePolicy::Maximum, QSizePolicy::Maximum);
     instrctnsLayout->addItem(space);
     instrctnsLayout->addWidget(backToHome, 0, Qt::AlignCenter);
 
-    stackedWidget = new QStackedWidget(this); // 'this' sets parent to be MainWindow...i think
+    stackedWidget = new QStackedWidget(this); // 'this' sets parent to be MainWindow
     stackedWidget->addWidget(homePage);
     stackedWidget->addWidget(instructionsPage);
 
@@ -92,7 +85,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(backToHome,&QPushButton::pressed, this, &MainWindow::goToPage1);
 }
 
-//make this a secondwindow*
 void MainWindow::setPartner(SecondWindow* partner) {
     if (partner == 0)
         return;
@@ -115,20 +107,7 @@ void MainWindow::set_challenge_rating(int a){
 }
 
 void MainWindow::start_timer() {
-//    time.start();
-//    mPartner->updateTime();
-//    connect(&timer, SIGNAL(timeout()), mPartner, SLOT(updateTime()));
-//    timer.start(500);  // twice per second
-    if (difficulty_level == 1){
-        QTimer::singleShot(180000, mPartner, SLOT(loseConditionSatisfied())); // you will lose after 3 min, 1000 is 1 sec
-//        QTimer::singleShot(5000, mPartner, SLOT(loseConditionSatisfied())); // you will lose after 3 min, 1000 is 1 sec
-    } else if (difficulty_level == 2){
-        QTimer::singleShot(240000, mPartner, SLOT(loseConditionSatisfied())); // you will lose after 4 min
-//        QTimer::singleShot(7000, mPartner, SLOT(loseConditionSatisfied())); // you will lose after 4 min
-    } else if (difficulty_level == 3) {
-//        QTimer::singleShot(10000, mPartner, SLOT(loseConditionSatisfied())); // you will lose after 5 min
-        QTimer::singleShot(300000, mPartner, SLOT(loseConditionSatisfied())); // you will lose after 5 min
-    }
+    mPartner->start_timer();
 }
 
 MainWindow::~MainWindow() {}

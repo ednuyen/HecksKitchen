@@ -39,6 +39,8 @@ public:
     void move_up();
     void move_down();
     void set_character();
+    void turnRight();
+    void turnLeft();
 
 private:
     std::vector<Food*> sandwich;
@@ -48,6 +50,7 @@ private:
     int chara;
     bool draw_character = true;
     bool change_character = true;
+    bool flip = false;
     QString type_of_sandwich;
 };
 

@@ -10,7 +10,7 @@
 #include <QTime>
 #include <QMediaPlayer>
 #include <QStackedWidget>
-#include "health.h"
+
 #include "player.h"
 #include "food.h"
 #include "bread_bin.h"
@@ -38,8 +38,20 @@ public:
     void setPartner2(RecipeWindow* partner);
     void set_challenge_rating_w2(int);
     void customer_setup();
-//    void tickTime();
+    void faceRight(){ main_character->turnRight(); }
+    void faceLeft(){ main_character->turnLeft(); }
 
+    class Health : public QWidget {
+    public:
+        Health(QWidget *parent = nullptr);
+        void paintEvent(QPaintEvent* e);
+    //    QLabel get_health_text();
+        void change_health_bar(int a);
+        void reset_health();
+    private:
+        qreal health_value = 10;
+    //    QLabel* health_text;
+    };
 
 public slots:
     void customer_order1();
@@ -56,25 +68,23 @@ public slots:
     void reset_game();
     void begin_game();
     void delete_game();
-    void loseConditionSatisfied() { emit loseCondition();}
-    void winConditionSatisfied() { emit winCondition();}
-
-    // testing
+    void loseConditionSatisfied() { actual_game_timer->stop(); emit loseCondition();}
+    void winConditionSatisfied() { actual_game_timer->stop(); emit winCondition();}
+    // time
     void updateTime();
+    void start_timer();
 
-
-private slots:
-//    void showTime();
 
 signals:
     void loseCondition();
     void winCondition();
 
 private:
-    // testing
+    // time
     QLabel* timeLabel;
-    QTime time;
-    QTimer timer;
+    QTime elapsed_time;
+    QTimer elapsed_timer;
+    QTimer* actual_game_timer;
 
     QLabel* text1;
     Health* player_health;
@@ -141,8 +151,6 @@ private:
     Win* mPartner4;
     QPushButton* homeScreen;
     QPushButton* toRecipes;
-    QPushButton* backToHome1;
-    QPushButton* backToHome2;
     QStackedWidget* stackedWidget;
     QPushButton* mute;
 };

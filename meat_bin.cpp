@@ -9,7 +9,6 @@ void Meat_Bin:: paintEvent(QPaintEvent* e) {
     rect().setY(2);
     if (name == "Turkey Meat"){
         QPixmap meat(":/turkey.png");
-         //meat = meat.scaled(this->size(), Qt::IgnoreAspectRatio);
          painter.drawPixmap(20,2,30,40, meat);
     }else if( name == "Steak"){
         QPixmap meat(":/steak.png");
@@ -17,7 +16,6 @@ void Meat_Bin:: paintEvent(QPaintEvent* e) {
         painter.drawPixmap(20,2,30,40, meat);
     }else{
         QPixmap meat(":/impossible.png");
-       // meat = meat.scaled(this->size(), Qt::IgnoreAspectRatio);
          painter.drawPixmap(20,2,30,40, meat);
     }
     return;

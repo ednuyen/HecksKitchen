@@ -26,12 +26,8 @@ public slots:
     void set_challenge_rating(int a);
 
 private:
-    QLabel* timeLabel;
-    QTime time;
-    QTimer timer;
-
     QWidget* homePage;
-    qreal difficulty_level = 1; // !! not a pointer. will have to delete at some point? no bc this is on the stack...WHAT
+    qreal difficulty_level = 1; // !! not a pointer
     QSlider* choose_difficulty;
     QPushButton* startButton; // "PLAY"
     QPushButton* exitButton; // "EXIT"

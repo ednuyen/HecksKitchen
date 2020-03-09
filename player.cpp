@@ -304,21 +304,41 @@ void Player::paintEvent(QPaintEvent* e) {
         player = player.scaled(this->size(), Qt::IgnoreAspectRatio);
          painter.drawPixmap(2,2,25,40, player);}
     else if (draw_character == true && chara == 0){
-        QPainter painter(this);
-        QPixmap player(":/player.png");
-        player = player.scaled(this->size(), Qt::IgnoreAspectRatio);
-        painter.drawPixmap(2, 2, 40 ,45, player);
-        //for loop for food in vector, not completely finished yet cuz i may need to adjust size of rectangles and need to adjust colors of stack
-        int x = 0;
-        int y = 18; // tallest sandwich is 9 so 18 makes sure all the ingredients get stacked !
-        for(size_t i = 0; i < sandwich.size(); i++) {
-            y-=2;
-            painter.setBrush(sandwich[i]->getColor());
-            painter.setPen(sandwich[i]->getColor());
-            painter.drawRect(x,y,20.0,2.0);
+        if (flip == false){
+            QPainter painter(this);
+            QPixmap player(":/player.png");
+            player = player.scaled(this->size(), Qt::IgnoreAspectRatio);
+            painter.drawPixmap(2, 2 , 40 ,40, player);
+            //for loop for food in vector, not completely finished yet cuz i may need to adjust size of rectangles and need to adjust colors of stack
+            int x = 0;
+            int y = 18; // tallest sandwich is 9 so 18 makes sure all the ingredients get stacked !
+            for(size_t i = 0; i < sandwich.size(); i++) {
+                y-=2;
+                painter.setBrush(sandwich[i]->getColor());
+                painter.setPen(sandwich[i]->getColor());
+                painter.drawRect(x,y,20.0,2.0);}
+     }
+        else {
+            QPainter painter(this);
+            QPixmap player(":/playerflipped.png");
+            player = player.scaled(this->size(), Qt::IgnoreAspectRatio);
+            painter.drawPixmap(16, 2 , 40 ,40, player);
+            //for loop for food in vector, not completely finished yet cuz i may need to adjust size of rectangles and need to adjust colors of stack
+            int x = 36;
+            int y = 18; // tallest sandwich is 9 so 18 makes sure all the ingredients get stacked !
+            for(size_t i = 0; i < sandwich.size(); i++) {
+                y-=2;
+                painter.setBrush(sandwich[i]->getColor());
+                painter.setPen(sandwich[i]->getColor());
+                painter.drawRect(x,y,20.0,2.0);
+            }
         }
-    } return;
+    }
+    return;
 }
+
+void Player::turnRight(){flip = true;}
+void Player::turnLeft(){flip = false;}
 
 void Player::remove_event(){
     draw_character = false;
