@@ -86,10 +86,10 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 void MainWindow::setPartner(SecondWindow* partner) {
-        mPartner = partner;
-        connect(startButton, SIGNAL(clicked()), this, SLOT(hide()));
-        connect(startButton, SIGNAL(clicked()), mPartner, SLOT(showMaximized()));
-    }
+    mPartner = partner;
+    connect(startButton, SIGNAL(clicked()), this, SLOT(hide()));
+    connect(startButton, SIGNAL(clicked()), mPartner, SLOT(showMaximized()));
+}
 
 void MainWindow::set_difficulty_level(const int& level){
     difficulty_level = level;
