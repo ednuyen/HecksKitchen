@@ -1,14 +1,16 @@
 #include "bin.h"
-Bin::Bin() : x(0), y(0) {}
 
-Bin::Bin(int a, int b) : x(a), y(b) {}
+Bin::Bin() : pos_x(0), pos_y(0) {}
 
-int Bin::get_bin_pos_x() { return x; }
+Bin::Bin(int x, int y) : pos_x(x), pos_y(y) {}
 
-int Bin::get_bin_pos_y() { return y; }
+int Bin::get_bin_pos_x() const { return pos_x; }
 
-void Bin::set_bin_pos_x(int a) { x=a; }
-void Bin::set_bin_pos_y(int a) { y=a; }
+int Bin::get_bin_pos_y() const { return pos_y; }
+
+void Bin::set_bin_pos_x(const int& a) { pos_x = a; }
+
+void Bin::set_bin_pos_y(const int& a) { pos_y = a; }
 
 void Bin::paintEvent(QPaintEvent *event){
     QPainter painter(this);
@@ -19,6 +21,6 @@ void Bin::paintEvent(QPaintEvent *event){
 }
 
 Bin::Bin(const Bin &a){
-    x=a.x;
-    y=a.y;
+    pos_x = a.pos_x;
+    pos_y = a.pos_y;
 }

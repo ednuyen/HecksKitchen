@@ -22,7 +22,6 @@ SOURCES += \
     cheese_bin.cpp \
     fire.cpp \
     food.cpp \
-    health.cpp \
     main.cpp \
     mainwindow.cpp \
     meat_bin.cpp \
@@ -37,7 +36,6 @@ HEADERS += \
     cheese_bin.h \
     fire.h \
     food.h \
-    health.h \
     mainwindow.h \
     meat_bin.h \
     player.h \

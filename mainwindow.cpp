@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->setFixedSize(875,700);
     move(300,50);
 
-    QPixmap bkgnd(":/menu.png");
+    QPixmap bkgnd(":/menu.png"); // Home page image
     bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
     palette.setBrush(QPalette::Background, bkgnd);
@@ -16,26 +16,26 @@ MainWindow::MainWindow(QWidget *parent)
     homePage = new QWidget();
     homePage->setParent(this);
 
-    buttons = new QGridLayout(homePage);// does this set parent?? i think yes
-    choose_difficulty = new QSlider();
-    choose_difficulty->setRange(1,3);
+    buttons = new QGridLayout(homePage); // layout of PLAY, TRAINING, and EXIT buttons
+    choose_difficulty = new QSlider;
+    choose_difficulty->setRange(1,3); // easy(1), medium(2), hard(3)
     choose_difficulty->setFixedHeight(225);
 
-    startButton = new QPushButton(homePage);
+    startButton = new QPushButton;
     QPixmap startPix(":/play.png");
     startPix = startPix.scaled(185, 100, Qt::KeepAspectRatio, Qt::FastTransformation);
     startButton->setIcon(startPix);
     startButton->setIconSize(startPix.rect().size());
     startButton->setFixedSize(startPix.rect().size());
 
-    exitButton = new QPushButton(homePage);
+    exitButton = new QPushButton;
     QPixmap leavePix(":/exit.png");
     leavePix = leavePix.scaled(185, 100, Qt::KeepAspectRatio, Qt::FastTransformation);
     exitButton->setIcon(leavePix);
     exitButton->setIconSize(leavePix.rect().size());
     exitButton->setFixedSize(leavePix.rect().size());
 
-    instrctnsButton = new QPushButton(homePage);
+    instrctnsButton = new QPushButton;
     QPixmap instPix(":/training.png");
     instPix = instPix.scaled(275, 100, Qt::KeepAspectRatio, Qt::FastTransformation);
     instrctnsButton->setIcon(instPix);
@@ -55,15 +55,15 @@ MainWindow::MainWindow(QWidget *parent)
     buttons->addWidget(instrctnsButton, 3, 5, Qt::AlignCenter);
     buttons->addWidget(exitButton, 4, 5, Qt::AlignCenter);
 
-    connect(choose_difficulty, &QSlider::sliderMoved,this, &MainWindow::set_challenge_rating);
-    connect(exitButton,&QPushButton::pressed, this, &MainWindow::pressedExit);
-    connect(startButton,&QPushButton::pressed, this, &MainWindow::start_timer);
+    connect(choose_difficulty, &QSlider::sliderMoved, this, &MainWindow::set_difficulty_level);
+    connect(exitButton, &QPushButton::pressed, this, &MainWindow::pressedExit);
+    connect(startButton, &QPushButton::pressed, this, &MainWindow::start_timer);
 
-    QLabel* instructionsPage = new QLabel;
+    QLabel* instructionsPage = new QLabel(this);
     QPixmap instructPix(":/instructions.png");
     instructPix = instructPix.scaled(875,700, Qt::KeepAspectRatio, Qt::FastTransformation);
     instructionsPage->setPixmap(instructPix);
-    QPushButton *backToHome = new QPushButton(instructionsPage); // 'back to home' button on instructions page
+    QPushButton *backToHome = new QPushButton(instructionsPage); // 'BACK' button on instructions page
     QPixmap homePix(":/back.png");
     homePix = homePix.scaled(650, 500, Qt::KeepAspectRatio, Qt::FastTransformation);
     backToHome->setIcon(homePix);
@@ -75,33 +75,25 @@ MainWindow::MainWindow(QWidget *parent)
     instrctnsLayout->addItem(space);
     instrctnsLayout->addWidget(backToHome, 0, Qt::AlignCenter);
 
-    stackedWidget = new QStackedWidget(this); // 'this' sets parent to be MainWindow
+    connect(instrctnsButton,&QPushButton::pressed, this, &MainWindow::openTraining);
+    connect(backToHome,&QPushButton::pressed, this, &MainWindow::closeTraining);
+
+    stackedWidget = new QStackedWidget(this);
     stackedWidget->addWidget(homePage);
     stackedWidget->addWidget(instructionsPage);
 
     this->setCentralWidget(stackedWidget);
-
-    connect(instrctnsButton,&QPushButton::pressed, this, &MainWindow::goToPage2);
-    connect(backToHome,&QPushButton::pressed, this, &MainWindow::goToPage1);
 }
 
 void MainWindow::setPartner(SecondWindow* partner) {
-    if (partner == 0)
-        return;
-    if (mPartner != partner) {
-        if(mPartner != 0) {
-            disconnect(startButton, SIGNAL(clicked()), this, SLOT(hide()));
-            disconnect(startButton, SIGNAL(clicked()), mPartner, SLOT(showMaximized()));
-        }
         mPartner = partner;
         connect(startButton, SIGNAL(clicked()), this, SLOT(hide()));
         connect(startButton, SIGNAL(clicked()), mPartner, SLOT(showMaximized()));
-        }
     }
 
-void MainWindow::set_challenge_rating(int a){
-    difficulty_level = a;
-    this->mPartner->set_challenge_rating_w2(a);
+void MainWindow::set_difficulty_level(const int& level){
+    difficulty_level = level;
+    this->mPartner->set_difficulty_level_w2(level);
     this->mPartner->reset_game();
     return;
 }
@@ -116,10 +108,10 @@ void MainWindow::pressedExit() {
     MainWindow::close();
 }
 
-void MainWindow::goToPage2() {
-    stackedWidget->setCurrentIndex(1);
+void MainWindow::openTraining() {
+    stackedWidget->setCurrentIndex(1); // index 1 is instructions page
 }
 
-void MainWindow::goToPage1() {
-    stackedWidget->setCurrentIndex(0);
+void MainWindow::closeTraining() {
+    stackedWidget->setCurrentIndex(0); // index 0 is home page
 }

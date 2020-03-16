@@ -26,7 +26,6 @@
         <file>recipes2.png</file>
         <file>recipes3.png</file>
         <file>recipes4.png</file>
-        <file>back.png</file>
         <file>impossible.png</file>
         <file>lettuce.png</file>
         <file>pepper.png</file>
@@ -50,5 +49,6 @@
         <file>vegan.png</file>
         <file>wholewheat.png</file>
         <file>playerflipped.png</file>
+        <file>back.png</file>
     </qresource>
 </RCC>

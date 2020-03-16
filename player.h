@@ -1,45 +1,63 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-#include <QMainWindow>
-#include <QPushButton>
 #include <QLabel>
-#include <QSpinBox>
 #include <QVBoxLayout>
-#include <QMainWindow>
 #include <QPainter>
 #include <QKeyEvent>
-#include "food.h"
 #include <vector>
+#include "food.h"
 
-class Player:public QWidget{
+class Player : public QWidget {
 public:
-    Player(QWidget *parent= nullptr);
+   /*! Constructor */
+    Player(QWidget *parent = nullptr);
+
+   /*! Constructor with parameters
+    * @param x position, y position, person value */
     Player(int,int,int player = 0);
 
+   /*! Sets the specific location of a character */
     void set_position(int,int);
+
+   /*! Draws the actual figure of the character on the board and the food stacking on the tray */
     void paintEvent(QPaintEvent* e);
+
+   /*! Hides the image of the player, removing them from the board */
     void remove_event();
+
+   /*! Adds the image of the player to the board */
     void create_event();
-    int get_pos_x();
-    int get_pos_y();
+
+   /*! Accessor function, accesses the value of pos_x.
+    *  @return pos_x : x-coord position of Player */
+    int get_pos_x() const;
+
+   /*! Accessor function, accesses the value of pos_y.
+    *  @return pos_y : y-coord position of Player */
+    int get_pos_y() const;
+
+   /*! Adds a food pointer to the sandwich vector*/
     void add_food(Food*);
 
-    QString* get_sandwich_name();
-    size_t get_vector_size();
-    void test_print_sandwich();
-    void set_basic_sandwich();
-    void set_intermediate_sandwich();
-    void set_expert_sandwich();
+   /*! Accessor function, accesses the value of type_of_sandwich.
+    *  @return type_of_sandwich : title of the sandwich */
+    QString* get_sandwich_name() const;
+
+    void set_basic_sandwich(); // creates all of the sandwich vectors
+    void set_intermediate_sandwich(); // creates all of the sandwich vectors
+    void set_expert_sandwich(); // creates all of the sandwich vectors
     Player& operator = (Player*);
-    bool check_order(Player*);
-    bool check_presence();
-    void delete_sandwich();
+    bool check_order(Player*); // checks vector to see if sandwich matches what customer ordered
+    bool check_presence(); // checks if player was properly created
+    void delete_sandwich(); // clears vector, called if player tries to give customer the wrong sandwich or if you throw sandwich in trash can
+
     void move_right();
     void move_left();
     void move_up();
     void move_down();
-    void set_character();
+    /*! Sets the bool flip to true */
     void turnRight();
+    /*! Sets the bool flip to false */
     void turnLeft();
 
 private:
@@ -55,3 +73,4 @@ private:
 };
 
 #endif // PLAYER_H
+

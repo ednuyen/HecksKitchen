@@ -7,16 +7,17 @@ void Meat_Bin:: paintEvent(QPaintEvent* e) {
     QPainter painter(this);
     rect().setX(2);
     rect().setY(2);
+    // Draws image of specific type of meat if the string 'name' matches
     if (name == "Turkey Meat"){
         QPixmap meat(":/turkey.png");
-         painter.drawPixmap(20,2,30,40, meat);
-    }else if( name == "Steak"){
+        painter.drawPixmap(15,0,30,40, meat);
+    } else if( name == "Steak"){
         QPixmap meat(":/steak.png");
         meat = meat.scaled(this->size(), Qt::IgnoreAspectRatio);
-        painter.drawPixmap(20,2,30,40, meat);
-    }else{
+        painter.drawPixmap(15,0,30,40, meat);
+    } else {
         QPixmap meat(":/impossible.png");
-         painter.drawPixmap(20,2,30,40, meat);
+        painter.drawPixmap(15,0,30,40, meat);
     }
     return;
 }
